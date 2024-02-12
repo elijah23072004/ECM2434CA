@@ -13,3 +13,6 @@ def login(request):
 
 def hangman(request):
     return render(request, "ecomap/hangman.html")
+
+def qrcode(request):
+    return render(request, "ecomap/qrcodereader.html")

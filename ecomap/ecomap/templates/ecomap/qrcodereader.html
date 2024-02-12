@@ -1,0 +1,44 @@
+{% load static %}
+<!-- qr code scanner from https://github.com/mebjas/html5-qrcode-->
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner / Reader
+    </title>
+</head>
+ 
+<body>
+    <div id="reader">
+    </div>
+    <script
+            src="{%static 'html5-qrcode.min.js' %}">
+    </script>    
+    <script type="text/javascript">
+    function domReady(fn) {
+        if (
+            document.readyState === "complete" ||
+            document.readyState === "interactive"
+            ) {
+                setTimeout(fn, 1000);
+            } else {
+              document.addEventListener("DOMContentLoaded", fn);
+        }
+}
+domReady(function () {
+ 
+    // If found a qr code
+    function onScanSuccess(decodeText, decodeResult) {
+        alert("You Qr is : " + decodeText, decodeResult);
+    }
+    let config = {fps:10, qrbox: {width:250,height:250}
+
+    let htmlscanner = new Html5QrcodeScanner(
+        "reader",config);
+    htmlscanner.render(onScanSuccess);
+});
+    </script>
+  </body>
+</html>
