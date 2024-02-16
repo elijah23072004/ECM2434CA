@@ -1,10 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Leaderboard</title>
-        <style></style>
-    </head>
-    <body>
-        <h1>Leaderboard</h1>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            width: 50%;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button-container {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .login-button-container {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .login-button-container button {
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .dropdown-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .dropdown-container select {
+            padding: 8px 20px;
+            font-size: 16px;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+            max-width: 20px;
+        }
+        .logo-image {
+            max-width: 200px;
+            height: auto;
+        }
+
+    </style>
+</head>
+<body onload="changeTime()">
+    <div class="container">
+        <div class="button-container">
+            <button onclick="goToHomePage()">Home</button>
+        </div>
+        <div class="login-button-container">
+            <button onclick="goToLoginPage()">Login</button>
+        </div>
+        <div class="image-container">
+            <img src="calogo.png" alt="Image" class="logo-image">
+        </div>        
+        <div class="title">Leaderboard</div>
+        <div class="dropdown-container">
+            <select id="timeOptions" onchange="changeTime()">
+                <option value="allTime">All Time</option>
+                <option value="weekly">Weekly</option>
+                <option value="friends">Friends</option>
+            </select>
+        </div>
+        
+        <table id="leaderboardTable">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be added dynamically by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function goToHomePage() {
+            // Redirect to the homepage
+            window.location.href = "homepage.html";
+        }
+    
+        function goToLoginPage() {
+            // Redirect to the login page
+            window.location.href = "login.html";
+        }
+
+        function changeTime() {
+            var selectElement = document.getElementById("timeOptions");
+            var selectedValue = selectElement.value;
+            var tableBody = document.querySelector("#leaderboardTable tbody");
+
+            // Clear existing table rows
+            tableBody.innerHTML = "";
+
+            // new rows based on selected category
+            if (selectedValue === "allTime") {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>All Time Data 1</td>
+                        <td>All Time Data 2</td>
+                    </tr>
+                    <tr>
+                        <td>All Time Data 3</td>
+                        <td>All Time Data 4</td>
+                    </tr>`;
+            } else if (selectedValue === "weekly") {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>Weekly Data 1</td>
+                        <td>Weekly Data 2</td>
+                    </tr>
+                    <tr>
+                        <td>Weekly Data 3</td>
+                        <td>Weekly Data 4</td>
+                    </tr>`;
+            } else if (selectedValue === "friends") {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>Friends Data 1</td>
+                        <td>Friends Data 2</td>
+                    </tr>
+                    <tr>
+                        <td>Friends Data 3</td>
+                        <td>Friends Data 4</td>
+                    </tr>`;
+            }
+        }
+    </script>    
+</body>
 </html>
