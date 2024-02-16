@@ -16,3 +16,6 @@ def hangman(request):
 
 def qrcode(request):
     return render(request, "ecomap/qrcodereader.html")
+
+def register(request):
+    return render(request, "ecomap/register.html")
