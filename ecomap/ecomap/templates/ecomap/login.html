@@ -1,0 +1,98 @@
+<!-- This will contain the login. Not the database stuff yet
+    Once user has created an account it will redirect the account to the homepage
+    Checking of the details and if details match will be decided later.
+    -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Register</title>
+    <!-- Styling for the login page -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0e9de; /* Light green background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px; /* Slightly rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center; /* Center align content */
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50; /* Green submit button */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px; /* Larger font size */
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        h2 {
+            color: #4CAF50; /* Green header */
+            margin-bottom: 20px; /* Larger bottom margin */
+        }
+        .switch {
+            margin-top: 10px; /* Space between login/register and the form */
+        }
+        .switch a {
+            text-decoration: none;
+            color: #4CAF50; /* Green color for links */
+            margin: 0 10px; /* Space between the links */
+        }
+        .switch a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body>
+<!-- Container for the login form -->
+<div class="container">
+    <!-- Logo -->
+    <!-- <img src="imgage gpes here" alt="The Logo" style="width: 100px; margin-bottom: 20px;">  -->
+    <h2>Login to EcoMap!</h2>
+    <!-- Form for user login, action attribute specifies where the form data should be sent -->
+    <form action="homepage.html" method="post">
+        <!-- Input field for username -->
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+        <!-- Input field for password -->
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+        <!-- Submit button to submit the form -->
+        <input type="submit" value="Login">
+
+        <!-- Link to switch to registration page -->
+        <div class="switch">
+            <span>Don't have an account?</span>
+            <a href="register.html">Register</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+
+
