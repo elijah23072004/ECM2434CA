@@ -1,0 +1,50 @@
+.background {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 95.5%;
+    padding: 0.1rem 2rem 0.1rem 2rem;
+    border-bottom-width: 1px;
+    background-color: rgb(229 231 235);
+}
+
+.navbar {
+    max-width: 80em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-title {
+    font-size: 1.25rem;
+    line-height: 2rem;
+}
+
+.navbar-icons {
+    display: flex;
+    margin-left: 3rem;
+}
+
+.navbar-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 1rem;
+}
+
+.avatar {
+    border-radius: 9999px;
+}
+
+a {
+    color: #222222;
+    text-decoration: none;
+}
+
+.underline {
+    text-decoration: underline;
+}

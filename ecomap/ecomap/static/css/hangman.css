@@ -1,0 +1,86 @@
+.inputGuess {
+    background-color: #222222;
+    color: white;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    padding: 14px 20px 12px 45px;
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    text-transform: capitalize;
+    border-radius: 10px;
+}
+
+.title {
+    text-align: center;
+}
+
+.guesses-count {
+    text-align: center;
+    margin-bottom: 0%;
+}
+
+.hangman-container {
+    position: relative;
+}
+
+.hangman-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 7%;
+    width: 10%;
+}
+
+.hangman {
+    position: absolute;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.hiddenAnswer {
+    text-align: center;
+}
+
+.keyboard {
+    position: relative;
+    padding-top: 0%;
+    align-items: center;
+}
+
+.keyboardRow {
+    text-align: center;
+}
+
+.key {
+    display: inline-block;
+    border: 1px solid white;
+    padding: 1.6%;
+    background-color: #222222;
+    margin-bottom: 5px;
+    color: #BBBBBB;
+    font-weight: bold;
+    font-size: 105%;
+    font-family: Arial;
+    border-radius: 10%;
+}
+
+.key:hover {
+    background-color: #555555;
+    cursor: pointer;
+}
+
+.keyPressed {
+    background-color: #0a0a0a;
+    display: inline-block;
+    border: 1px solid white;
+    padding: 1.6%;
+    margin-bottom: 5px;
+    color: #555555;
+    font-size: 105%;
+    font-family: Arial;
+    border-radius: 10%;
+}
