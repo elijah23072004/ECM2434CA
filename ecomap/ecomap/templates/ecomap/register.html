@@ -9,35 +9,80 @@
     <link rel="stylesheet" type="text/css" href="{%static 'css/register.css' %}">
 </head>
 <body>
+    <h3 id="ResponseText"></h3>
 <div class="container">
-    <form id="registrationForm">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required>
-
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required>
+    <form id="registrationForm" action="/registerUser/" method="post">
 
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
+
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" title="Password must contain at least one number, one uppercase and one lowercase letter, and at least 8 or more characters." required>
         <span class="warning" id="passwordWarning" style="display: none;">Password must be at least 8 characters long and contain numbers, uppercase, and lowercase letters.</span>
 
-        <input type="submit" value="Create User">
+        <input type="submit" value="Create User" id="submit">
     </form>
-</div>
 
+    <div class="switch">
+            <br>
+            <a href="/homepage/">Home</a>
+            <br>
+    </div>
+</div>
 <script>
+    var submitButton = document.getElementById("submit")
     document.getElementById('password').addEventListener('input', function() {
         var password = this.value;
         var passwordWarning = document.getElementById('passwordWarning');
         if (password.length < 8 || !/\d/.test(password) || !/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
             passwordWarning.style.display = 'block';
+            submitButton.disabled=true;
         } else {
             passwordWarning.style.display = 'none';
+            submitButton.disabled=false;
         }
     });
+    
+    const searchParams = new URLSearchParams(window.location.search);
+    function Checkparameters()
+    {
+        var responseText=document.getElementById("ResponseText");
+        if(searchParams.has('success'))
+        {
+            let response=searchParams.get('success');
+            if(response=="true")
+            {
+                responseText.innerText="User created";
+            }
+            else if (response=="false")
+            {
+                responseText.innerText="Invalid parameters user not created";
+            }
+            else
+            {
+                responseText.innerText="";
+            }
+        }
+        else
+        {
+            responseText.innerText="";
+        }
+    }
+    Checkparameters();
+    
+    const form = document.getElementById("registrationForm");
+    form.addEventListener("submit", (e) => {
+        setTimeout(function(){
+            Checkparameters();
+        },100);
+    });
+
 </script>
 </body>
 </html>
