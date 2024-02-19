@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- CSS styles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
@@ -74,6 +75,7 @@
         }
 
     </style>
+<!-- Format div classes -->
 </head>
 <body onload="changeTime()">
     <div class="container">
@@ -103,11 +105,12 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Data rows will be added dynamically by JavaScript -->
             </tbody>
         </table>
     </div>
 
+    <!-- Webpage redirection function to change html page
+    and function to add drop down menue for time options-->
     <script>
         function goToHomePage() {
             // Redirect to the homepage
@@ -119,6 +122,7 @@
             window.location.href = "login.html";
         }
 
+        //dropdown menu function to alter time frame
         function changeTime() {
             var selectElement = document.getElementById("timeOptions");
             var selectedValue = selectElement.value;
@@ -127,7 +131,7 @@
             // Clear existing table rows
             tableBody.innerHTML = "";
 
-            // new rows based on selected category
+            // new rows based on selected category - data not yet implemented through database
             if (selectedValue === "allTime") {
                 tableBody.innerHTML += `
                     <tr>
