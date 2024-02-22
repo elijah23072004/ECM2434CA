@@ -1,6 +1,6 @@
-# ECM2434 Group Software Engineering Project
+### ECM2434 Group Software Engineering Project
 
-# The Code Connoisseurs
+### The Code Connoisseurs
 _
 
 The group members are:
