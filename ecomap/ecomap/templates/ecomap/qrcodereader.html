@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {%include 'ecomap/include/include.html' %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
 </head>
  
 <body>
+    {% include 'ecomap/include/navbar.html'%}
     <div id="reader">
     </div>
     <script
@@ -33,7 +35,7 @@ domReady(function () {
     function onScanSuccess(decodeText, decodeResult) {
         alert("You Qr is : " + decodeText, decodeResult);
     }
-    let config = {fps:10, qrbox: {width:250,height:250}
+    let config = {fps:10, qrbox: {width:250,height:250}}
 
     let htmlscanner = new Html5QrcodeScanner(
         "reader",config);

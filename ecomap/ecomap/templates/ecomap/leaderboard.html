@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include 'ecomap/include/include.html'%}
     <!-- CSS styles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,16 +79,7 @@
 <!-- Format div classes -->
 </head>
 <body onload="changeTime()">
-    <div class="container">
-        <div class="button-container">
-            <button onclick="goToHomePage()">Home</button>
-        </div>
-        <div class="login-button-container">
-            <button onclick="goToLoginPage()">Login</button>
-        </div>
-        <div class="image-container">
-            <img src="calogo.png" alt="Image" class="logo-image">
-        </div>        
+    {% include 'ecomap/include/navbar.html'%}
         <div class="title">Leaderboard</div>
         <div class="dropdown-container">
             <select id="timeOptions" onchange="changeTime()">

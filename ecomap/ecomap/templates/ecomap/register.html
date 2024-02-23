@@ -3,16 +3,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include 'ecomap/include/include.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Page</title>
     <link rel="stylesheet" type="text/css" href="{%static 'css/register.css' %}">
 </head>
 <body>
+    {% include 'ecomap/include/navbar.html' %}
     <h3 id="ResponseText"></h3>
 
 <!-- fields for user-->
-<div class="container">
+<div class="container" class="form">
     <form id="registrationForm" action="/registerUser/" method="post">
 
         <label for="username">Username:</label>
@@ -31,14 +33,10 @@
         <input type="submit" value="Create User" id="submit">
     </form>
 
-    <div class="switch">
-            <br>
-            <a href="/homepage/">Home</a>
-            <br>
-    </div>
 </div>
 <script>
     var submitButton = document.getElementById("submit")
+    var passwordBox = document.getElementById('password');
     //event listener to check password dyanmically on input
     document.getElementById('password').addEventListener('input', function() {
         var password = this.value;
