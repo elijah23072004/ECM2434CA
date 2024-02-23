@@ -218,5 +218,6 @@ function endGame(message, colour) {
 }
 
 //input the answer here and start the game of hangman
-var answer = "Sustainability Rocks!";
+const data = document.currentScript.dataset;
+const answer = data.answer;
 const hangman = new Hangman(answer.toUpperCase());

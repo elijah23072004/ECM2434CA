@@ -11,4 +11,5 @@ urlpatterns = [
     path("qrcode/", views.qrcode, name="qrcode"),
     path("register/",views.register, name="register"),
     path("registerUser/",views.registerUser, name="createUser"),
+    path("loginUser/",views.loginUser, name="loginUser"),
 ]
