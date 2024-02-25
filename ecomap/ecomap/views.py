@@ -33,6 +33,14 @@ def login(request):
     return render(request, "ecomap/login.html")
 
 @login_required(login_url='/login')
+def wordle(request):
+    games = Games()
+    context = {
+        'word': games.getSingleWord(10)
+    }
+    return render(request, "ecomap/wordle.html", context)
+
+@login_required(login_url='/login')
 def hangman(request):
     games = Games()
     context = {

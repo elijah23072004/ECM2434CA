@@ -21,3 +21,9 @@ class Games:
 
     def getRandomWord(self):
         return random.choice(self.words)
+
+    def getSingleWord(self, length=10):
+        word = self.getRandomWord()
+        while " " in word or len(word) > length:
+            word = self.getRandomWord()
+        return word
