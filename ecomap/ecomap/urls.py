@@ -13,6 +13,6 @@ urlpatterns = [
     path("register/",views.register, name="register"),
     path("registerUser/",views.registerUser, name="createUser"),
     path("loginUser/",views.loginUser, name="loginUser"),
-    path("reset/", views.resetDatabase, name="reset"),
-    path("logout/",views.Userlogout,name="logout"),
+    path("logout/",views.userlogout,name="logout"),
+    path("wheel/", views.gameWheel, name="wheel"),
 ]

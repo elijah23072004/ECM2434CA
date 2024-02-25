@@ -99,11 +99,10 @@ def loginUser(request):
         return redirect('/', request)
 
 
-def resetDatabase(request):
-    User.objects.all().delete()
-    EcomapUser.objects.all().delete()
-    return redirect("/login", request)
 
-def Userlogout(request):
+def userlogout(request):
     logout(request)
     return redirect("/login",request)
+
+def gameWheel(request):
+    return render(request,"ecomap/wheel.html")

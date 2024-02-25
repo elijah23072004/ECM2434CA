@@ -2,8 +2,10 @@ import os
 import random
 
 class Games:
+
+
     def __init__(self):
-        self.file_path = os.path.abspath(os.path.dirname(__file__)) + "\\eco_words.txt"
+        self.file_path = os.path.abspath(os.path.dirname(__file__)) + "/eco_words.txt"
         self.words = self.readWordsFile()
 
     def readWordsFile(self):

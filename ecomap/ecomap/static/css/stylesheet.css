@@ -56,5 +56,10 @@ input[type=text], input[type=password]{
   box-sizing: border-box;
 }
 
+.container{
+  font-size: 24px;
+  margin: 25px;
+  width: 1000px;
+  height: 750px;
 
-
+}
