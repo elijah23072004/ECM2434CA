@@ -96,7 +96,7 @@ def loginUser(request):
         djangoLogin(request, user)    
         request.session['username']=username
 
-        return redirect('/homepage', request)
+        return redirect('/', request)
 
 
 def resetDatabase(request):
