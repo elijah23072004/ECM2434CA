@@ -78,12 +78,12 @@
     <img src="{%static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
     <h2>Login to EcoMap!</h2>
     <!-- Form for user login, action attribute specifies where the form data should be sent -->
-    <form action="/loginUser/" method="post">
+    <form action="/loginUser/" method="post"> {% csrf_token %} 
         <!-- Input field for username -->
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        <input type="text" id="username" name="InputtedUsername" placeholder="Enter your username" required>
 
         <!-- Input field for password -->
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <input type="password" id="password" name="InputtedPassword" placeholder="Enter your password" required>
 
         <!-- Submit button to submit the form -->
         <input type="submit" value="Login">
