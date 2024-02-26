@@ -56,10 +56,21 @@ input[type=text], input[type=password]{
   box-sizing: border-box;
 }
 
-.container{
-  font-size: 24px;
-  margin: 25px;
-  width: 1000px;
-  height: 750px;
-
+.content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e0e9de; /* Light green background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
+
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e0e9de;
+}
+

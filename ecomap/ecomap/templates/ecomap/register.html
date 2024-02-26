@@ -3,6 +3,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0e9de; /* Light green background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px; /* Slightly rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center; /* Center align content */
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50; /* Green submit button */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px; /* Larger font size */
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        h2 {
+            color: #4CAF50; /* Green header */
+            margin-bottom: 20px; /* Larger bottom margin */
+        }
+        .switch {
+            margin-top: 10px; /* Space between login/register and the form */
+        }
+        .switch a {
+            text-decoration: none;
+            color: #4CAF50; /* Green color for links */
+            margin: 0 10px; /* Space between the links */
+        }
+        .switch a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+
     {% include 'ecomap/include/include.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
