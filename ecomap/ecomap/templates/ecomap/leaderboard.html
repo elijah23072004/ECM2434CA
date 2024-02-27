@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% include 'ecomap/include/include.html'%}
-    <!-- CSS styles -->
+    <!-- css styles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
@@ -11,75 +11,81 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            position: relative;
+            background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+            background-size: cover;
         }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
+
+        #main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            padding: 20px;
         }
+
         table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: #003b19;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
             width: 50%;
+            color: white;
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #00920fa5;
         }
-        .button-container {
-            position: absolute;
-            top: 10px;
-            left: 20px;
-        }
-        .button-container button {
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
+
         .title {
             text-align: center;
-            font-size: 24px;
+            font-size: 36px;
             margin-bottom: 20px;
+            color: white;
+            background-color: #00920fa5;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
         }
-        .login-button-container {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-        }
-        .login-button-container button {
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        .dropdown-container {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+
         .dropdown-container select {
             padding: 8px 20px;
             font-size: 16px;
-        }
-        .image-container {
-            text-align: center;
-            margin-bottom: 20px;
-            max-width: 20px;
-        }
-        .logo-image {
-            max-width: 200px;
-            height: auto;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to bottom, #008600, #003b19);
+            color: #fff;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
+        .dropdown-container select:hover {
+            background: linear-gradient(to bottom, #003b19, #006400);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown-container select:focus {
+            box-shadow: 0 0 0 3px rgba(0, 100, 0, 0.3);
+        }
+
+
+
     </style>
-<!-- Format div classes -->
 </head>
 <body onload="changeTime()">
     {% include 'ecomap/include/navbar.html'%}
+    <div id="main">
         <div class="title">Leaderboard</div>
         <div class="dropdown-container">
             <select id="timeOptions" onchange="changeTime()">
@@ -101,18 +107,8 @@
         </table>
     </div>
 
-    <!-- Webpage redirection function to change html page
-    and function to add drop down menue for time options-->
+    <!-- function to add drop down menu for time options-->
     <script>
-        function goToHomePage() {
-            // Redirect to the homepage
-            window.location.href = "homepage.html";
-        }
-    
-        function goToLoginPage() {
-            // Redirect to the login page
-            window.location.href = "login.html";
-        }
 
         //dropdown menu function to alter time frame
         function changeTime() {
@@ -120,7 +116,7 @@
             var selectedValue = selectElement.value;
             var tableBody = document.querySelector("#leaderboardTable tbody");
 
-            // Clear existing table rows
+            // clear existing table rows
             tableBody.innerHTML = "";
 
             // new rows based on selected category - data not yet implemented through database
