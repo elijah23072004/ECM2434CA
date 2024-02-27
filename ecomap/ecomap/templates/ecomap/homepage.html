@@ -3,11 +3,43 @@
 	<head>
         {% include 'ecomap/include/include.html'%}
 		<title>Homepage</title>
-        <style></style>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+
+            #main {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+      			background-image: url("background-image.jpg");
+    			background-size: cover;
+       			height: 100%;
+    		}
+
+            #scanButton {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 24px;
+                margin-top: 150px; /* Adjust as needed */
+                cursor: pointer;
+            }
+
+             #scanButton:hover {
+                background-color: #45a049;
+            }
+        </style>
     </head>
     <body>
         {% include 'ecomap/include/navbar.html'%}
-        <h1>Homepage</h1>
-        <a href="/hangman">Hangman</a>
+        <div id="main">
+            <button id="scanButton" onclick="window.location.href='qrcodereader.html'">Scan QR Code Now!</button>
+        </div>
     </body>
 </html>
