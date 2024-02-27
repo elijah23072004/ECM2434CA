@@ -33,6 +33,14 @@ def login(request):
     return render(request, "ecomap/login.html")
 
 @login_required(login_url='/login')
+def wordle(request):
+    games = Games()
+    context = {
+        'word': games.getSingleWord(10)
+    }
+    return render(request, "ecomap/wordle.html", context)
+
+@login_required(login_url='/login')
 def hangman(request):
     games = Games()
     context = {
@@ -88,14 +96,13 @@ def loginUser(request):
         djangoLogin(request, user)    
         request.session['username']=username
 
-        return redirect('/homepage', request)
+        return redirect('/', request)
 
 
-def resetDatabase(request):
-    User.objects.all().delete()
-    EcomapUser.objects.all().delete()
-    return redirect("/login", request)
 
-def Userlogout(request):
+def userlogout(request):
     logout(request)
     return redirect("/login",request)
+
+def gameWheel(request):
+    return render(request,"ecomap/wheel.html")

@@ -2,8 +2,10 @@ import os
 import random
 
 class Games:
+
+
     def __init__(self):
-        self.file_path = os.path.abspath(os.path.dirname(__file__)) + "\\eco_words.txt"
+        self.file_path = os.path.abspath(os.path.dirname(__file__)) + "/eco_words.txt"
         self.words = self.readWordsFile()
 
     def readWordsFile(self):
@@ -21,3 +23,9 @@ class Games:
 
     def getRandomWord(self):
         return random.choice(self.words)
+
+    def getSingleWord(self, length=10):
+        word = self.getRandomWord()
+        while " " in word or len(word) > length:
+            word = self.getRandomWord()
+        return word

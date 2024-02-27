@@ -13,7 +13,9 @@
  
 <body>
     {% include 'ecomap/include/navbar.html'%}
+    <div id="container">
     <div id="reader">
+    </div>
     </div>
     <script
             src="{%static 'html5-qrcode.min.js' %}">
@@ -34,13 +36,19 @@ domReady(function () {
     // If found a qr code
     function onScanSuccess(decodeText, decodeResult) {
         alert("You Qr is : " + decodeText, decodeResult);
+        window.location.href="/wheel";
     }
-    let config = {fps:10, qrbox: {width:250,height:250}}
+    let config = {fps:10, qrbox: {width:700,height:700}}
 
     let htmlscanner = new Html5QrcodeScanner(
         "reader",config);
     htmlscanner.render(onScanSuccess);
 });
+
+    let reader = document.getElementById("reader");
+    //reader.style.width = "1000px";
+    //eader.style.height="750px";
+    
     </script>
   </body>
 </html>

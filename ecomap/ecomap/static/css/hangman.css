@@ -29,7 +29,6 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 7%;
     width: 10%;
 }
 
@@ -83,4 +82,53 @@
     font-size: 105%;
     font-family: Arial;
     border-radius: 10%;
+}
+
+.wordle-table {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    margin: 20px auto;
+    max-width: fit-content;
+}
+
+.square {
+  background-color: white;
+  border: 3px solid #CCCCCC;
+  width: 51px;
+  height: 49px;
+  padding-top: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 105%;
+  font-family: Arial;
+}
+
+.level-end {
+	display: flex;
+	position: absolute;
+	width: 50%;
+	height: 30%;
+	left: 25%;
+	top: 70%;
+	background-color: #CCCCCC;
+	border-radius: 10px;
+	font-weight: bold;
+	justify-content: center;
+	align-items: center;
+	font-size: 300%;
+	color: #FFFFFF;
+}
+#level-completed {
+	position: absolute;
+	top: 70%;
+	font-size: 50%;
+}
+
+.top {
+	position:absolute;
+	animation:slide-up 1.5s ease-out;
+}
+@keyframes slide-up {
+	from{bottom:-1000px} to{bottom:10%}
 }
