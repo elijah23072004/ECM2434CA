@@ -89,10 +89,7 @@ def loginUser(request):
             messages.error(request, message)
             return redirect('/login/')
 
-        # Render the login page template (GET request)
         request.user = user
-        #user = authenticate(request, username=username, password=password)
-
         djangoLogin(request, user)    
         request.session['username']=username
 
@@ -114,17 +111,19 @@ def submitScore(request):
         alldata=request.POST
         score=alldata.get("score","0")
         result = handleScore(request.user,score)
+        #if result is -1 then invalid user is passed (which should be impossible so 400 code returned
         if(result == -1):
             return HttpResponse(400)
         return HttpResponse(200);
+
+    #returns code 400 if not POST request
     return HttpResponse(400)
 
 def getUserScores(request):
     if(request.method=="GET"):
         my_data = EcomapUser.objects.order_by("-score").all().values('username','score')
         print(my_data)
-        #jsonData = serializers.serialize('json',list(my_data))
-        #return HttpResponse(jsonData)
         return JsonResponse(list(my_data), safe=False)
+    #returns code 400 if not get request 
     return HttpResponse(400)
 

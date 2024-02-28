@@ -1,5 +1,5 @@
-//alert("click spin to get your minigame");
 function getData(){
+    //segments for wheel
     let contents = [{"label":"Wordle",  "value":1,  "game":"Wordle"},
          {"label":"Hangman", "value":2, "game":"Hangman"}
         ];
@@ -7,6 +7,7 @@ function getData(){
 
 function dealWithGame(game)
 {
+    //reroutes user based on which game they get
     switch (game) 
     {
         case "Wordle":
@@ -96,17 +97,12 @@ var padding = {top:20, right:40, bottom:0, left:0},
                 .duration(3000)
                 .attrTween("transform", rotTween)
                 .each("end", function(){
-                    //mark question as seen (turns segment black
-                    //d3.select(".slice:nth-child(" + (picked + 1) + ") path").attr("fill", "#111");
-                    //Process chosen game
+                    //when game chosen take user to that game
                     dealWithGame(data[picked].game);
                     oldrotation = rotation;
               
-                    /* Get the result value from object "data" */
-                    console.log(data[picked].value)
-              
-                    /* Comment the below line for restrict spin to sngle time */
-                    container.on("click", spin);
+                    //allows wheel to be spun multiple times 
+                    container.on("click", spin); 
                 });
         }
         //make arrow

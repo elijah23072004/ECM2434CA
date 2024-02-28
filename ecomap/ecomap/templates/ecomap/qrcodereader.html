@@ -18,7 +18,7 @@
     </div>
     </div>
     <script
-            src="{%static 'html5-qrcode.min.js' %}">
+            src="{%static 'js/html5-qrcode.min.js' %}">
     </script>    
     <script type="text/javascript">
     function domReady(fn) {
@@ -35,7 +35,7 @@ domReady(function () {
  
     // If found a qr code
     function onScanSuccess(decodeText, decodeResult) {
-        alert("You Qr is : " + decodeText, decodeResult);
+        alert("You Qr code is : " + decodeText, decodeResult);
         window.location.href="/wheel";
     }
     let config = {fps:10, qrbox: {width:700,height:700}}
@@ -46,8 +46,6 @@ domReady(function () {
 });
 
     let reader = document.getElementById("reader");
-    //reader.style.width = "1000px";
-    //eader.style.height="750px";
     
     </script>
   </body>

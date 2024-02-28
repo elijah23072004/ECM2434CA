@@ -1,3 +1,4 @@
+//gets cookie based on name (used for getting csrf token)
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -19,6 +20,7 @@ function getCookie(name) {
 function sendScore(score)
 {
     var csrftoken = getCookie('csrftoken');
+    //sends POST request to sendScore with csrfttoken and score
     $.ajax({
         type: "POST",
         url: '/sendScore/',
