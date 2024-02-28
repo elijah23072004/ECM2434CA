@@ -98,7 +98,9 @@
 
 <!-- fields for user-->
 <div class="container" class="form">
+    <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
     <form id="registrationForm" action="/registerUser/" method="post">
+
 
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -114,6 +116,11 @@
         <span class="warning" id="passwordWarning" style="display: none;">Password must be at least 8 characters long and contain numbers, uppercase, and lowercase letters.</span>
 
         <input type="submit" value="Create User" id="submit">
+        <!-- Link to switch to registration page -->
+        <div class="switch">
+            <span>Already have an account?</span>
+            <a href="/login">Login</a>
+        </div>
     </form>
 
 </div>
