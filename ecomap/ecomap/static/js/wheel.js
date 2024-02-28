@@ -1,7 +1,7 @@
 //alert("click spin to get your minigame");
 function getData(){
-    let contents = [{"label":"wordle",  "value":1,  "game":"wordle"},
-         {"label":"hangman", "value":2, "game":"hangman"}
+    let contents = [{"label":"Wordle",  "value":1,  "game":"Wordle"},
+         {"label":"Hangman", "value":2, "game":"Hangman"}
         ];
     return contents;}
 
@@ -9,10 +9,10 @@ function dealWithGame(game)
 {
     switch (game) 
     {
-        case "wordle":
+        case "Wordle":
             window.location.href="/wordle";
             break;
-        case "hangman":
+        case "Hangman":
             window.location.href="/hangman";
             break;
         default:
