@@ -2,20 +2,21 @@
     Once user has created an account it will redirect the account to the homepage
     Checking of the details and if details match will be decided later.
     -->
-{%load static%}
+    
+{% load static %}
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login or Register</title>
-    <!-- Styling for the login page -->
+    <!-- css styles -->
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e0e9de; /* Light green background */
+            background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+            background-size: cover;
             margin: 0;
             padding: 0;
             display: flex;
@@ -24,16 +25,15 @@
             height: 100vh;
         }
         .container {
-            background-color: #fff;
+            background-color: rgba(4, 49, 0, 0.9);
             padding: 20px;
-            border-radius: 10px; /* Slightly rounded corners */
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
-            text-align: center; /* Center align content */
+            text-align: center;
         }
         input[type="text"],
-        input[type="password"],
-        input[type="submit"] {
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -41,33 +41,42 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            background-color: white;
         }
         input[type="submit"] {
-            background-color: #4CAF50; /* Green submit button */
-            color: white;
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
             border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, #4CAF50, #004e04);
+            color: white;
             cursor: pointer;
-            font-size: 16px; /* Larger font size */
-            font-weight: bold; /* Bold text */
-            transition: background-color 0.3s ease; /* Smooth transition */
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         input[type="submit"]:hover {
-            background-color: #45a049; /* Darker green on hover */
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
         }
         h2 {
-            color: #4CAF50; /* Green header */
-            margin-bottom: 20px; /* Larger bottom margin */
+            color: #4CAF50;
+            margin-bottom: 20px;
         }
         .switch {
-            margin-top: 10px; /* Space between login/register and the form */
+            margin-top: 10px;
+            color: white;
         }
         .switch a {
             text-decoration: none;
-            color: #4CAF50; /* Green color for links */
-            margin: 0 10px; /* Space between the links */
+            color: #4CAF50;
+            margin: 0 10px;
         }
         .switch a:hover {
-            text-decoration: underline; /* Underline on hover */
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -75,7 +84,7 @@
 <!-- Container for the login form -->
 <div class="container">
     <!-- Logo -->
-    <img src="{%static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
+    <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
     <h2>Login to EcoMap!</h2>
     <!-- Form for user login, action attribute specifies where the form data should be sent -->
     <form action="/loginUser/" method="post"> {% csrf_token %} 
@@ -98,5 +107,3 @@
 </div>
 </body>
 </html>
-
-
