@@ -1,4 +1,4 @@
-alert("click spin to get your minigame");
+//alert("click spin to get your minigame");
 function getData(){
     let contents = [{"label":"wordle",  "value":1,  "game":"wordle"},
          {"label":"hangman", "value":2, "game":"hangman"}

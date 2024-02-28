@@ -36,7 +36,7 @@ def login(request):
 def wordle(request):
     games = Games()
     context = {
-        'word': games.getSingleWord(10)
+        'word': games.getSingleWord(7)
     }
     return render(request, "ecomap/wordle.html", context)
 

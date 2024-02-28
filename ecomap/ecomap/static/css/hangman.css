@@ -1,8 +1,8 @@
 .inputGuess {
-    background-color: #222222;
+    background-color: #2B3035;
     color: white;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 2px solid black;
     font-size: 16px;
     padding: 14px 20px 12px 45px;
     position: absolute;
@@ -56,11 +56,11 @@
 
 .key {
     display: inline-block;
-    border: 1px solid white;
+    border: 2px solid black;
     padding: 1.6%;
-    background-color: #222222;
+    background-color: #2B3035;
     margin-bottom: 5px;
-    color: #BBBBBB;
+    color: white;
     font-weight: bold;
     font-size: 105%;
     font-family: Arial;
@@ -68,17 +68,18 @@
 }
 
 .key:hover {
-    background-color: #555555;
+    background-color: #5C5C5C;
+    color: white;
     cursor: pointer;
 }
 
 .keyPressed {
-    background-color: #0a0a0a;
+    background-color: #111111;
     display: inline-block;
-    border: 1px solid white;
+    border: 2px solid black;
     padding: 1.6%;
     margin-bottom: 5px;
-    color: #555555;
+    color: #AAAAAA;
     font-size: 105%;
     font-family: Arial;
     border-radius: 10%;
@@ -95,12 +96,12 @@
 .square {
   background-color: white;
   border: 3px solid #CCCCCC;
-  width: 51px;
-  height: 49px;
-  padding-top: 10px;
+  width: 43px;
+  height: 41px;
+  padding-top: 7px;
   text-align: center;
   font-weight: bold;
-  font-size: 105%;
+  font-size: 95%;
   font-family: Arial;
 }
 
@@ -110,7 +111,7 @@
 	width: 50%;
 	height: 30%;
 	left: 25%;
-	top: 70%;
+	top: 65%;
 	background-color: #CCCCCC;
 	border-radius: 10px;
 	font-weight: bold;

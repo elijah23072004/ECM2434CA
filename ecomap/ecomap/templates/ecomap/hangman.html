@@ -9,47 +9,51 @@
         <link rel="stylesheet" type="text/css" href="{%static 'css/stylesheet.css' %}">
     </head>
     <body>
-        {% include 'ecomap/include/navbar.html'%}
-        <div class="hangman-container">
-            <img class="hangman-image" src="{%static 'images/hangman_images/hangman.png' %}">
+        <div class="main">
+            {% include 'ecomap/include/navbar.html'%}
+            <div class="hangman-container">
+                <img class="hangman-image" src="{%static 'images/hangman_images/hangman.png' %}">
+            </div>
+            <h2 class="guesses-count">Wrong Guesses: 0/7</h2>
+            <h1 class="hiddenAnswer"></h1>
+            <script src="{%static 'js/hangman.js' %}" data-answer="{{word}}"></script>
+            <div class="keyboard">
+                <div class="keyboardRow">
+                    <div class="key" onclick="clickKey(event)">Q</div>
+                    <div class="key" onclick="clickKey(event)">W</div>
+                    <div class="key" onclick="clickKey(event)">E</div>
+                    <div class="key" onclick="clickKey(event)">R</div>
+                    <div class="key" onclick="clickKey(event)">T</div>
+                    <div class="key" onclick="clickKey(event)">Y</div>
+                    <div class="key" onclick="clickKey(event)">U</div>
+                    <div class="key" onclick="clickKey(event)">I</div>
+                    <div class="key" onclick="clickKey(event)">O</div>
+                    <div class="key" onclick="clickKey(event)">P</div>
+                </div>
+                <div class="keyboardRow">
+                    <div class="key" onclick="clickKey(event)">A</div>
+                    <div class="key" onclick="clickKey(event)">S</div>
+                    <div class="key" onclick="clickKey(event)">D</div>
+                    <div class="key" onclick="clickKey(event)">F</div>
+                    <div class="key" onclick="clickKey(event)">G</div>
+                    <div class="key" onclick="clickKey(event)">H</div>
+                    <div class="key" onclick="clickKey(event)">J</div>
+                    <div class="key" onclick="clickKey(event)">K</div>
+                    <div class="key" onclick="clickKey(event)">L</div>
+                </div>
+                <div class="keyboardRow">
+                    <div class="key" onclick="clickKey(event)">Z</div>
+                    <div class="key" onclick="clickKey(event)">X</div>
+                    <div class="key" onclick="clickKey(event)">C</div>
+                    <div class="key" onclick="clickKey(event)">V</div>
+                    <div class="key" onclick="clickKey(event)">B</div>
+                    <div class="key" onclick="clickKey(event)">N</div>
+                    <div class="key" onclick="clickKey(event)">M</div>
+                </div>
+            </div>
+            <div class="hangman-input-bar">
+                <input type="text" placeholder="Enter a Guess..." class="inputGuess" onkeyup="searchFunction(event)">
+            </div>
         </div>
-        <h2 class="guesses-count">Wrong Guesses: 0/7</h2>
-        <h1 class="hiddenAnswer"></h1>
-        <script src="{%static 'js/hangman.js' %}" data-answer="{{word}}"></script>
-        <div class="keyboard">
-            <div class="keyboardRow">
-                <div class="key" onclick="clickKey(event)">Q</div>
-                <div class="key" onclick="clickKey(event)">W</div>
-                <div class="key" onclick="clickKey(event)">E</div>
-                <div class="key" onclick="clickKey(event)">R</div>
-                <div class="key" onclick="clickKey(event)">T</div>
-                <div class="key" onclick="clickKey(event)">Y</div>
-                <div class="key" onclick="clickKey(event)">U</div>
-                <div class="key" onclick="clickKey(event)">I</div>
-                <div class="key" onclick="clickKey(event)">O</div>
-                <div class="key" onclick="clickKey(event)">P</div>
-            </div>
-            <div class="keyboardRow">
-                <div class="key" onclick="clickKey(event)">A</div>
-                <div class="key" onclick="clickKey(event)">S</div>
-                <div class="key" onclick="clickKey(event)">D</div>
-                <div class="key" onclick="clickKey(event)">F</div>
-                <div class="key" onclick="clickKey(event)">G</div>
-                <div class="key" onclick="clickKey(event)">H</div>
-                <div class="key" onclick="clickKey(event)">J</div>
-                <div class="key" onclick="clickKey(event)">K</div>
-                <div class="key" onclick="clickKey(event)">L</div>
-            </div>
-            <div class="keyboardRow">
-                <div class="key" onclick="clickKey(event)">Z</div>
-                <div class="key" onclick="clickKey(event)">X</div>
-                <div class="key" onclick="clickKey(event)">C</div>
-                <div class="key" onclick="clickKey(event)">V</div>
-                <div class="key" onclick="clickKey(event)">B</div>
-                <div class="key" onclick="clickKey(event)">N</div>
-                <div class="key" onclick="clickKey(event)">M</div>
-            </div>
-        </div>
-        <input type="text" placeholder="Enter a Guess..." class="inputGuess" onkeyup="searchFunction(event)">
     </body>
 </html>

@@ -106,14 +106,14 @@ class Hangman {
         document.querySelector(".hangman-image").src = imageLink;
         this.setWrongGuesses()
         if (this.wrongGuesses >= 7) {
-            fail(this.answer, this.remainingLetters);
+            fail(this.answer, this.remainingLetters, this.wrongGuesses);
         }
     }
 
     checkWin() {
         //checks if all letters have been guessed, if so the user wins
         if (this.remainingLetters.length <= 0) {
-            win();
+            win(this.answer, this.wrongGuesses);
         }
     }
 
@@ -176,7 +176,7 @@ function removePunctuation(string) {
 }
 
 
-function fail(answer, remainingLetters) {
+function fail(answer, remainingLetters, wrong_guesses) {
     //display the hidden word with letters not picked in red as the user has lost
     var html_code = "";
     console.log(answer);
@@ -190,31 +190,34 @@ function fail(answer, remainingLetters) {
         }
     }
     document.querySelector(".hiddenAnswer").innerHTML = html_code;
-    endGame("You failed", "red");
+    endGame("red", answer, wrong_guesses);
 }
 
-function win() {
+function win(answer, wrong_guesses) {
     //winning screen as the user has won
-    endGame("You won", "green");
+    endGame("green", answer, wrong_guesses);
     document.querySelector(".hiddenAnswer").style.color = "green";
 
 }
 
-function endGame(message, colour) {
-    //disable all keys on the keyboard
-    var keys = document.querySelectorAll(".key");
-    for(let i=0; i<keys.length; i++) {
-        var keyPressed = keys[i];
-        keyPressed.classList.remove("key");
-        keyPressed.classList.add("keyPressed");
-        keyPressed.removeEventListener("click", clickKey);
+function endGame(colour, answer, wrong_guesses) {
+    //remove the input box
+    document.querySelector(".hangman-input-bar").innerHTML = "";
+    //remove keys from webpage and outputs the score
+    document.querySelector(".keyboard").innerHTML = "";
+    var score = 0;
+    var message = "Answer: " + answer;
+    if (colour.toLowerCase() != "red") {
+        message = "Correct!"
+        score = Math.floor(100 * answer.length / (wrong_guesses+1));
     }
 
-    //disable the input box and set message to the parameters
-    var inputBox = document.querySelector(".inputGuess");
-    inputBox.disabled = "disabled";
-    inputBox.value = message;
-    inputBox.style.color = colour;
+    //display the score and colour green if win and red if loss
+    document.querySelector(".main").innerHTML += `<div class="level-end">${message}
+        <div id="level-completed">Score: ${score}pts</div>
+    </div>`;
+    document.querySelector(".level-end").style.backgroundColor = colour;
+
 }
 
 //input the answer here and start the game of hangman
