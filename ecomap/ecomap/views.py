@@ -122,7 +122,6 @@ def submitScore(request):
 def getUserScores(request):
     if(request.method=="GET"):
         my_data = EcomapUser.objects.order_by("-score").all().values('username','score')
-        print(my_data)
         return JsonResponse(list(my_data), safe=False)
     #returns code 400 if not get request 
     return HttpResponse(400)
