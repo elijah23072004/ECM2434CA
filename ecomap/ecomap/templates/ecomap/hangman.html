@@ -16,7 +16,9 @@
             </div>
             <h2 class="guesses-count">Wrong Guesses: 0/7</h2>
             <h1 class="hiddenAnswer"></h1>
+            <script src="{%static 'js/sendscore.js' %}"></script>
             <script src="{%static 'js/hangman.js' %}" data-answer="{{word}}"></script>
+           
             <div class="keyboard">
                 <div class="keyboardRow">
                     <div class="key" onclick="clickKey(event)">Q</div>

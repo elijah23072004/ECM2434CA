@@ -8,24 +8,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponse
+from django.core import serializers
+from django.http import JsonResponse
 
 
 from .games import Games
 from .registerForm import RegisterForm
 from .login import loginAuth
 from .models import User as EcomapUser
+from .score import handleScore
+
 
 @login_required(login_url='/login')
 def homepage(request):
     return render(request, "ecomap/homepage.html")
 
 @login_required(login_url='/login')
-def leaderboard(request):
-    #if request.user.is_authenticated:
-    #    return render(request, "ecomap/leaderboard.html")
-    
-    #else:
-    #    return redirect("/login/")
+def leaderboard(request): 
     return render(request, "ecomap/leaderboard.html")
 
 @csrf_protect
@@ -106,3 +106,25 @@ def userlogout(request):
 
 def gameWheel(request):
     return render(request,"ecomap/wheel.html")
+
+
+def submitScore(request):
+    if(request.method=="POST"):
+
+        alldata=request.POST
+        score=alldata.get("score","0")
+        result = handleScore(request.user,score)
+        if(result == -1):
+            return HttpResponse(400)
+        return HttpResponse(200);
+    return HttpResponse(400)
+
+def getUserScores(request):
+    if(request.method=="GET"):
+        my_data = EcomapUser.objects.order_by("-score").all().values('username','score')
+        print(my_data)
+        #jsonData = serializers.serialize('json',list(my_data))
+        #return HttpResponse(jsonData)
+        return JsonResponse(list(my_data), safe=False)
+    return HttpResponse(400)
+

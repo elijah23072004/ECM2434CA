@@ -106,6 +106,7 @@ class Wordle {
             <div id="level-completed">Score: ${score}pts</div>
         </div>`;
         document.querySelector(".level-end").style.backgroundColor = colour;
+        sendScore(score)
     }
 }
 

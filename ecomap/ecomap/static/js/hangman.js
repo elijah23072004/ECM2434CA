@@ -217,10 +217,12 @@ function endGame(colour, answer, wrong_guesses) {
         <div id="level-completed">Score: ${score}pts</div>
     </div>`;
     document.querySelector(".level-end").style.backgroundColor = colour;
-
+    sendScore(score)
 }
 
 //input the answer here and start the game of hangman
 const data = document.currentScript.dataset;
 const answer = data.answer;
 const hangman = new Hangman(answer.toUpperCase());
+
+

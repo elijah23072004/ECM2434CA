@@ -83,7 +83,7 @@
 
     </style>
 </head>
-<body onload="changeTime()">
+<body onload="begin()">
     {% include 'ecomap/include/navbar.html'%}
     <div id="main">
         <div class="title">Leaderboard</div>
@@ -102,14 +102,42 @@
                     <th>Score</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="leaderboardTableBody">
             </tbody>
         </table>
     </div>
 
     <!-- function to add drop down menu for time options-->
     <script>
+        var table = document.getElementById("leaderboardTableBody")
+        var userData;
+        function addToTable(values)
+        {
+            row = document.createElement("tr")
+            userVal = document.createElement("th")
+            scoreVal= document.createElement("th")
+            userVal.innerHTML=values.username
+            scoreVal.innerHTML=values.score
+            row.appendChild(userVal)
+            row.appendChild(scoreVal)
+            table.appendChild(row)
+        }
 
+        function setTable(data)
+        { 
+            data.forEach(addToTable)
+        }
+        function dealWithData(data)
+        {
+            userData = data
+            changeTime()
+        }
+
+        function getScores()
+        {
+            fetch("/getScores/", {method: "GET"}).then((response) => response.json())
+  .then((json) => dealWithData(json));
+        }
         //dropdown menu function to alter time frame
         function changeTime() {
             var selectElement = document.getElementById("timeOptions");
@@ -121,15 +149,7 @@
 
             // new rows based on selected category - data not yet implemented through database
             if (selectedValue === "allTime") {
-                tableBody.innerHTML += `
-                    <tr>
-                        <td>All Time Data 1</td>
-                        <td>All Time Data 2</td>
-                    </tr>
-                    <tr>
-                        <td>All Time Data 3</td>
-                        <td>All Time Data 4</td>
-                    </tr>`;
+                setTable(userData)
             } else if (selectedValue === "weekly") {
                 tableBody.innerHTML += `
                     <tr>
@@ -152,6 +172,11 @@
                     </tr>`;
             }
         }
+        function begin()
+        {
+            getScores()
+        }
+            
     </script>    
 </body>
 </html>
