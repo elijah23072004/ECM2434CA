@@ -1,67 +1,104 @@
-        <div id="navbar">
-              <!--<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-                  -->
-            <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom border-body" data-bs-theme="dark">
-                  <div class="container-fluid">
-                    <div class="navbar-collapse collapse" id="collapseNavbar">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'ecomap/include/include.html'%}
+    <!-- css styles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+            background-size: cover;
+        }
 
+        #navbar {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+        }
 
-                            
+        .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: bold;
+        }
 
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">
+        .navbar-nav .nav-link:hover {
+            color: #ddd !important;
+        }
+
+        .navbar-nav .nav-item {
+            margin-right: 10px;
+        }
+
+        .navbar-nav .nav-link {
+            transition: all 0.3s ease;
+            background: linear-gradient(to bottom, #004d00, #003c00);
+            border-radius: 5px;
+            padding: 8px 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-nav .nav-link:hover {
+            background: linear-gradient(to bottom, #005c00, #009300);
+            box-shadow: 0 6px 8px rgb(0, 0, 0);
+            color: #fff;
+        }
+
+        .navbar-nav .nav-link:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 100, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse" id="collapseNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
                             <a class="nav-link" href="/" name="Home"><b>Home</b></a>
-                            </li>
-
-                        </ul>
-                        <ul class="navbar-nav ms-auto" id="NavbarItems">
-                            <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto" id="NavbarItems">
+                        <li class="nav-item">
                             <a class="nav-link" href="/qrcode/" data-bs-target="#myModal" data-bs-toggle="modal" name="memory"><b>Scan Qr Code</b></a>
-                            </li>
-                            <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/leaderboard/" data-bs-target="#myModal" data-bs-toggle="modal" name="leaderboard"><b>Leaderboard</b></a>
-                            </li>
-
-
-                        </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
-         </nav>
-            <script>
-
-                function logout()
-                {
-                    document.cookie="";
-                    window.location.href="/login/";
-                }
-
-                let loggedin=false;
-                if(document.cookie != "")
-                {
-                    loggedin=true;
-                }
-                var navbarList=document.getElementById('NavbarItems');
-                loggedin=true;
-                if(loggedin)
-                {
-                    var logoutElem= document.createElement("li"); // In this case it's anchor element. 
-                    
-                    var logoutButton = document.createElement("a");
-                    logoutButton.setAttribute("href","/logout/");
-                    logoutText=document.createElement("b");
-                    logoutText.innerHTML="logout";
-                    logoutButton.appendChild(logoutText);
-                     
-                    logoutElem.appendChild(logoutButton);
-                    
-                    logoutButton.classList.add("nav-link");
-                    logoutElem.classList.add("nav-item");
-
-                    navbarList.appendChild(logoutElem);
-                    
-                                    
-                }
-            </script>
-        </div>
-
-
+        </nav>
+        <script>
+            function logout() {
+                document.cookie = "";
+                window.location.href = "/login/";
+            }
+            
+            let loggedin = false;
+            if (document.cookie != "") {
+                loggedin = true;
+            }
+            var navbarList = document.getElementById('NavbarItems');
+            loggedin = true;
+            if (loggedin) {
+                var logoutElem = document.createElement("li"); // in this case it's anchor element
+                var logoutButton = document.createElement("a");
+                logoutButton.setAttribute("href", "/logout/");
+                logoutText = document.createElement("b");
+                logoutText.innerHTML = "logout";
+                logoutButton.appendChild(logoutText);
+                logoutElem.appendChild(logoutButton);
+                logoutButton.classList.add("nav-link");
+                logoutElem.classList.add("nav-item");
+                navbarList.appendChild(logoutElem);
+            }
+        </script>
+    </div>
+</body>
+</html>
