@@ -15,7 +15,7 @@ The group members are:
 This is a submission for Sprint 1. There are three types of document that you will find the following places.
 
 ### PROCESS DOCUMENTS
-Our process documents are managed in the trello platform. The link to our project page is below. We (specific username that added) have added solomonoyelere1 to the board so it is visible.
+Our process documents are managed in the trello platform. The link to our project page is below. We (ernestcheong3, elijah2307williams, jaitelymonde, olivermorris8, rashedzoubi, tharunveluri) have added solomonoyelere1 to the board so it is visible.
 
 trello link: [https://trello.com/invite/b/P9PPTCyS/ATTIdc1bd401897fdc1f0b97f1c743d3c7fcDE0D3D67/my-trello-board]
 
