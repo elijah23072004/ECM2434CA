@@ -9,6 +9,7 @@ class User(models.Model):
     userType = models.CharField(max_length=25, default="user")  # User's type (default is "user")
     score = models.IntegerField(default=0)  # User's score (default is 0)
     streak = models.IntegerField(default=0)  # User's streak (default is 0)
+    last_played = models.DateField(default=None, null=True)    # Last time the user played any game
     
 
 

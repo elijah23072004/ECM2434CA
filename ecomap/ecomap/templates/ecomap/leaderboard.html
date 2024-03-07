@@ -90,13 +90,14 @@
         <div class="dropdown-container">
             <select id="timeOptions" onchange="changeTime()">
                 <option value="allTime">All Time</option>
+                <option value="streak">Streak</option>
                 <option value="weekly">Weekly</option>
                 <option value="friends">Friends</option>
             </select>
         </div>
         
         <table id="leaderboardTable">
-            <thead>
+            <thead id="leaderboardTableHead">
                 <tr>
                     <th>Username</th>
                     <th>Score</th>
@@ -111,20 +112,25 @@
     <script>
         var table = document.getElementById("leaderboardTableBody")
         var userData;
+        var streakData;
         function addToTable(values)
         {
             row = document.createElement("tr")
             userVal = document.createElement("th")
             scoreVal= document.createElement("th")
             userVal.innerHTML=values.username
-            scoreVal.innerHTML=values.score
+            if (values.score == null) {
+                scoreVal.innerHTML=values.streak;
+            } else {
+                scoreVal.innerHTML=values.score
+            }
             row.appendChild(userVal)
             row.appendChild(scoreVal)
             table.appendChild(row)
         }
 
         function setTable(data)
-        { 
+        {
             data.forEach(addToTable)
         }
         function dealWithData(data)
@@ -133,10 +139,28 @@
             changeTime()
         }
 
+        function dealWithStreakData(data)
+        {
+            streakData = data
+            changeTime()
+        }
+
+        function setHeader(header) {
+            document.getElementById("leaderboardTableHead").innerHTML = `<tr>
+                    <th>Username</th>
+                    <th>${header}</th>
+                </tr>`
+        }
+
         function getScores()
         {
             fetch("/getScores/", {method: "GET"}).then((response) => response.json())
   .then((json) => dealWithData(json));
+        }
+        function getStreaks()
+        {
+            fetch("/getStreaks/", {method: "GET"}).then((response) => response.json())
+  .then((json) => dealWithStreakData(json));
         }
         //dropdown menu function to alter time frame
         function changeTime() {
@@ -149,7 +173,11 @@
 
             // new rows based on selected category - data not yet implemented through database
             if (selectedValue === "allTime") {
+                setHeader("Score");
                 setTable(userData)
+            } else if (selectedValue === "streak") {
+                setHeader("Streak");
+                setTable(streakData);
             } else if (selectedValue === "weekly") {
                 tableBody.innerHTML += `
                     <tr>
@@ -175,6 +203,7 @@
         function begin()
         {
             getScores()
+            getStreaks()
         }
             
     </script>    

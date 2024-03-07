@@ -19,4 +19,5 @@ urlpatterns = [
     path("wheel/", views.gameWheel, name="wheel"),  # Game Wheel URL
     path("sendScore/", views.submitScore, name="submitScore"), #Submit Score URL
     path("getScores/", views.getUserScores,name="getScores"), #Get Score URL
+    path("getStreaks/", views.getUserStreaks,name="getStreaks"), #Get Streak URL
 ]

@@ -68,9 +68,7 @@ def registerUser(request):
             print(form.cleaned_data["password"])
             user = User.objects.create_user(form.cleaned_data["username"], password=form.cleaned_data["password"])
             user.save()
-            #temp added to test with going to the hangman page which requires an auth
             return render(request, "ecomap/login.html")
-            #return redirect("/register/?success=true")
         else:
             form = RegisterForm()
 
@@ -124,5 +122,12 @@ def getUserScores(request):
         my_data = EcomapUser.objects.order_by("-score").all().values('username','score')
         return JsonResponse(list(my_data), safe=False)
     #returns code 400 if not get request 
+    return HttpResponse(400)
+
+def getUserStreaks(request):
+    if(request.method=="GET"):
+        my_data = EcomapUser.objects.order_by("-streak").all().values('username','streak')
+        return JsonResponse(list(my_data), safe=False)
+    #returns code 400 if not get request
     return HttpResponse(400)
 

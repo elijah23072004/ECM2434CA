@@ -92,6 +92,8 @@ class Wordle {
     }
 
     endGame(colour) {
+        //remove the keydown event listener
+        document.onkeydown = null;
         //remove keys from webpage and outputs the score
         document.querySelector(".keyboard").innerHTML = "";
         var score = 0;
@@ -142,7 +144,7 @@ const answer = data.answer;
 wordle = new Wordle(answer)
 
 //allow the user to enter keys on keyboard instead of having to click on the screen
-document.addEventListener('keydown', function(event) {
+function keyboardType(event) {
     if (event.keyCode >= 65 && event.keyCode <= 90) {
         //character key pressed
         wordle.addLetter(event.key.toUpperCase());
@@ -153,4 +155,6 @@ document.addEventListener('keydown', function(event) {
         //enter key pressed
         wordle.wordle_guess()
     }
-});
+}
+document.onkeydown = keyboardType;
+
