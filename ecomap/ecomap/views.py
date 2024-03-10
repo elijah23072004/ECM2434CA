@@ -102,6 +102,9 @@ def userlogout(request):
 def gameWheel(request):
     return render(request,"ecomap/wheel.html")
 
+# matching redirectory request
+def matching(request):
+    return render(request,"ecomap/matching.html")
 
 def submitScore(request):
     if(request.method=="POST"):
