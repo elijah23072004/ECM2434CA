@@ -16,6 +16,7 @@ urlpatterns = [
     path("registerUser/", views.registerUser, name="createUser"),  # Create User URL
     path("loginUser/", views.loginUser, name="loginUser"),  # Login User URL
     path("logout/", views.userlogout, name="logout"),  # Logout URL
+    path("matching/", views.matching, name="matching"), # matching game URL
     path("wheel/", views.gameWheel, name="wheel"),  # Game Wheel URL
     path("sendScore/", views.submitScore, name="submitScore"), #Submit Score URL
     path("getScores/", views.getUserScores,name="getScores"), #Get Score URL
