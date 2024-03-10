@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include 'ecomap/include/navbar.html'%}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Match</title>
+  <!-- css styles -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .title {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .rectangle {
+      width: 200px;
+      height: 200px;
+      background-color: lightgray;
+      margin: 10px;
+      text-align: center;
+      cursor: pointer;
+      overflow: hidden;
+      word-wrap: break-word;
+      line-height: 1.5;
+    }
+
+    /* 1/2 selection */
+    .selected {
+        background-color: lightblue;
+    }
+
+    /* correct card */
+    .revealed {
+        background-color: lightgreen; 
+    }
+
+    /* wrong selection */
+    .wrong {
+        background-color: rgb(254, 48, 48);
+    }
+
+    #livesCounter {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="title">Memory Match</div>
+
+<div class="row" id="topRow"></div>
+<div class="row" id="bottomRow"></div>
+
+<div id="livesCounter">Lives: <span id="lives">3</span></div>
+
+<script>
+  var lives = 3;
+  var flippedCards = [];
+  var matchedPairs = 0;
+
+  // array to store pairs of cards to be played with, fill with any number of terms
+  var cardPairs = [
+    { term: "Habitat Conservation", definition: "The protection/preservation of natural habitats to maintain biodiversity and ecosystem health." },
+    { term: "Renewable Energy", definition: "Energy from natural resources such as sunlight, wind, and water." },
+    { term: "Biodegradable", definition: "Materials/substances capable of being decomposed by bacteria or other living organisms." },
+    { term: "Global Warming", definition: "The gradual increase in Earth's temperature, primarily caused by greenhouse gases releasing into the atmosphere." },
+    { term: "Erosion", definition: "The wearing away of land or soil by natural forces such as wind, water, and ice, often exacerbated by activities like deforestation and overgrazing." }
+    // can add as many as needed here
+  ];
+
+  // shuffle in the pairs
+  shuffle(cardPairs);
+
+  // limit number of cards, currently 6 cards
+  var displayedTerms = [];
+  for (var i = 0; i < 3; i++) {
+    displayedTerms.push(cardPairs[i].term);
+    displayedTerms.push(cardPairs[i].definition);
+  }
+
+  // shuffle terms
+  shuffle(displayedTerms);
+
+  // fill empty cards with text from pairs array
+  var topRow = document.getElementById('topRow');
+  var bottomRow = document.getElementById('bottomRow');
+
+  for (var i = 0; i < displayedTerms.length; i++) {
+    var card = document.createElement('div');
+    card.classList.add('rectangle');
+    card.setAttribute('data-index', i);
+    card.setAttribute('onclick', 'flipCard(this)');
+
+    // display cards at beginning of game for 2 seconds
+    card.textContent = displayedTerms[i];
+    setTimeout(function(cardElement) {
+      return function() {
+        cardElement.textContent = '';
+      };
+    }(card), 2000);
+
+    // add card to top or bottom row based on index
+    if (i < displayedTerms.length / 2) {
+      topRow.appendChild(card);
+    } else {
+      bottomRow.appendChild(card);
+    }
+  }
+
+  // fill lives
+  var livesCounter = document.getElementById('lives');
+  livesCounter.textContent = lives;
+
+  // shuffling cards function
+  function shuffle(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // object to store term definitions
+  var termDefinitionMap = {};
+
+  // fill object with pairs
+  cardPairs.forEach(pair => {
+    termDefinitionMap[pair.term] = pair.definition;
+    termDefinitionMap[pair.definition] = pair.term;
+  });
+
+  // onClick function for cards
+  function flipCard(card) {
+    var index = card.getAttribute('data-index');
+    if (card.textContent === '' && flippedCards.length < 2) {
+      card.textContent = displayedTerms[index];
+      flippedCards.push(card);
+      card.classList.add('selected');
+
+      if (flippedCards.length === 2) {
+        // check if 2 flipped cards match
+        setTimeout(() => {
+          var term1 = flippedCards[0].textContent;
+          var term2 = flippedCards[1].textContent;
+
+          if (termDefinitionMap[term1] === term2) {
+            // cards match
+            flippedCards.forEach(card => {
+              card.classList.add('revealed');
+              card.classList.remove('selected');
+            });
+            matchedPairs++;
+
+            // game won
+            if (matchedPairs === displayedTerms.length / 2) {
+              alert('Congratulations! You have won the game!');
+            }
+          } else {
+            // no match
+            lives--; // lower lives
+            livesCounter.textContent = lives;
+            flippedCards.forEach(card => {
+              card.classList.add('wrong');
+              setTimeout(() => {
+                card.textContent = ''; // reset card to blank
+                card.classList.remove('selected', 'wrong');
+              }, 500);
+            });
+          }
+
+          flippedCards = []; // reset flipped cards
+        }, 1000);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
