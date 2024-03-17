@@ -37,6 +37,7 @@
       cursor: pointer;
       overflow: hidden;
       word-wrap: break-word;
+      border: 4px solid black;
       line-height: 1.5;
     }
 
@@ -56,13 +57,58 @@
     }
 
     #livesCounter {
+        margin-top: 20px;
+        font-size: 18px;
+        background-color: white;
+        border: 4px solid black;
+        padding: 10px;
+    }
+
+    #scoreCounter {
+        margin-top: 20px;
+        font-size: 18px;
+        background-color: white;
+        border: 4px solid black;
+        padding: 10px;
+    }
+
+    .buttonContainer {
       margin-top: 20px;
-      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .button {
+      width: 120px;
+      height: 40px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    #playAgainButton {
+      display: none;
+    }
+
+    #gameOverMessage {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    #playAgainButtonContainer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
 <body>
-
 
 <div class="title">Memory Match</div>
 
@@ -70,11 +116,24 @@
 <div class="row" id="bottomRow"></div>
 
 <div id="livesCounter">Lives: <span id="lives">3</span></div>
+<div id="scoreCounter">Score: <span id="score">0</span></div>
+
+<div class="buttonContainer">
+  <button id="startButton" class="button" onclick="startGame()">Start</button>
+</div>
+
+<div id="playAgainButtonContainer" class="buttonContainer">
+  <button id="playAgainButton" class="button" onclick="playAgain()">Play Again</button>
+</div>
+
+<div id="gameOverMessage"></div>
 
 <script>
   var lives = 3;
   var flippedCards = [];
   var matchedPairs = 0;
+  var gameOver = false;
+  var score = 0;
 
   // array to store pairs of cards to be played with, fill with any number of terms
   var cardPairs = [
@@ -82,7 +141,8 @@
     { term: "Renewable Energy", definition: "Energy from natural resources such as sunlight, wind, and water." },
     { term: "Biodegradable", definition: "Materials/substances capable of being decomposed by bacteria or other living organisms." },
     { term: "Global Warming", definition: "The gradual increase in Earth's temperature, primarily caused by greenhouse gases releasing into the atmosphere." },
-    { term: "Erosion", definition: "The wearing away of land or soil by natural forces such as wind, water, and ice, often exacerbated by activities like deforestation and overgrazing." }
+    { term: "Erosion", definition: "The wearing away of land or soil by natural forces such as wind, water, and ice, often exacerbated by activities like deforestation and overgrazing." },
+    { term: "Carbon Footprint", definition: "Total amount of greenhouse gases, mainly carbon dioxide, emitted into the atmosphere"},
     // can add as many as needed here
   ];
 
@@ -103,31 +163,37 @@
   var topRow = document.getElementById('topRow');
   var bottomRow = document.getElementById('bottomRow');
 
-  for (var i = 0; i < displayedTerms.length; i++) {
-    var card = document.createElement('div');
-    card.classList.add('rectangle');
-    card.setAttribute('data-index', i);
-    card.setAttribute('onclick', 'flipCard(this)');
+  // function to start the game
+  function startGame() {
+    var startButton = document.getElementById('startButton');
+    startButton.style.display = 'none'; // hide start button
 
-    // display cards at beginning of game for 2 seconds
-    card.textContent = displayedTerms[i];
-    setTimeout(function(cardElement) {
-      return function() {
-        cardElement.textContent = '';
-      };
-    }(card), 2000);
+    for (var i = 0; i < displayedTerms.length; i++) {
+      var card = document.createElement('div');
+      card.classList.add('rectangle');
+      card.setAttribute('data-index', i);
+      card.setAttribute('onclick', 'flipCard(this)');
 
-    // add card to top or bottom row based on index
-    if (i < displayedTerms.length / 2) {
-      topRow.appendChild(card);
-    } else {
-      bottomRow.appendChild(card);
+      // display cards at beginning of game for 2 seconds
+      card.textContent = displayedTerms[i];
+      setTimeout(function(cardElement) {
+        return function() {
+          cardElement.textContent = '';
+        };
+      }(card), 2000);
+
+      // add card to top or bottom row based on index
+      if (i < displayedTerms.length / 2) {
+        topRow.appendChild(card);
+      } else {
+        bottomRow.appendChild(card);
+      }
     }
-  }
 
-  // fill lives
-  var livesCounter = document.getElementById('lives');
-  livesCounter.textContent = lives;
+    // fill lives
+    var livesCounter = document.getElementById('lives');
+    livesCounter.textContent = lives;
+  }
 
   // shuffling cards function
   function shuffle(array) {
@@ -149,6 +215,8 @@
 
   // onClick function for cards
   function flipCard(card) {
+    if (gameOver) return; // game over, ignore further clicks
+
     var index = card.getAttribute('data-index');
     if (card.textContent === '' && flippedCards.length < 2) {
       card.textContent = displayedTerms[index];
@@ -171,12 +239,24 @@
 
             // game won
             if (matchedPairs === displayedTerms.length / 2) {
-              alert('Congratulations! You have won the game!');
+              gameOver = true;
+              score += (lives * 500); // Adjust score based on remaining lives
+              document.getElementById('gameOverMessage').textContent = 'Congratulations! You have won the game!';
+              document.getElementById('playAgainButton').style.display = 'inline';
+              document.getElementById('scoreCounter').innerHTML = 'Score: ' + score; // Update the score display
             }
           } else {
             // no match
             lives--; // lower lives
+            var livesCounter = document.getElementById('lives');
             livesCounter.textContent = lives;
+
+            if (lives === 0) {
+              gameOver = true;
+              document.getElementById('gameOverMessage').textContent = 'Game Over! You have run out of lives.';
+              document.getElementById('playAgainButton').style.display = 'inline';
+            }
+
             flippedCards.forEach(card => {
               card.classList.add('wrong');
               setTimeout(() => {
@@ -186,10 +266,14 @@
             });
           }
 
-          flippedCards = []; // reset flipped cards
+          flippedCards = []; // reset flipped cards array
         }, 1000);
       }
     }
+  }
+
+  function playAgain() {
+    location.reload(); // reload the page to start again
   }
 </script>
 
