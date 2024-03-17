@@ -11,18 +11,27 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.core import serializers
 from django.http import JsonResponse
-
+from django.contrib.auth import update_session_auth_hash
 
 from .games import Games
 from .registerForm import RegisterForm
 from .login import loginAuth
 from .models import User as EcomapUser
 from .score import handleScore
-
+from .utils import checkAdmin,getUserType
 
 @login_required(login_url='/login')
 def homepage(request):
+    userType = getUserType(request.user)
+    if(userType == "user" ):
+        return render(request, "ecomap/homepage.html")
+    elif (userType == "admin"):
+        return render(request, "ecomap/admin.html")
+    
+@login_required(login_url='/login')
+def userHomePage(request):
     return render(request, "ecomap/homepage.html")
+
 
 @login_required(login_url='/login')
 def leaderboard(request): 
@@ -30,6 +39,10 @@ def leaderboard(request):
 
 @csrf_protect
 def login(request):
+
+    #print(EcomapUser.objects.all().values("username", "password","first_name","last_name","userType"))
+        
+    checkAdmin()#creates an admin user if no admin users exist
     return render(request, "ecomap/login.html")
 
 @login_required(login_url='/login')
@@ -66,6 +79,7 @@ def registerUser(request):
             print(form.cleaned_data["username"])
             print("password is")
             print(form.cleaned_data["password"])
+            print(form.cleaned_data["userType"])
             user = User.objects.create_user(form.cleaned_data["username"], password=form.cleaned_data["password"])
             user.save()
             return render(request, "ecomap/login.html")
@@ -115,7 +129,7 @@ def submitScore(request):
         #if result is -1 then invalid user is passed (which should be impossible so 400 code returned
         if(result == -1):
             return HttpResponse(400)
-        return HttpResponse(200);
+        return HttpResponse(200)
 
     #returns code 400 if not POST request
     return HttpResponse(400)
@@ -134,3 +148,71 @@ def getUserStreaks(request):
     #returns code 400 if not get request
     return HttpResponse(400)
 
+@login_required(login_url='/login')
+def editUsers(request):
+    userType = getUserType(request.user)    
+    if(userType == "user" ):
+        return redirect("/homepage",request)
+    return render(request,"ecomap/editUsers.html")
+
+@login_required(login_url='/login')
+def getUserData(request):
+    if(request.method=="GET" and getUserType(request.user) == "admin"):
+        
+        my_data = EcomapUser.objects.all().values("username", "first_name","last_name","userType")
+        print(my_data)
+        return JsonResponse(list(my_data), safe=False)
+    return HttpResponse(400)
+
+@login_required(login_url='/login')
+def adminMakeUser(request):
+
+    if (request.method == "POST" and getUserType(request.user) == "admin"):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("user is:")
+            print(form.cleaned_data["username"])
+            print("password is")
+            print(form.cleaned_data["password"])
+            print(form.cleaned_data["userType"])
+            user = User.objects.create_user(form.cleaned_data["username"], password=form.cleaned_data["password"])
+            user.save()
+            return redirect("/editUsers/")
+        else:
+            form = RegisterForm()
+
+        return HttpResponse(400)
+
+@login_required(login_url='/login')
+def adminEditUser(request):
+
+    if (request.method == "POST" and getUserType(request.user) == "admin"):
+
+        ecomapUser = EcomapUser.objects.get(username=request.POST["username"])
+            
+        if(request.POST["password"]!=""):
+            
+
+            ecomapUser.password=request.POST["password"]
+
+            user=User.objects.get(username=request.POST["username"])
+
+            user.set_password(request.POST["password"])
+
+            user.save()
+            if(request.user.username == request.POST["username"]):
+                #stills logs out user if they change own password
+                update_session_auth_hash(request, request.user)
+
+            
+            
+        ecomapUser.first_name=request.POST["first_name"]
+        ecomapUser.last_name=request.POST["last_name"]
+        ecomapUser.userType=request.POST["userType"]
+        ecomapUser.save()
+
+        
+        return render(request,"ecomap/editUsers.html")
+
+    return HttpResponse(400)

@@ -21,4 +21,9 @@ urlpatterns = [
     path("sendScore/", views.submitScore, name="submitScore"), #Submit Score URL
     path("getScores/", views.getUserScores,name="getScores"), #Get Score URL
     path("getStreaks/", views.getUserStreaks,name="getStreaks"), #Get Streak URL
+    path("userhomePage/", views.userHomePage,name="userHomepage"),#go to regular user homepage (for admin to access regular site)
+    path("editUsers/", views.editUsers, name="editUsers"), #edit user url
+    path("getUsers/", views.getUserData, name="getUsers"), #get user data
+    path("adminMakeUser/", views.adminMakeUser, name="adminMakeUser"), #admin make user
+    path("adminEditUser/",views.adminEditUser, name="adminEditUser"), #admin edit existing user 
 ]

@@ -1,0 +1,43 @@
+<div id="navbar">
+    <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse" id="collapseNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/userhomePage" name="regular homepage"><b>Regular Homeapge</b></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto" id="NavbarItems">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/editUsers/" data-bs-target="#myModal" data-bs-toggle="modal" name="editUser"><b>edit user</b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script>
+        function logout() {
+            document.cookie = "";
+            window.location.href = "/login/";
+        }
+        
+        let loggedin = false;
+        if (document.cookie != "") {
+            loggedin = true;
+        }
+        var navbarList = document.getElementById('NavbarItems');
+        loggedin = true;
+        if (loggedin) {
+            var logoutElem = document.createElement("li"); // in this case it's anchor element
+            var logoutButton = document.createElement("a");
+            logoutButton.setAttribute("href", "/logout/");
+            logoutText = document.createElement("b");
+            logoutText.innerHTML = "Logout";
+            logoutButton.appendChild(logoutText);
+            logoutElem.appendChild(logoutButton);
+            logoutButton.classList.add("nav-link");
+            logoutElem.classList.add("nav-item");
+            navbarList.appendChild(logoutElem);
+        }
+    </script>
+</div>

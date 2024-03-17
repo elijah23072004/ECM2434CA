@@ -1,0 +1,436 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        {% include 'ecomap/include/include.html'%}
+		<title>Homepage</title>
+        <!-- css stylesheet -->
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+        
+            #main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+                background-size: cover;
+                height: 100%;
+            }
+            .button {
+                background: linear-gradient(to bottom, #4CAF50 0%, #106800 100%);
+                border: none;
+                color: white;
+                padding: 15px 15px 15px 15px;
+                margin: 5px 5px 10px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 24px;
+                margin-top: 24px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                border-radius: 5px;
+                z-index: 1;
+                position: relative;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }
+
+            .button:hover {
+                background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+            }
+            .SmallButton:hover {
+                background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+            }
+            .SmallButton{
+                background: linear-gradient(to bottom, #4CAF50 0%, #106800 100%);
+                border: none;
+                color: white;
+                padding: 5px 5px 5px 5px;
+                margin: 5px 5px 5px 5px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 24px;
+          
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                border-radius: 5px;
+                z-index: 1;
+                position: relative;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }            
+
+            .container {
+            background-color: rgba(4, 49, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            color: white;
+            text-align: center;
+            }
+            input[type="text"],
+            input[type="password"],
+            input[type="submit"]{
+                width: 100%;
+                padding: 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, #4CAF50, #004e04);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            transform: translateY(0);
+            }
+            input[type="submit"]:hover {
+            background-color: #45a049;
+            }
+            input[type="checkbox"] 
+            {
+                width:100%;
+                padding: 10px;
+                margin: 8px 0 10px 10px;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            select{
+                width: 50%;
+                padding: 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            #content
+            {
+                background-color: rgba(4, 49, 0, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 500px;
+                color: white;
+                text-align: center;
+            }
+        </style>        
+    </head>
+    <body>
+        
+        <!-- button and navbar inclusion -->
+        {% include 'ecomap/include/adminNavbar.html'%}
+        <div id="main">
+            <div id="content">
+            </select>
+            <script>
+                var selectionMenu = document.getElementById("userMenu")
+                var userData;
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+            var csrftoken = getCookie('csrftoken');
+
+
+                function addToMenu(values)
+                {
+                    option = document.createElement("option")
+                    option.value=values.username
+                    option.innerHTML=values.username
+
+                    selectionMenu.appendChild(option)
+                }
+                function setMenu(data)
+                {
+                    data.forEach(addToMenu)
+                }
+                function dealWithData(data)
+                {
+                    console.log(data)
+                    userData=data
+                    buildSelection()
+                }
+                function buildSelection()
+                {
+//<img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
+                    
+
+                    document.getElementById("content").remove()
+                    mainDiv = document.getElementById("main")
+                    contentDiv = document.createElement("div")
+                    contentDiv.id ="content"
+
+                    img = document.createElement("img")
+                    img.setAttribute("src", "{% static 'images/logo/logo.png' %}")
+                    img.setAttribute("alt", "The Logo")
+                    img.style="width: 100px; margin-bottom: 20px;"
+                    contentDiv.appendChild(img)
+                    contentDiv.appendChild(document.createElement("br"))
+                    label = document.createElement("label")
+                    label.innerHTML="Choose a user to edit:"
+                    contentDiv.appendChild(label)
+                    contentDiv.appendChild(document.createElement("br"))
+                    select=document.createElement("select")
+                    select.name="users"
+                    select.id="userMenu"
+                    select.name="users"
+                    contentDiv.appendChild(select)
+                    button = document.createElement("button")
+                    //button.onclick="editUser()"
+
+                    button.setAttribute("class", "button")
+                    button.innerHTML="Edit User"
+                    button.setAttribute("onclick", "editUser()")
+                    contentDiv.appendChild(button)
+                    //contentDiv.appendChild(document.createElement("br"))
+                    button = document.createElement("button")
+                    button.setAttribute("onclick", "makeUser()")
+                    button.setAttribute("class", "button")
+                    button.innerHTML="Create New User"
+                    contentDiv.appendChild(button)
+                    mainDiv.appendChild(contentDiv)
+                    selectionMenu = select
+
+                    setMenu(userData)
+
+  
+               
+                }
+                function getUsers()
+                {
+                    fetch("/getUsers/", {method: "GET"}).then((response) => response.json())
+                    .then((json) => dealWithData(json));
+                }
+                
+                function generateUserElemenets()
+                {
+                    
+                    editDiv = document.createElement("div")
+                    editDiv.id="content"
+                    
+                    img = document.createElement("img")
+                    img.setAttribute("src", "{% static 'images/logo/logo.png' %}")
+                    img.setAttribute("alt", "The Logo")
+                    img.style="width: 100px; margin-bottom: 20px;"
+                    editDiv.appendChild(img)
+                    editDiv.appendChild(document.createElement("br"))
+                    
+                    form = document.createElement("form")
+
+                    form.id="userForm"
+                    form.method="post"
+                    
+                    var csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = 'csrfmiddlewaretoken';
+                    csrfToken.value = '{{ csrf_token }}';
+                    form.appendChild(csrfToken)
+
+                    label = document.createElement("label")
+                    label.for="username"
+                    label.innerHTML="username"
+                    form.appendChild(label)
+                    username = document.createElement("input")
+                    username.type="text"
+                    username.id="username"
+                    username.name="username"
+                    username.setAttribute("required", true)
+                    form.appendChild(username)
+                    
+                    label = document.createElement("label")
+                    label.for="first_name"
+                    label.innerHTML="first name:"
+                    form.appendChild(label)
+
+                    first_name = document.createElement("input")
+                    first_name.type="text"
+                    first_name.name="first_name"
+                    first_name.id="first_name"
+                    first_name.setAttribute("required", true)
+                    form.appendChild(first_name)
+                    
+                    label = document.createElement("label")
+                    label.for="last_name"
+                    label.innerHTML="last name:"
+                    form.appendChild(label)
+
+
+                    last_name = document.createElement("input")
+                    last_name.type="text"
+                    last_name.id="last_name"
+                    last_name.name="last_name"
+                    last_name.setAttribute("required", true)
+                    form.appendChild(last_name)
+                    
+                    label = document.createElement("label")
+                    label.for="userType"
+                    label.innerHTML="user type:"
+                    form.appendChild(label)
+                    form.append(document.createElement("br"))
+
+                    userType = document.createElement("select")
+                    userType.name="userType"
+                    userType.id="userType"
+                    option = document.createElement("option")
+                    option.value="user"
+                    option.innerHTML="user"
+                    userType.appendChild(option)
+                    option = document.createElement("option")
+                    option.value="gameMaker"
+                    option.innerHTML="game maker"
+                    userType.appendChild(option)
+                    option = document.createElement("option")
+                    option.value="admin"
+                    option.innerHTML="admin"
+
+                    userType.appendChild(option)
+                    
+                    form.appendChild(userType)
+                    form.appendChild(document.createElement("br"))
+                    
+                    //passwordCheckBoxDiv = document.createElement("div")
+                    //passwordCheckBoxDiv.id="checkbox"
+                    //label = document.createElement("label")
+                    //label.for="changePassword"
+                    //label.innerHTML="change user's password?:"
+                    //label.id="changePasswordLabel"
+    
+                    //passwordCheckBoxDiv.appendChild(label)
+                    //passwordCheckBox = document.createElement("input")
+                    //passwordCheckBox.type="checkbox"
+                    //passwordCheckBox.name="changePassword"
+                    //passwordCheckBox.id="changePassword"
+                    //passwordCheckBox.checked=false
+                    //passwordCheckBoxDiv.appendChild(passwordCheckBox)
+                    //passwordCheckBoxDiv.append(document.createElement("br"))
+                    //form.appendChild(passwordCheckBoxDiv)
+                    
+               
+                    
+
+                    label = document.createElement("label")
+                    label.for="password"
+                    label.innerHTML="password:"
+                    form.appendChild(label)
+                    password = document.createElement("input")
+                    password.type="password"
+                    password.id="password"
+                    password.name="password"
+                    form.appendChild(password)
+                    
+
+                    label = document.createElement("label")
+                    
+                    label.for="password warning"
+                    label.innerHTML="Leave blank to not change password"
+                    form.appendChild(label)
+                    
+
+                    submit = document.createElement("input")
+                    submit.type="submit"
+                    submit.value="Save Changes" 
+                    submit.id = "submit"
+                                       
+                    form.appendChild(submit)
+
+                    editDiv.appendChild(form)
+                    
+                    goBack = document.createElement("button")
+                    goBack.id="goback"
+                    goBack.innerHTML="Go back"
+                    //goBack.onclick="rebuildSelection()"
+                    goBack.setAttribute("onclick", "buildSelection()")
+                    goBack.setAttribute("class", "SmallButton")
+                    
+                    editDiv.appendChild(goBack)
+                    
+                    
+                    return editDiv
+                }
+                function getUserData(username)
+                {
+                    for(let i=0; i<userData.length;i++)
+                    {
+                        if(userData[i].username == username)
+                            return userData[i]
+                        
+                    }
+                }
+                function makeUser()
+                {
+                    document.getElementById("content").remove()
+                    editDiv = generateUserElemenets()
+                    document.getElementById("main").appendChild(editDiv)
+
+
+                    form  = document.getElementById("userForm")
+                    form.action="/adminMakeUser/"
+                    //document.getElementById("checkbox").remove()
+                    document.getElementById("password").setAttribute("required", true)
+                    document.getElementById("submit").value="Create User"
+                }
+                function editUser()
+                {
+                    user = selectionMenu.options[selectionMenu.selectedIndex].text; 
+                    user = getUserData(user)
+                    console.log(user)
+
+                    document.getElementById("content").remove()
+                    editDiv = generateUserElemenets()
+                    document.getElementById("main").appendChild(editDiv)
+                    form  = document.getElementById("userForm")
+                    form.action="/adminEditUser/"
+                    
+                    populateForm(user)
+                }
+                function populateForm(user)
+                {
+                    username = document.getElementById("username")
+                    username.value=user.username
+                    username.setAttribute("readonly", true)
+                    first_name=document.getElementById("first_name")
+                    first_name.value=user.first_name
+                    last_name=document.getElementById("last_name")
+                    last_name.value=user.last_name
+                    userType=document.getElementById("userType")
+                    userType.value=user.userType
+                }
+                getUsers()
+            </script>
+
+        </div>
+    </body>
+</html>

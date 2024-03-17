@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        {% include 'ecomap/include/include.html'%}
+		<title>Homepage</title>
+        <!-- css stylesheet -->
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+        
+            #main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+                background-size: cover;
+                height: 100%;
+            }
+        </style>        
+    </head>
+    <body>
+        <!-- button and navbar inclusion -->
+        {% include 'ecomap/include/adminNavbar.html'%}
+        <div id="main">
+        </div>
+    </body>getUsers
+</html>
