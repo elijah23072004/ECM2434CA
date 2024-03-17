@@ -1,0 +1,282 @@
+<!DOCTYPE html>{% load static %}
+
+<html lang="en">
+<head>
+    {% include 'ecomap/include/include.html'%}
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Games</title>
+    <!-- css styles -->
+    <style>
+        	
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+        
+            #main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+                background-size: cover;
+                height: 100%;
+            }
+            .button {
+                background: linear-gradient(to bottom, #4CAF50 0%, #106800 100%);
+                border: none;
+                color: white;
+                padding: 15px 15px 15px 15px;
+                margin: 5px 5px 10px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 24px;
+                margin-top: 24px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                border-radius: 5px;
+                z-index: 1;
+                position: relative;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }
+
+            .button:hover {
+                background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+            }
+            .SmallButton:hover {
+                background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+            }
+            .SmallButton{
+                background: linear-gradient(to bottom, #4CAF50 0%, #106800 100%);
+                border: none;
+                color: white;
+                padding: 5px 5px 5px 5px;
+                margin: 5px 5px 5px 5px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 24px;
+          
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                border-radius: 5px;
+                z-index: 1;
+                position: relative;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }            
+
+            .container {
+            background-color: rgba(4, 49, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            color: white;
+            text-align: center;
+            }
+            input[type="text"],
+            input[type="password"],
+            input[type="submit"]{
+                width: 100%;
+                padding: 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, #4CAF50, #004e04);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            transform: translateY(0);
+            }
+            input[type="submit"]:hover {
+            background-color: #45a049;
+            }
+            input[type="checkbox"] 
+            {
+                width:75%;
+                padding: 10px;
+                margin: 8px 0 10px 10px;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            select{
+                width: 50%;
+                padding: 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            #content
+            {
+                background-color: rgba(4, 49, 0, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 500px;
+                color: white;
+                text-align: center;
+            }
+
+            table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #003b19;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+                width: 50%;
+                color: white;
+            }
+
+            th {
+                background-color: #00920fa5;
+            }
+
+
+
+    </style>
+</head>
+<body onload="fillTable()">
+        
+    <!-- button and navbar inclusion -->
+    <div id="main">
+        <div id="content">
+            <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
+            <br>
+            <select name="words" id="wordSelector" label="View playable words ">
+                <option value=""  selected disabled>Select your word</option>
+            </select>
+
+            <button onclick="RemoveWord()" class="button"> Remove word </button>
+            <input type="text" id="word" name="word" placeholder=" Type new word "></input>
+            <button onclick="AddWord()" class="button"> Add word </button>
+            <br>
+
+            <a href="/userhomePage/" class="SmallButton">Go to user homepage </a>
+           
+        </div>
+    </div>
+    <!-- function to add drop down menu for time options-->
+    <script>
+        //table=document.getElementById("WordTableHead")
+        selector=document.getElementById("wordSelector")
+        function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+        var csrftoken = getCookie('csrftoken');
+
+        
+        function AddWord()
+        {
+            word = document.getElementById("word").value
+            $.ajax({
+            type: "POST",
+            url: '/addWord/',
+            data: {
+                "word":word,
+                'csrfmiddlewaretoken': csrftoken ,
+            },
+            dataType: "json",
+            success: function(data){
+                option = document.createElement("option")
+                option.value=word
+                option.innerHTML=word
+                selector.appendChild(option)
+                console.log("Sent Score")
+            },
+            failure: function(){
+                console.log("Did not send Score")
+            }
+            });
+        }
+        function RemoveWord()
+        {
+            
+            word = selector.options[selector.selectedIndex].value 
+            console.log(word)
+            $.ajax({
+            type: "POST",
+            url: '/removeWord/',
+            data: {
+                "word":word,
+                'csrfmiddlewaretoken': csrftoken ,
+            },
+            dataType: "json",
+            success: function(data){
+                selector.remove(selector.selectedIndex)
+                console.log("Sent Score")
+            },
+            failure: function(){
+                console.log("Did not send Score")
+            }
+            });
+        }
+        function getWords()
+        {
+            fetch("/getWords/", {method: "GET"}).then((response) => response.json())
+  .then((json) => dealWithData(json));
+        }
+        function dealWithData(data)
+        {
+            words = data
+            words.forEach(word => {
+                //row = document.createElement("tr")
+                //wordVal = document.createElement("th")
+                //wordVal.innerHTML=word
+                //row.appendChild(wordVal)
+                //table.appendChild(row)
+                option = document.createElement("option")
+                option.value=word
+                option.innerHTML=word
+                selector.appendChild(option)
+            });
+        }
+        function fillTable()
+        {
+            getWords()
+        }
+            
+    </script>    
+</body>
+</html>

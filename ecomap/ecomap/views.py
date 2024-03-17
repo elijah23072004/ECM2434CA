@@ -1,3 +1,5 @@
+import os
+
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, render
@@ -12,6 +14,8 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.http import JsonResponse
 from django.contrib.auth import update_session_auth_hash
+from django.conf import settings
+
 
 from .games import Games
 from .registerForm import RegisterForm
@@ -27,6 +31,8 @@ def homepage(request):
         return render(request, "ecomap/homepage.html")
     elif (userType == "admin"):
         return render(request, "ecomap/admin.html")
+    elif (userType =="gameMaker"):
+        return render(request,"ecomap/gameMaker.html")
     
 @login_required(login_url='/login')
 def userHomePage(request):
@@ -216,3 +222,72 @@ def adminEditUser(request):
         return render(request,"ecomap/editUsers.html")
 
     return HttpResponse(400)
+
+@login_required(login_url='/login')
+def gameMakerPage(request):
+    userType = getUserType(request.user)
+    if not(userType == "admin" or userType=="gameMaker"):
+        redirect("/")
+    if(request.method=="GET"):
+        return render(request,"ecomap/gameMaker.html")
+
+@login_required(login_url='/login')
+def getWords(request):
+    userType = getUserType(request.user)
+    if request.method=="GET":
+        if not(userType == "admin" or userType=="gameMaker"):
+            redirect("/")
+        print(settings.BASE_DIR)
+        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
+        data =f.read()
+        f.close()
+        my_data = data.split("\n")
+        return JsonResponse(list(my_data), safe=False)
+       
+    return HttpResponse(400)
+
+@login_required(login_url='/login')
+def addWord(request):
+    userType = getUserType(request.user)
+    if request.method=="POST":
+        if not(userType == "admin" or userType=="gameMaker"):
+            redirect("/")
+        wordToAdd = request.POST["word"]
+        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "a+")
+        print(wordToAdd)
+        text = f.read()
+        my_data = text.split("\n")
+        for line in my_data:
+            if(line==wordToAdd):
+                return HttpResponse(400)
+        f.write("\n"+wordToAdd)
+        f.close()
+        return HttpResponse(200)
+@login_required(login_url='/login')
+def removeWord(request):
+    userType = getUserType(request.user)
+    if request.method=="POST":
+        if not(userType == "admin" or userType=="gameMaker"):
+            redirect("/")
+        print(request.POST)
+        print(request.POST["word"])
+        
+        wordToRemove = request.POST["word"]
+        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
+        data = f.read()
+        data = data.split("\n")
+        f.close()
+        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "w")
+        
+        print(data)
+        code = 400
+        text = ""
+        for line in data:
+            if(line==wordToRemove):
+                code = 200
+                continue
+            text += line+"\n"
+        print(text)
+        f.write(text)
+        f.close()
+        return HttpResponse(code)

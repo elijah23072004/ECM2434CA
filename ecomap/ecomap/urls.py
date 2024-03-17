@@ -26,4 +26,10 @@ urlpatterns = [
     path("getUsers/", views.getUserData, name="getUsers"), #get user data
     path("adminMakeUser/", views.adminMakeUser, name="adminMakeUser"), #admin make user
     path("adminEditUser/",views.adminEditUser, name="adminEditUser"), #admin edit existing user 
+    path("gameMaker/", views.gameMakerPage, name="gameMaker"), #game maker page to edit games
+    path("getWords/", views.getWords, name="gameMaker"), #get words for games 
+    path("addWord/", views.addWord, name="addWord"),
+    path("removeWord/", views.removeWord, name="addWord"),
+
+
 ]
