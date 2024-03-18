@@ -1,0 +1,42 @@
+Environment: The surroundings in which living organisms exist, including the air, water, land, 
+and their interrelations, often referred to as the natural world.
+
+Sustainability: The ability to meet the needs of the present without compromising the ability 
+of future generations to meet their own needs. It involves responsibly managing resources 
+and ecosystems to ensure their long-term viability.
+
+Recycle: The process of converting waste materials into new products or raw materials, 
+typically to prevent the depletion of resources and reduce the environmental impact of waste disposal.
+
+Sustainable: Capable of being maintained or continued over the long term without causing significant environmental, 
+economic, or social harm. It implies practices that balance the needs of the present with the needs of future generations.
+
+Reuse: The practice of using items or materials again, either for their original purpose or for a different purpose, 
+in order to minimize waste and resource consumption.
+
+Conservation: The careful management and protection of natural resources, habitats, and ecosystems to prevent their depletion, 
+degradation, or destruction.
+
+Reduce: To decrease the amount of waste generated or resources consumed by minimizing unnecessary consumption and adopting 
+more efficient practices.
+
+Renewable: Resources that are naturally replenished over time, such as sunlight, wind, water, and biomass, and can be used 
+indefinitely without depleting finite reserves.
+
+Carbon: A chemical element that is essential to life and exists in various forms, including carbon dioxide (CO2) and carbon compounds. 
+It plays a significant role in the Earth's carbon cycle and climate system.
+
+Carbon Footprint: The total amount of greenhouse gases, especially carbon dioxide, emitted directly or indirectly by human activities, 
+typically expressed in equivalent tons of CO2.
+
+Energy: The capacity to do work, typically derived from various sources such as fossil fuels, renewable resources, or nuclear reactions,
+and used to power machines, provide heat, or generate electricity.
+
+Green: Related to practices, products, or lifestyles that are environmentally friendly, sustainable, or promote conservation 
+and reduce negative impacts on the environment.
+
+Biodegradable: Capable of being decomposed by biological processes, typically bacteria or other microorganisms, into harmless substances
+such as water, carbon dioxide, and organic matter.
+
+Recycling: The process of collecting, sorting, processing, and converting waste materials into new products or raw materials 
+to be used again, thus conserving resources and reducing environmental pollution.
