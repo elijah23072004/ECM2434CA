@@ -71,6 +71,10 @@ def register(request):
     if request.method == "GET": 
         return render(request, "ecomap/register.html")
     
+@login_required(login_url='/login')
+def map(request):
+    return render(request, "ecomap/map.html")
+    
 @csrf_exempt
 def registerUser(request):
 

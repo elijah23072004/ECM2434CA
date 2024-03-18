@@ -9,6 +9,7 @@ urlpatterns = [
     path("", views.homepage, name="homepage"),  # Homepage URL
     path("leaderboard/", views.leaderboard, name="leaderboard"),  # Leaderboard URL
     path("login/", views.login, name="login"),  # Login URL
+    path("map/", views.map, name="map"),  # Map URL
     path("hangman/", views.hangman, name="hangman"),  # Hangman URL
     path("wordle/", views.wordle, name="wordle"),  # Wordle URL
     path("qrcode/", views.qrcode, name="qrcode"),  # QR Code URL
