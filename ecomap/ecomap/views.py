@@ -152,7 +152,7 @@ def registerUser(request):
 @csrf_protect
 def loginUser(request):
     if request.method == "POST":
-        
+
         user = authenticate(username=request.POST.get('InputtedUsername'), password=request.POST.get("InputtedPassword"));
         username = request.POST.get('InputtedUsername')
         password = request.POST.get('InputtedPassword')
@@ -319,7 +319,6 @@ def addWord(request):
         f.write("\n"+wordToAdd)
         f.close()
         return HttpResponse(200)
-
 @login_required(login_url='/login')
 def removeWord(request):
     userType = getUserType(request.user)
