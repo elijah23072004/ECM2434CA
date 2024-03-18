@@ -163,7 +163,7 @@
                 }
 
             var csrftoken = getCookie('csrftoken');
-
+            responseText = document.getElementById("responseText")
 
                 function addToMenu(values)
                 {
@@ -185,8 +185,7 @@
                 }
                 function buildSelection()
                 {
-//<img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
-                    
+               
 
                     document.getElementById("content").remove()
                     mainDiv = document.getElementById("main")
@@ -209,25 +208,62 @@
                     select.name="users"
                     contentDiv.appendChild(select)
                     button = document.createElement("button")
-                    //button.onclick="editUser()"
+
 
                     button.setAttribute("class", "button")
                     button.innerHTML="Edit User"
                     button.setAttribute("onclick", "editUser()")
                     contentDiv.appendChild(button)
-                    //contentDiv.appendChild(document.createElement("br"))
+
+                    button = document.createElement("button")
+                    button.setAttribute("class", "button")
+                    button.innerHTML="Delete User"
+                    button.setAttribute("onclick", "deleteUser()")
+                    contentDiv.appendChild(button)
+
+                    
+
                     button = document.createElement("button")
                     button.setAttribute("onclick", "makeUser()")
                     button.setAttribute("class", "button")
                     button.innerHTML="Create New User"
                     contentDiv.appendChild(button)
+                    
+                    paragraph = document.createElement("p")
+                    paragraph.id = "responseText"
+                    paragraph.hidden=true
+                    contentDiv.appendChild(paragraph)
+                    responseText = paragraph
                     mainDiv.appendChild(contentDiv)
+                    
+
                     selectionMenu = select
 
                     setMenu(userData)
 
   
                
+                }
+                function deleteUser()
+                {
+                    $.ajax({
+                    type: "POST",
+                    url: '/deleteUser/',
+                    data: {
+                        "username":selectionMenu.options[selectionMenu.selectedIndex].value,
+                        'csrfmiddlewaretoken': csrftoken ,
+                    },
+                    dataType: "json",
+                    success: function(data){
+                        selectionMenu.remove(selectionMenu.selectedIndex)
+                        responseText.innerHTML="User Deleted"
+                        responseText.hidden=false
+                    },
+                    failure: function(){
+                        responseText.innerHTML="Unknown error User not deleted "
+                        responseText.hidden=false
+                    }
+                    });
                 }
                 function getUsers()
                 {
@@ -377,6 +413,11 @@
                     
                     editDiv.appendChild(goBack)
                     
+                    paragraph = document.createElement("p")
+                    paragraph.id = "responseText"
+                    paragraph.hidden=true
+                    editDiv.appendChild(paragraph)
+                    responseText = paragraph
                     
                     return editDiv
                 }

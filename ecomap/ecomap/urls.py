@@ -28,8 +28,7 @@ urlpatterns = [
     path("adminEditUser/",views.adminEditUser, name="adminEditUser"), #admin edit existing user 
     path("gameMaker/", views.gameMakerPage, name="gameMaker"), #game maker page to edit games
     path("getWords/", views.getWords, name="gameMaker"), #get words for games 
-    path("addWord/", views.addWord, name="addWord"),
-    path("removeWord/", views.removeWord, name="addWord"),
-
-
+    path("addWord/", views.addWord, name="addWord"), # add word to ecowords file
+    path("removeWord/", views.removeWord, name="addWord"),# remove word from ecowords file
+    path("deleteUser/" ,views.deleteUser, name="deleteUser"), #delete User
 ]

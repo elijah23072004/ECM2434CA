@@ -45,9 +45,6 @@ def leaderboard(request):
 
 @csrf_protect
 def login(request):
-
-    #print(EcomapUser.objects.all().values("username", "password","first_name","last_name","userType"))
-        
     checkAdmin()#creates an admin user if no admin users exist
     return render(request, "ecomap/login.html")
 
@@ -156,6 +153,7 @@ def getUserStreaks(request):
 
 @login_required(login_url='/login')
 def editUsers(request):
+    #checks if user has permission (aka being admin or game maker) to view page
     userType = getUserType(request.user)    
     if(userType == "user" ):
         return redirect("/homepage",request)
@@ -163,10 +161,10 @@ def editUsers(request):
 
 @login_required(login_url='/login')
 def getUserData(request):
+    
     if(request.method=="GET" and getUserType(request.user) == "admin"):
-        
+            
         my_data = EcomapUser.objects.all().values("username", "first_name","last_name","userType")
-        print(my_data)
         return JsonResponse(list(my_data), safe=False)
     return HttpResponse(400)
 
@@ -177,11 +175,6 @@ def adminMakeUser(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            print("user is:")
-            print(form.cleaned_data["username"])
-            print("password is")
-            print(form.cleaned_data["password"])
-            print(form.cleaned_data["userType"])
             user = User.objects.create_user(form.cleaned_data["username"], password=form.cleaned_data["password"])
             user.save()
             return redirect("/editUsers/")
@@ -196,7 +189,7 @@ def adminEditUser(request):
     if (request.method == "POST" and getUserType(request.user) == "admin"):
 
         ecomapUser = EcomapUser.objects.get(username=request.POST["username"])
-            
+        #if password in request is empty then admin does not want to change password
         if(request.POST["password"]!=""):
             
 
@@ -207,6 +200,7 @@ def adminEditUser(request):
             user.set_password(request.POST["password"])
 
             user.save()
+            
             if(request.user.username == request.POST["username"]):
                 #stills logs out user if they change own password
                 update_session_auth_hash(request, request.user)
@@ -237,7 +231,7 @@ def getWords(request):
     if request.method=="GET":
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
-        print(settings.BASE_DIR)
+        #reads ecowords file and splits into an array where each line is its own element
         f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
         data =f.read()
         f.close()
@@ -253,13 +247,18 @@ def addWord(request):
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
         wordToAdd = request.POST["word"]
-        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "a+")
-        print(wordToAdd)
+
+        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
+        #reads file ecowords
         text = f.read()
         my_data = text.split("\n")
+        f.close()
+        print(my_data)
         for line in my_data:
+            #checks if word is already in file (so dont add word 2 times)
             if(line==wordToAdd):
                 return HttpResponse(400)
+        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "a")
         f.write("\n"+wordToAdd)
         f.close()
         return HttpResponse(200)
@@ -269,8 +268,7 @@ def removeWord(request):
     if request.method=="POST":
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
-        print(request.POST)
-        print(request.POST["word"])
+
         
         wordToRemove = request.POST["word"]
         f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
@@ -279,15 +277,33 @@ def removeWord(request):
         f.close()
         f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "w")
         
-        print(data)
+        
         code = 400
         text = ""
         for line in data:
+            #adds each line to text unless that line is the word to be removed 
             if(line==wordToRemove):
                 code = 200
                 continue
             text += line+"\n"
-        print(text)
+        text=text[:-1]
         f.write(text)
         f.close()
         return HttpResponse(code)
+
+@login_required(login_url='/login')  
+def deleteUser(request):
+    userType = getUserType(request.user)
+    print(request.POST)
+    if request.method=="POST":
+        if not(userType == "admin"):
+            redirect("/")
+
+        print(request.POST["username"])
+        if (request.user.username == request.POST["username"]):
+            logout=True
+        
+        EcomapUser.objects.filter(username=request.POST["username"]).delete()
+        User.objects.filter(username=request.POST["username"]).delete()
+        return HttpResponse(200)
+    return HttpResponse(400)

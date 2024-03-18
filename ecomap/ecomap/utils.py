@@ -7,9 +7,10 @@ def initialiseAdminUser(username,first_name, last_name, password):
     user.save()
 
 def checkAdmin():
+    #if no admin users exist create admin user with username admin and password changeMe 
     users =EcomapUser.objects.all().filter(userType="admin")
     if(not users.exists()):
-        initialiseAdminUser("admin","admin","","changeMe")
+        initialiseAdminUser("admin","admin","NotUser","changeMe")
 
 def getUserType(username):
     user = EcomapUser.objects.get(username=username)

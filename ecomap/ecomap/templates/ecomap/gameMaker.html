@@ -179,12 +179,12 @@
             <input type="text" id="word" name="word" placeholder=" Type new word "></input>
             <button onclick="AddWord()" class="button"> Add word </button>
             <br>
+            <p id="responseText" hidden></p>
 
             <a href="/userhomePage/" class="SmallButton">Go to user homepage </a>
            
         </div>
-    </div>
-    <!-- function to add drop down menu for time options-->
+    </div> 
     <script>
         //table=document.getElementById("WordTableHead")
         selector=document.getElementById("wordSelector")
@@ -206,9 +206,11 @@
 
         var csrftoken = getCookie('csrftoken');
 
-        
+        responseText=document.getElementById("responseText");
         function AddWord()
         {
+            //creates post request which contains the word to be added and csrf token 
+            //todo make text appear after submit denoting if it was successful
             word = document.getElementById("word").value
             $.ajax({
             type: "POST",
@@ -223,10 +225,13 @@
                 option.value=word
                 option.innerHTML=word
                 selector.appendChild(option)
-                console.log("Sent Score")
+                responseText.innerHTML="word added"
+                responseText.hidden=false
             },
             failure: function(){
                 console.log("Did not send Score")
+                responseText.innerHTML="word not added unkown error"
+                responseText.hidden=false
             }
             });
         }
@@ -234,7 +239,9 @@
         {
             
             word = selector.options[selector.selectedIndex].value 
-            console.log(word)
+
+            //creates post request which contains the word to be removed and csrf token 
+            //todo make text appear after submit denoting if it was successful
             $.ajax({
             type: "POST",
             url: '/removeWord/',
@@ -245,10 +252,13 @@
             dataType: "json",
             success: function(data){
                 selector.remove(selector.selectedIndex)
-                console.log("Sent Score")
+                responseText.innerHTML="word removed"
+                responseText.hidden=false
             },
             failure: function(){
-                console.log("Did not send Score")
+
+                responseText.innerHTML="word not removed unkown error"
+                responseText.hidden=false
             }
             });
         }
@@ -261,11 +271,7 @@
         {
             words = data
             words.forEach(word => {
-                //row = document.createElement("tr")
-                //wordVal = document.createElement("th")
-                //wordVal.innerHTML=word
-                //row.appendChild(wordVal)
-                //table.appendChild(row)
+
                 option = document.createElement("option")
                 option.value=word
                 option.innerHTML=word
