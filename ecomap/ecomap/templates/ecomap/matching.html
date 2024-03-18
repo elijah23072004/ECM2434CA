@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   {% include 'ecomap/include/include.html'%}
-
+  {% include 'ecomap/include/navbar.html'%}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Match</title>
@@ -12,6 +12,8 @@
       margin: 0;
       padding: 0;
       display: flex;
+      background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+      background-size: cover;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -55,6 +57,11 @@
     /* wrong selection */
     .wrong {
         background-color: rgb(254, 48, 48);
+    }
+
+    /* Gold cards */
+    .gold {
+        background-color: gold !important;
     }
 
     #livesCounter {
@@ -107,10 +114,18 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
+    #countdown {
+      font-size: 48px;
+      color: red;
+      border: 4px solid black;
+      border-radius: 150%;
+      background-color: white;
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
-{% include 'ecomap/include/navbar.html'%}
 
 <div class="title">Memory Match</div>
 
@@ -170,31 +185,45 @@
     var startButton = document.getElementById('startButton');
     startButton.style.display = 'none'; // hide start button
 
-    for (var i = 0; i < displayedTerms.length; i++) {
-      var card = document.createElement('div');
-      card.classList.add('rectangle');
-      card.setAttribute('data-index', i);
-      card.setAttribute('onclick', 'flipCard(this)');
+    var countdownElement = document.createElement('div');
+    countdownElement.id = 'countdown';
+    document.body.appendChild(countdownElement);
 
-      // display cards at beginning of game for 2 seconds
-      card.textContent = displayedTerms[i];
-      setTimeout(function(cardElement) {
-        return function() {
-          cardElement.textContent = '';
-        };
-      }(card), 2000);
+    // display countdown before showing the cards
+    var countdown = 3;
+    var countdownInterval = setInterval(function() {
+      countdownElement.textContent = countdown--;
+      if (countdown < 0) {
+        clearInterval(countdownInterval);
+        document.body.removeChild(countdownElement);
+        // show cards after countdown
+        for (var i = 0; i < displayedTerms.length; i++) {
+          var card = document.createElement('div');
+          card.classList.add('rectangle');
+          card.setAttribute('data-index', i);
+          card.setAttribute('onclick', 'flipCard(this)');
 
-      // add card to top or bottom row based on index
-      if (i < displayedTerms.length / 2) {
-        topRow.appendChild(card);
-      } else {
-        bottomRow.appendChild(card);
+          // display cards at beginning of game for 2 seconds
+          card.textContent = displayedTerms[i];
+          setTimeout(function(cardElement) {
+            return function() {
+              cardElement.textContent = '';
+            };
+          }(card), 3000);
+
+          // add card to top or bottom row based on index
+          if (i < displayedTerms.length / 2) {
+            topRow.appendChild(card);
+          } else {
+            bottomRow.appendChild(card);
+          }
+        }
+
+        // fill lives
+        var livesCounter = document.getElementById('lives');
+        livesCounter.textContent = lives;
       }
-    }
-
-    // fill lives
-    var livesCounter = document.getElementById('lives');
-    livesCounter.textContent = lives;
+    }, 1000);
   }
 
   // shuffling cards function
@@ -242,10 +271,16 @@
             // game won
             if (matchedPairs === displayedTerms.length / 2) {
               gameOver = true;
-              score += (lives * 500); // Adjust score based on remaining lives
+              score += (lives * 500); // adjust score based on remaining lives
               document.getElementById('gameOverMessage').textContent = 'Congratulations! You have won the game!';
               document.getElementById('playAgainButton').style.display = 'inline';
               document.getElementById('scoreCounter').innerHTML = 'Score: ' + score; // Update the score display
+              
+              // add gold to all cards
+              var allCards = document.querySelectorAll('.rectangle');
+              allCards.forEach(card => {
+                card.classList.add('gold');
+              });
             }
           } else {
             // no match
