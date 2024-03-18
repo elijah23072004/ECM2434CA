@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Add any CSS stylesheets or links here -->
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 100px; /* Adjust logo width as needed */
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #2e8b57;
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        .profile-info label {
+            font-weight: bold;
+            color: #2e8b57;
+            width: 150px;
+            display: inline-block;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            color: #333;
+            display: inline-block;
+        }
+        .info-section {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .info-section h2 {
+            color: #2e8b57;
+            margin-bottom: 10px;
+        }
+        .info-section p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
+            <h1>User Profile</h1>
+        </div>
+        <div class="profile-info">
+            <label>Username:</label>
+            <p>{{ user.username }}</p>
+        </div>
+        <div class="profile-info">
+            <label>First Name:</label>
+            <p>{{ user.first_name }}</p>
+        </div>
+        <div class="profile-info">
+            <label>Last Name:</label>
+            <p>{{ user.last_name }}</p>
+        </div>
+        <div class="profile-info">
+            <label>User Type:</label>
+            <p>{{ user.userType }}</p>
+        </div>
+        <div class="info-section">
+            <h2>Game Statistics</h2>
+            <div class="profile-info">
+                <label>Score:</label>
+                <p>{{ user.score }}</p>
+            </div>
+            <div class="profile-info">
+                <label>Streak:</label>
+                <p>{{ user.streak }}</p>
+            </div>
+            <div class="profile-info">
+                <label>Last Played:</label>
+                <p>{{ user.last_played }}</p>
+            </div>
+        </div>hi
+    </div>
+</body>
+</html>
