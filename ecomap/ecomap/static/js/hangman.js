@@ -206,14 +206,14 @@ function endGame(colour, answer, wrong_guesses) {
     //remove keys from webpage and outputs the score
     document.querySelector(".keyboard").innerHTML = "";
     var score = 0;
-    var message = "Answer: " + answer;
     if (colour.toLowerCase() != "red") {
-        message = "Correct!"
         score = Math.floor(100 * answer.length / (wrong_guesses+1));
     }
 
     //display the score and colour green if win and red if loss
-    document.querySelector(".main").innerHTML += `<div class="level-end">${message}
+    document.querySelector(".main").innerHTML += `<div class="level-end">
+        <h3 id="answer">${answer}</h3>
+        <p id="definition">${definition}</p>
         <div id="level-completed">Score: ${score}pts</div>
     </div>`;
     document.querySelector(".level-end").style.backgroundColor = colour;
@@ -221,8 +221,9 @@ function endGame(colour, answer, wrong_guesses) {
 }
 
 //input the answer here and start the game of hangman
-const data = document.currentScript.dataset;
-const answer = data.answer;
+const answer = data["word"]
+const definition = data["definition"]
+
 const hangman = new Hangman(answer.toUpperCase());
 
 

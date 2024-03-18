@@ -15,7 +15,8 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
-
+from django.utils.safestring import SafeString
+import json
 
 from .games import Games
 from .registerForm import RegisterForm
@@ -23,6 +24,29 @@ from .login import loginAuth
 from .models import User as EcomapUser
 from .score import handleScore
 from .utils import checkAdmin,getUserType
+from .UserClass import UserClass
+from .achievements import createAchievement
+
+############################################################################
+# temp to add values to database
+"""createAchievement("Streak", "Maintain a long running streak", 10, 25, 50)
+g = Games()
+g.addWord("Environment", "The surroundings in which living organisms exist, including the air, water, land, and their interrelations, often referred to as the natural world.")
+g.addWord("Sustainability", "The ability to meet the needs of the present without compromising the ability of future generations to meet their own needs. It involves responsibly managing resources and ecosystems to ensure their long-term viability.")
+g.addWord("Recycle", "The process of converting waste materials into new products or raw materials, typically to prevent the depletion of resources and reduce the environmental impact of waste disposal.")
+g.addWord("Sustainable", "Capable of being maintained or continued over the long term without causing significant environmental, economic, or social harm. It implies practices that balance the needs of the present with the needs of future generations.")
+g.addWord("Reuse", "The practice of using items or materials again, either for their original purpose or for a different purpose, in order to minimize waste and resource consumption.")
+g.addWord("Conservation", "The careful management and protection of natural resources, habitats, and ecosystems to prevent their depletion, degradation, or destruction.")
+g.addWord("Reduce", "To decrease the amount of waste generated or resources consumed by minimizing unnecessary consumption and adopting more efficient practices.")
+g.addWord("Renewable", "Resources that are naturally replenished over time, such as sunlight, wind, water, and biomass, and can be used indefinitely without depleting finite reserves.")
+g.addWord("Energy", "The capacity to do work, typically derived from various sources such as fossil fuels, renewable resources, or nuclear reactions, and used to power machines, provide heat, or generate electricity.")
+g.addWord("Carbon", "A chemical element that is essential to life and exists in various forms, including carbon dioxide (CO2) and carbon compounds. It plays a significant role in the Earth's carbon cycle and climate system.")
+g.addWord("Carbon Footprint", "The total amount of greenhouse gases, especially carbon dioxide, emitted directly or indirectly by human activities, typically expressed in equivalent tons of CO2.")
+g.addWord("Green", "Related to practices, products, or lifestyles that are environmentally friendly, sustainable, or promote conservation and reduce negative impacts on the environment.")
+g.addWord("Biodegradable", "Capable of being decomposed by biological processes, typically bacteria or other microorganisms, into harmless substances such as water, carbon dioxide, and organic matter.")
+g.addWord("Recycling", "The process of collecting, sorting, processing, and converting waste materials into new products or raw materials to be used again, thus conserving resources and reducing environmental pollution.")
+"""
+############################################################################
 
 @login_required(login_url='/login')
 def homepage(request):
@@ -51,18 +75,47 @@ def login(request):
 @login_required(login_url='/login')
 def wordle(request):
     games = Games()
-    context = {
-        'word': games.getSingleWord(7)
-    }
-    return render(request, "ecomap/wordle.html", context)
+    word = games.getSingleWord(7)
+    definition = games.getDefinition(word)
+    if word:
+        context = {
+            'word': word,
+            'definition': definition
+        }
+        context = json.dumps(context)
+        return render(request, "ecomap/wordle.html", {'data': SafeString(context)})
 
 @login_required(login_url='/login')
 def hangman(request):
     games = Games()
-    context = {
-        'word': games.getRandomWord()
-    }
-    return render(request, "ecomap/hangman.html", context)
+    word = games.getRandomWord()
+    definition = games.getDefinition(word)
+    if word:
+        context = {
+            'word': word,
+            'definition': definition
+        }
+        context = json.dumps(context)
+        return render(request, "ecomap/hangman.html", {'data': SafeString(context)})
+
+@login_required(login_url='/achievements')
+def achievements(request):
+    achievements = {}
+    user = UserClass(request.user)
+    for ach in user.achievements:
+        name, desc, level = user.getAchievement(ach.achievement_id.achievement_id)
+        if level == 0:
+            image = "none.png"
+        if level == 1:
+            image = "bronze.png"
+        if level == 2:
+            image = "silver.png"
+        else:
+            image = "gold.png"
+        achievements[name] = [desc, image]
+    achievements = json.dumps(achievements)
+    return render(request, "ecomap/achievements.html", {'data': SafeString(achievements)})
+
 @login_required(login_url='/login')
 def qrcode(request):
     return render(request, "ecomap/qrcodereader.html")
@@ -266,6 +319,7 @@ def addWord(request):
         f.write("\n"+wordToAdd)
         f.close()
         return HttpResponse(200)
+
 @login_required(login_url='/login')
 def removeWord(request):
     userType = getUserType(request.user)

@@ -13,7 +13,8 @@
             <script src="{%static 'js/sendscore.js' %}"></script>
             {% include 'ecomap/include/navbar.html'%}
             <div class="wordle-table"></div>
-            <script src="{%static 'js/wordle.js' %}" data-answer="{{word}}"></script>
+            <script>const data = JSON.parse("{{data|escapejs}}");</script>
+            <script src="{%static 'js/wordle.js' %}" data="{{data}}"></script>
             <div class="keyboard">
                 <div class="keyboardRow">
                     <div class="key" onclick="clickKey(event)">Q</div>

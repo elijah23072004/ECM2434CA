@@ -126,6 +126,19 @@
 	font-size: 50%;
 }
 
+#answer {
+    font-weight: bold;
+    position: absolute;
+	top: 10%;
+	font-size: 50%;
+}
+
+#definition {
+    position: absolute;
+	font-size: 25%;
+	padding: 5%;
+}
+
 .top {
 	position:absolute;
 	animation:slide-up 1.5s ease-out;

@@ -1,30 +1,43 @@
-import os
 import random
+from ecomap.models import Word
+from django.core.exceptions import ObjectDoesNotExist
 
 class Games:
     def __init__(self):
-        self.file_path = os.path.abspath(os.path.dirname(__file__)) + "/eco_words.txt"
-        self.words = self.readWordsFile()
+        pass
 
-    def readWordsFile(self):
-        #get the words from the eco_words file
-        with open(self.file_path, "r") as f:
-            file = f.read()
-        words = file.split("\n")
+    def addWord(self, word, definition):
+        # remove the word if it already exists
+        self.removeWord(word)
+        word = Word(term=word.title(), definition=definition)
+        word.save()
 
-        #remove any empty words and strip the words in case any whitespace at start or end
-        words_cleaned = []
-        for word in words:
-            if word.replace(" ", "") != "":
-                words_cleaned.append(word.strip())
-        return words_cleaned
+    def removeWord(self, word):
+        try:
+            word = Word.objects.get(term=word.title())
+        except ObjectDoesNotExist:
+            return
+        word.delete()
+
 
     def getRandomWord(self):
-        return random.choice(self.words)
+        words = Word.objects.all()
+        words = list(words)
+        if len(words) <= 0:
+            return "Recycle"
+        return random.choice(words).term.strip()
 
     def getSingleWord(self, length=10):
-        #return a word shorter or equal to length and with no whitespaces
-        word = self.getRandomWord()
-        while " " in word or len(word) >= length:
-            word = self.getRandomWord()
-        return word
+        # return a word shorter or equal to length and with no whitespaces
+        words = Word.objects.all()
+        words = list(words)
+        random.shuffle(words)
+        for word in words:
+            term = word.term
+            if " " not in term and len(term) < length:
+                return term
+        return "Recycle"
+
+    def getDefinition(self, word):
+        word = Word.objects.get(term=word.title())
+        return word.definition.strip()

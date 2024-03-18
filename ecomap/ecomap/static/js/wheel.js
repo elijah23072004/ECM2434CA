@@ -1,7 +1,8 @@
 function getData(){
     //segments for wheel
     let contents = [{"label":"Wordle",  "value":1,  "game":"Wordle"},
-         {"label":"Hangman", "value":2, "game":"Hangman"}
+         {"label":"Hangman", "value":2, "game":"Hangman"},
+         {"label":"Matching", "value":3, "game":"Matching"}
         ];
     return contents;}
 
@@ -15,6 +16,9 @@ function dealWithGame(game)
             break;
         case "Hangman":
             window.location.href="/hangman";
+            break;
+        case "Matching":
+            window.location.href="/matching";
             break;
         default:
             alert("invalid decision")

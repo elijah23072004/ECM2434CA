@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        {% include 'ecomap/include/include.html'%}
+		<title>Achievements</title>
+        <!-- css stylesheet -->
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+
+            #main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
+                background-size: cover;
+                height: 100%;
+            }
+            .achievements-container {
+                height: 40%;
+                width: 80%;
+                background-color: #444444;
+                border-radius: 30px;
+                padding: 20px;
+                justify-content: center;
+            }
+            .achievement {
+                height: 60%;
+                width: 15%;
+                justify-content: center;
+                color: #CCCCCC;
+            }
+            .achievement-image {
+                height: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- button and navbar inclusion -->
+        {% include 'ecomap/include/navbar.html'%}
+        <div id="main">
+            <div class="achievements-container"></div>
+        </div>
+        <script>
+            const data = JSON.parse("{{data|escapejs}}");
+            var name, description, image
+            for ([name, [description, image]] of Object.entries(data)) {
+                console.log(`images/achievements/${image}`);
+                document.querySelector(".achievements-container").innerHTML += `<div class="achievement">
+                    <img class="achievement-image" src="{%static 'images/achievements/silver.png' %}">
+                    <h2>${name}</h2>
+                    <p>${description}</h2>
+                </div>`
+            }
+        </script>
+    </body>
+</html>

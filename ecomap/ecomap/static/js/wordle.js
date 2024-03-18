@@ -97,14 +97,14 @@ class Wordle {
         //remove keys from webpage and outputs the score
         document.querySelector(".keyboard").innerHTML = "";
         var score = 0;
-        var message = "Answer: " + this.answer;
         if (colour.toLowerCase() != "red") {
-            message = "Correct!"
             score = Math.floor(100 * this.answer.length / this.row_index);
         }
 
         //display the score and colour green if win and red if loss
-        document.querySelector(".main").innerHTML += `<div class="level-end">${message}
+        document.querySelector(".main").innerHTML += `<div class="level-end">
+            <h3 id="answer">${answer}</h3>
+            <p id="definition">${definition}</p>
             <div id="level-completed">Score: ${score}pts</div>
         </div>`;
         document.querySelector(".level-end").style.backgroundColor = colour;
@@ -139,8 +139,8 @@ function colourCharacter(character, colour) {
 }
 
 //receive the answer from django
-const data = document.currentScript.dataset;
-const answer = data.answer;
+const answer = data["word"]
+const definition = data["definition"]
 wordle = new Wordle(answer)
 
 //allow the user to enter keys on keyboard instead of having to click on the screen
