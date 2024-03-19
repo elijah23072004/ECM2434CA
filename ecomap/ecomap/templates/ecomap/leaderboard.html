@@ -91,8 +91,6 @@
             <select id="timeOptions" onchange="changeTime()">
                 <option value="allTime">All Time</option>
                 <option value="streak">Streak</option>
-                <option value="weekly">Weekly</option>
-                <option value="friends">Friends</option>
             </select>
         </div>
         
@@ -178,26 +176,6 @@
             } else if (selectedValue === "streak") {
                 setHeader("Streak");
                 setTable(streakData);
-            } else if (selectedValue === "weekly") {
-                tableBody.innerHTML += `
-                    <tr>
-                        <td>Weekly Data 1</td>
-                        <td>Weekly Data 2</td>
-                    </tr>
-                    <tr>
-                        <td>Weekly Data 3</td>
-                        <td>Weekly Data 4</td>
-                    </tr>`;
-            } else if (selectedValue === "friends") {
-                tableBody.innerHTML += `
-                    <tr>
-                        <td>Friends Data 1</td>
-                        <td>Friends Data 2</td>
-                    </tr>
-                    <tr>
-                        <td>Friends Data 3</td>
-                        <td>Friends Data 4</td>
-                    </tr>`;
             }
         }
         function begin()
