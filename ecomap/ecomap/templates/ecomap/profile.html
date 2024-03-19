@@ -36,6 +36,36 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             border: 2px solid #CCCCCC;
             z-index: 1;
+            display: flex;
+        }
+        .profile-pic-container {
+            margin-right: 20px;
+            flex: 1;
+        }
+        .profile-pic-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .change-profile-pic {
+            margin-top: 10px;
+        }
+        .change-profile-pic input[type="file"] {
+            display: none;
+        }
+        .change-profile-pic label {
+            background-color: #2e8b57;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100px;
+            text-align: center;
+        }
+        .user-info {
+            flex: 3;
         }
         .header {
             text-align: center;
@@ -141,36 +171,36 @@
             <input type="text" class="input-bar search-bar" placeholder="Search for a user">
         </div>
         <div class="container">
-            <div class="header">
-                <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
-                <h1>User Profile</h1>
+            <div class="profile-pic-container">
+                <img src="{% static 'path/to/your/default_profile_pic.jpg' %}" alt="Profile Picture">
+                <div class="change-profile-pic">
+                    <label for="profile-pic">Change</label>
+                    <input type="file" id="profile-pic" accept="image/*">
+                </div>
             </div>
-            <div class="profile-info">
-                <label>Username:</label>
-                <p id="username">{{ user.username }}</p>
-            </div>
-            <div class="private-info">
+            <div class="user-info">
+                <div class="header">
+                    <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
+                    <h1>User Profile</h1>
+                </div>
+                <div class="profile-info">
+                    <label>Username:</label>
+                    <p id="username">{{ user.username }}</p>
+                </div>
+                <div class="private-info">
 
-            </div>
-            <div class="info-section">
-                <h2>Game Statistics</h2>
-                <div class="profile-info">
-                    <label>Score:</label>
-                    <p id="score">{{ user.score }}</p>
                 </div>
-                <div class="profile-info">
-                    <label>Streak:</label>
-                    <p id="streak">{{ user.streak }}</p>
-                </div>
-                <div class="profile-info">
-                    <label>Last Played:</label>
-                    <p id="last_played">{{ user.last_played }}</p>
-                </div>
-            </div>
-            <div class="button-container"></div>
-        </div>
-    </div>
-    <script>const data = JSON.parse("{{data|escapejs}}");</script>
-    <script src="{%static 'js/profile.js' %}" data="{{data}}"></script>
-</body>
-</html>
+                <div class="info-section">
+                    <h2>Game Statistics</h2>
+                    <div class="profile-info">
+                        <label>Score:</label>
+                        <p id="score">{{ user.score }}</p>
+                    </div>
+                    <div class="profile-info">
+                        <label>Streak:</label>
+                        <p id="streak">{{ user.streak }}</p>
+                    </div>
+                    <div class="profile-info">
+                        <label>Last Played:</label>
+                        <p id="last_played">{{ user.last_played }}</p>
+
