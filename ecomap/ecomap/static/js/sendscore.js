@@ -25,8 +25,8 @@ function sendScore(score)
         type: "POST",
         url: '/sendScore/',
         data: {
-            "score":score,
-            'csrfmiddlewaretoken': csrftoken ,
+            "score": score,
+            'csrfmiddlewaretoken': csrftoken,
         },
         dataType: "json",
         success: function(data){
@@ -34,6 +34,29 @@ function sendScore(score)
         },
         failure: function(){
             console.log("Did not send Score")
+        }
+    });
+}
+
+function checkPassword(password)
+{
+    var csrftoken = getCookie('csrftoken');
+    //sends POST request to sendScore with csrfttoken and score
+    $.ajax({
+        type: "POST",
+        url: '/checkPassword/',
+        data: {
+            "password": password,
+            'csrfmiddlewaretoken': csrftoken,
+        },
+        dataType: "json",
+        success: function(data){
+            console.log("T");
+            return true;
+        },
+        failure: function(){
+            console.log("F");
+            return false;
         }
     });
 }

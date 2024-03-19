@@ -16,6 +16,8 @@ from django.http import JsonResponse
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 from django.utils.safestring import SafeString
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import get_user_model
 import json
 
 from .games import Games
@@ -23,14 +25,14 @@ from .registerForm import RegisterForm
 from .login import loginAuth
 from .models import User as EcomapUser
 from .score import handleScore
-from .utils import checkAdmin,getUserType
+from .utils import checkAdmin, getUserType, getStreak, getLastPlayed
 from .UserClass import UserClass
 from .achievements import createAchievement
 
 ############################################################################
 # temp to add values to database
-"""createAchievement("Streak", "Maintain a long running streak", 10, 25, 50)
 g = Games()
+"""createAchievement("Streak", "Maintain a long running streak", 10, 25, 50)
 g.addWord("Environment", "The surroundings in which living organisms exist, including the air, water, land, and their interrelations, often referred to as the natural world.")
 g.addWord("Sustainability", "The ability to meet the needs of the present without compromising the ability of future generations to meet their own needs. It involves responsibly managing resources and ecosystems to ensure their long-term viability.")
 g.addWord("Recycle", "The process of converting waste materials into new products or raw materials, typically to prevent the depletion of resources and reduce the environmental impact of waste disposal.")
@@ -45,7 +47,12 @@ g.addWord("Carbon Footprint", "The total amount of greenhouse gases, especially 
 g.addWord("Green", "Related to practices, products, or lifestyles that are environmentally friendly, sustainable, or promote conservation and reduce negative impacts on the environment.")
 g.addWord("Biodegradable", "Capable of being decomposed by biological processes, typically bacteria or other microorganisms, into harmless substances such as water, carbon dioxide, and organic matter.")
 g.addWord("Recycling", "The process of collecting, sorting, processing, and converting waste materials into new products or raw materials to be used again, thus conserving resources and reducing environmental pollution.")
+g.addWord("Habitat Conservation", "The protection/preservation of natural habitats to maintain biodiversity and ecosystem health." )
+g.addWord("Renewable Energy", "Energy from natural resources such as sunlight, wind, and water." )
+g.addWord("Global Warming", "The gradual increase in Earth's temperature, primarily caused by greenhouse gases releasing into the atmosphere." )
+g.addWord("Erosion", "The wearing away of land or soil by natural forces such as wind, water, and ice, often exacerbated by activities like deforestation and overgrazing." )
 """
+
 ############################################################################
 
 @login_required(login_url='/login')
@@ -57,14 +64,14 @@ def homepage(request):
         return render(request, "ecomap/admin.html")
     elif (userType =="gameMaker"):
         return render(request,"ecomap/gameMaker.html")
-    
+
 @login_required(login_url='/login')
 def userHomePage(request):
     return render(request, "ecomap/homepage.html")
 
 
 @login_required(login_url='/login')
-def leaderboard(request): 
+def leaderboard(request):
     return render(request, "ecomap/leaderboard.html")
 
 @csrf_protect
@@ -98,6 +105,34 @@ def hangman(request):
         context = json.dumps(context)
         return render(request, "ecomap/hangman.html", {'data': SafeString(context)})
 
+@login_required(login_url='/profile')
+def profile(request):
+    requested_user = request.GET.get('user', '')
+    self_view = True
+    if requested_user:
+        try:
+            user = UserClass(requested_user)
+            if requested_user != request.user.username:
+                self_view = False
+        except:
+            user = UserClass(request.user)
+    else:
+        user = UserClass(request.user)
+
+    data = {
+        'username': user.user.username,
+        'score': user.user.score,
+        'streak': getStreak(request.user),
+        'last_played': getLastPlayed(request.user),
+    }
+    if self_view:
+        data['first_name'] = user.user.first_name
+        data['last_name'] = user.user.last_name
+        data['user_type'] = getUserType(request.user)
+
+    data = json.dumps(data)
+    return render(request, "ecomap/profile.html", {'data': SafeString(data)})
+
 @login_required(login_url='/achievements')
 def achievements(request):
     achievements = {}
@@ -121,16 +156,15 @@ def qrcode(request):
     return render(request, "ecomap/qrcodereader.html")
 
 def register(request):
-    if request.method == "GET": 
+    if request.method == "GET":
         return render(request, "ecomap/register.html")
-    
+
 @login_required(login_url='/login')
 def map(request):
     return render(request, "ecomap/map.html")
-    
+
 @csrf_exempt
 def registerUser(request):
-
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -138,7 +172,7 @@ def registerUser(request):
             print("user is:")
             print(form.cleaned_data["username"])
             print("password is")
-            print(form.cleaned_data["password"])
+            print(make_password(form.cleaned_data["password"]))
             print(form.cleaned_data["userType"])
             user = User.objects.create_user(form.cleaned_data["username"], password=form.cleaned_data["password"])
             user.save()
@@ -152,18 +186,24 @@ def registerUser(request):
 @csrf_protect
 def loginUser(request):
     if request.method == "POST":
-
-        user = authenticate(username=request.POST.get('InputtedUsername'), password=request.POST.get("InputtedPassword"));
         username = request.POST.get('InputtedUsername')
         password = request.POST.get('InputtedPassword')
-        if user is None:
+
+        # get user object by username
+        User = get_user_model()
+        user = User.objects.get(username=username)
+        if not user:
+            return redirect('/login/')
+
+        # check password, if incorrect, stay on the same page and display a message
+        if not validateUser(username, password):
             message="Username or password is incorrect"
             messages.error(request, message)
             return redirect('/login/')
 
         request.user = user
-        djangoLogin(request, user)    
-        request.session['username']=username
+        djangoLogin(request, user)
+        request.session['username'] = username
 
         return redirect('/', request)
 
@@ -178,7 +218,19 @@ def gameWheel(request):
 
 # matching redirectory request
 def matching(request):
-    return render(request,"ecomap/matching.html")
+    games = Games()
+    words = []
+    while len(words) < 3:
+        word = games.getRandomWord()
+        if word:
+            definition = games.getDefinition(word)
+            if definition:
+                dict = {'term': word, 'definition': definition}
+                if dict not in words:
+                    words.append(dict)
+
+    words = json.dumps(words)
+    return render(request, "ecomap/matching.html", {'data': SafeString(words)})
 
 def submitScore(request):
     if(request.method=="POST"):
@@ -194,19 +246,45 @@ def submitScore(request):
     #returns code 400 if not POST request
     return HttpResponse(400)
 
+def checkPassword(request):
+    # checks password sent from delete account button, returns true if it is correct
+    if(request.method=="POST"):
+        data = request.POST
+        password = data.get("password","")
+        print("Validate User:", validateUser(request.user, password))
+
+        if validateUser(request.user, password):
+            return HttpResponse(200)
+        return HttpResponse(400)
+
+    #returns code 400 if not POST request
+    return HttpResponse(400)
+
+def validateUser(username, password):
+    # validates a user, returns true if correct and false if incorrect
+    ecomapuser = EcomapUser.objects.get(username=username)
+    if check_password(password, ecomapuser.password):
+        return True
+    if password == ecomapuser.password:
+        return True
+    return False
+
 def getUserScores(request):
     if(request.method=="GET"):
         my_data = EcomapUser.objects.order_by("-score").all().values('username','score')
         return JsonResponse(list(my_data), safe=False)
-    #returns code 400 if not get request 
+    #returns code 400 if not get request
     return HttpResponse(400)
 
 def getUserStreaks(request):
     if(request.method=="GET"):
+        for user in list(EcomapUser.objects.all()):
+            getStreak(user.username)
         my_data = EcomapUser.objects.order_by("-streak").all().values('username','streak')
         return JsonResponse(list(my_data), safe=False)
     #returns code 400 if not get request
     return HttpResponse(400)
+
 
 @login_required(login_url='/login')
 def editUsers(request):

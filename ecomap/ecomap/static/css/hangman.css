@@ -23,13 +23,14 @@
 
 .hangman-container {
     position: relative;
+    padding: 20px;
 }
 
 .hangman-image {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 10%;
+    width: 20vh;
 }
 
 .hangman {
@@ -145,4 +146,10 @@
 }
 @keyframes slide-up {
 	from{bottom:-1000px} to{bottom:10%}
+}
+
+.main {
+    max-width: 800px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
 }

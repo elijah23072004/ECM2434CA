@@ -9,8 +9,9 @@
         <link rel="stylesheet" type="text/css" href="{%static 'css/stylesheet.css' %}">
     </head>
     <body>
+        {% include 'ecomap/include/navbar.html'%}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <div class="main">
-            {% include 'ecomap/include/navbar.html'%}
             <div class="hangman-container">
                 <img class="hangman-image" src="{%static 'images/hangman_images/hangman.png' %}">
             </div>
@@ -19,7 +20,7 @@
             <script src="{%static 'js/sendscore.js' %}"></script>
             <script>const data = JSON.parse("{{data|escapejs}}");</script>
             <script src="{%static 'js/hangman.js' %}" data="{{data}}"></script>
-           
+
             <div class="keyboard">
                 <div class="keyboardRow">
                     <div class="key" onclick="clickKey(event)">Q</div>

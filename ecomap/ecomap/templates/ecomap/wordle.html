@@ -9,9 +9,11 @@
         <link rel="stylesheet" type="text/css" href="{%static 'css/stylesheet.css' %}">
     </head>
     <body>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% include 'ecomap/include/navbar.html'%}
         <div class="main">
             <script src="{%static 'js/sendscore.js' %}"></script>
-            {% include 'ecomap/include/navbar.html'%}
+
             <div class="wordle-table"></div>
             <script>const data = JSON.parse("{{data|escapejs}}");</script>
             <script src="{%static 'js/wordle.js' %}" data="{{data}}"></script>
