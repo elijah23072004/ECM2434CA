@@ -24,6 +24,7 @@ from .games import Games
 from .registerForm import RegisterForm
 from .login import loginAuth
 from .models import User as EcomapUser
+from .models import Word
 from .score import handleScore
 from .utils import checkAdmin, getUserType, getStreak, getLastPlayed
 from .UserClass import UserClass
@@ -361,6 +362,14 @@ def gameMakerPage(request):
         return render(request,"ecomap/gameMaker.html")
 
 @login_required(login_url='/login')
+def gameMakerPage(request):
+    userType = getUserType(request.user)
+    if not(userType == "admin" or userType=="gameMaker"):
+        redirect("/")
+    if(request.method=="GET"):
+        return render(request,"ecomap/gameMaker.html")
+
+@login_required(login_url='/login')
 def getWords(request):
     userType = getUserType(request.user)
     if request.method=="GET":
@@ -368,10 +377,9 @@ def getWords(request):
             redirect("/")
         #reads ecowords file and splits into an array where each line is its own element
         f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
-        data =f.read()
-        f.close()
-        my_data = data.split("\n")
-        return JsonResponse(list(my_data), safe=False)
+        words = Word.objects.all().values("term","definition")
+
+        return JsonResponse(list(words), safe=False)
        
     return HttpResponse(400)
 
@@ -382,20 +390,17 @@ def addWord(request):
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
         wordToAdd = request.POST["word"]
+        definition=request.POST["definition"]
+        
+        words = Word.objects.all()
+        
 
-        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
-        #reads file ecowords
-        text = f.read()
-        my_data = text.split("\n")
-        f.close()
-        print(my_data)
-        for line in my_data:
+        for word in words:
             #checks if word is already in file (so dont add word 2 times)
-            if(line==wordToAdd):
+            if(word.term==wordToAdd):
                 return HttpResponse(400)
-        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "a")
-        f.write("\n"+wordToAdd)
-        f.close()
+        Word.objects.create(term=wordToAdd, definition=definition)
+
         return HttpResponse(200)
 @login_required(login_url='/login')
 def removeWord(request):
@@ -406,25 +411,19 @@ def removeWord(request):
 
         
         wordToRemove = request.POST["word"]
-        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
-        data = f.read()
-        data = data.split("\n")
-        f.close()
-        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "w")
+       
+        words = Word.objects.filter(term=wordToRemove).first()
+        print(words)
+        if(words is None):
+
+            return HttpResponse(200)
         
         
-        code = 400
-        text = ""
-        for line in data:
-            #adds each line to text unless that line is the word to be removed 
-            if(line==wordToRemove):
-                code = 200
-                continue
-            text += line+"\n"
-        text=text[:-1]
-        f.write(text)
-        f.close()
-        return HttpResponse(code)
+        print(words.term)
+        words.delete()
+
+
+        return HttpResponse(400)
 
 @login_required(login_url='/login')  
 def deleteUser(request):

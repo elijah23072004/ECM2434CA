@@ -134,7 +134,7 @@
                 padding: 20px;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 500px;
+                width: 300px;
                 color: white;
                 text-align: center;
             }
@@ -177,6 +177,7 @@
 
             <button onclick="RemoveWord()" class="button"> Remove word </button>
             <input type="text" id="word" name="word" placeholder=" Type new word "></input>
+            <textarea id="definition" name="definition" placeholder="definition" cols="40"></textarea>
             <button onclick="AddWord()" class="button"> Add word </button>
             <br>
             <p id="responseText" hidden></p>
@@ -212,11 +213,13 @@
             //creates post request which contains the word to be added and csrf token 
             //todo make text appear after submit denoting if it was successful
             word = document.getElementById("word").value
+            definition=document.getElementById("definition").value
             $.ajax({
             type: "POST",
             url: '/addWord/',
             data: {
                 "word":word,
+                "definition":definition,
                 'csrfmiddlewaretoken': csrftoken ,
             },
             dataType: "json",
@@ -269,19 +272,24 @@
         }
         function dealWithData(data)
         {
+
             words = data
             words.forEach(word => {
-
                 option = document.createElement("option")
-                option.value=word
-                option.innerHTML=word
+                option.value=word.term
+                option.innerHTML=word.term
                 selector.appendChild(option)
             });
+        }
+        function setTextAreaWidth()
+        {
+            document.getElementById("definition").cols=document.getElementById("content").offsetWidth*0.08
         }
         function fillTable()
         {
             getWords()
         }
+        setTextAreaWidth()
             
     </script>    
 </body>
