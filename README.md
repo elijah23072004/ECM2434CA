@@ -17,7 +17,7 @@ This is a submission for Sprint 1. There are three types of document that you wi
 ### PROCESS DOCUMENTS
 Our process documents are managed in the trello platform. The link to our project page is below. We (ernestcheong3, elijah2307williams, jaitelymonde, olivermorris8, rashedzoubi, tharunveluri) have added solomonoyelere1 to the board so it is visible.
 
-trello link: [https://trello.com/invite/b/P9PPTCyS/ATTIdc1bd401897fdc1f0b97f1c743d3c7fcDE0D3D67/my-trello-board]
+trello link: [https://trello.com/b/P9PPTCyS/software-engineering-group-project]
 
 We have also taken regular snapshots of the kanban board in trello to archive our progress. These are held in the repository below.
 
