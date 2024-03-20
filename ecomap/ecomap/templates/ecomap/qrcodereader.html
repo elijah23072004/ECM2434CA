@@ -5,17 +5,25 @@
     <head>
         {%include 'ecomap/include/include.html' %}
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner / Reader
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner/Reader</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+        .qr-container {
+            padding: 20px;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
  
 <body>
     {% include 'ecomap/include/navbar.html'%}
-    <div id="container">
-    <div id="reader">
-    </div>
+    <div class="container">
+        <div class="qr-container" id="reader"></div>
     </div>
     <script
             src="{%static 'js/html5-qrcode.min.js' %}">
@@ -39,9 +47,7 @@
     var csrftoken = getCookie('csrftoken');
     function handleQrCode(decodeText, decodeResult)
     {
-
-        alert("You Qr code is : " + decodeText, decodeResult);
-        
+        alert("You Qr Code is : " + decodeText, decodeResult);
         $.ajax({
             type: "POST",
             url: '/checkValidQrCode/',
@@ -53,21 +59,17 @@
             success: function(data){
                 if(data != 200)
                 {
-                    alert("invalid qr code")
-                    
+                    alert("Invalid QR Code!")
                     return
                 }
                 window.location.href="/wheel";
 
             },
             failure: function(){
-                console.log("unkown error occured")
+                console.log("Unkown Error Occured")
             }
             });
-        
-       
     }
-
 
     function domReady(fn) {
         if (
@@ -80,8 +82,6 @@
         }
 }
 domReady(function () {
- 
-
     let config = {fps:10, qrbox: {width:700,height:700}}
 
     let htmlscanner = new Html5QrcodeScanner(
