@@ -327,6 +327,7 @@ def adminMakeUser(request):
             'last_name': request.POST['last_name'],
             'password': make_password(request.POST['password']),
         }
+        #creates a user with the fields passed in the request object
         query.update(data)
         form = RegisterForm(query)
         if form.is_valid():
@@ -525,25 +526,23 @@ def getQrCodeImage(request):
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
 
-        #print(request.POST)
-        #print(request.POST["json"])
+
         jsonText = request.POST["json"]
-        print(jsonText)
-        print(len(jsonText))
+
         data= data = json.loads(request.POST["json"])
         qrCode = data["qrCode"]
-        print(qrCode)
 
+        #generates qr code with code passed 
    
         qrCodeImage = generateQrCode(qrCode)
         response = HttpResponse(content_type="image/png")
         image_data = qrCodeImage.getvalue()
-        #image_data.save(response, "PNG")
         return HttpResponse(image_data, content_type="image/png")
 
 def checkValidQrCode(request):
     if request.method=="POST":
         qrCode = request.POST["qrCode"]
+        #checks if qr code exists and if it does returns http response code 200 and if it doesn't exist returns http response code 400
         if QrCode.objects.filter(code = qrCode).exists():
             return HttpResponse(200)
         return HttpResponse(400)
