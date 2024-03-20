@@ -4,27 +4,23 @@ At EcoMap, we are dedicated to safeguarding your privacy and ensuring the securi
 
 1. Information Collection
 We may collect various types of personal information to provide you with our services and improve your user experience. This information may include:
-- Identifying information such as your name.
-- Usage data, including your IP address, browser type, operating system, and interactions with our web application.
+- Identifying information such as your full name.
+- IP address, browser type, operating system and camera access to scan QR Codes.
 
 2. Use of Information
-
 We utilize the information we collect for legitimate business purposes, including:
 - Providing, maintaining, and enhancing our web application.
 - Complying with legal obligations and regulatory requirements.
 
 3. Data Sharing and Security
-
 We may only disclose your information in response to legal requests or to protect our rights and interests.
 
 We employ security measures to protect your personal data from unauthorized access, alteration, disclosure, or destruction. However, please be aware that no method of transmission over the internet or electronic storage is entirely secure.
 
 4. Your Rights
-
 You have the right to access, correct, or delete your personal information held by us. You may also object to the processing of your data or request limitations on its processing.
 
 5. Updates to this Policy
-
 We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We encourage you to review this policy regularly for any updates.
 
 By using our web application, you consent to the collection, use, and disclosure of your personal information as outlined in this Privacy Policy.
