@@ -382,7 +382,8 @@ def getWords(request):
         #reads ecowords file and splits into an array where each line is its own element
        
         words = Word.objects.all().values("term","definition")
-
+        return JsonResponse(list(words), safe=False)
+ 
        
     return HttpResponse(400)
 

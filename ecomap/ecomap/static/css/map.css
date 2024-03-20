@@ -8,7 +8,11 @@ body {
     padding: 0;
     margin: 0;
 }
-html, body, #map {
+html, body {
+    height: 90%;
+    width: 100vw;
+}
+#map{
     height: 100%;
     width: 100vw;
 }
