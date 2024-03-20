@@ -19,7 +19,7 @@ Our process documents are managed in the trello platform. The link to our projec
 
 trello link: [https://trello.com/b/P9PPTCyS/software-engineering-group-project]
 
-We have also taken regular snapshots of the kanban board in trello to archive our progress. These are held in the repository.
+We have also taken regular snapshots of the kanban board in trello to archive our progress.
 
 Within process documents we have also included the meeting notes, agenda and minutes. These will be found in the repository.
 
