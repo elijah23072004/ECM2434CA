@@ -19,10 +19,17 @@ for ([name, value] of Object.entries(data)) {
 
        // <div class="button change-password"><a onclick="changePassword()">Change Password</a></div>
 if (document.getElementById('first_name')) {
-    document.querySelector(".button-container").innerHTML += `
-        <div class="button achievements"><a onclick="achievements()">Achievements</a></div>
+    button = document.createElement("button")
+    button.innerHTML="Achievements"
+    button.setAttribute("onclick", "achievements()")
+    button.setAttribute("class", "button achievements")
+    document.querySelector(".button-container").appendChild(button)
+    button = document.createElement("button")
+    button.innerHTML="Delete account"
+    button.setAttribute("onclick", "deleteAccount()")
+    button.setAttribute("class", "button delete-account")
+    document.querySelector(".button-container").appendChild(button)
 
-        <div class="button delete-account"><a onclick="deleteAccount()">Delete Account</a></div>`
     document.querySelector(".change-profile-pic").innerHTML = `<label for="profile-pic">Change</label>
                     <input type="file" id="profile-pic" accept="image/*">`
 }
