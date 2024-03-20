@@ -62,7 +62,7 @@ class Hangman {
         //if the user input the full answer, they win
         if (removeWhitespace(guess) == removeWhitespace(this.answer)) {
             this.setHiddenAnswer();
-            win();
+            win(this.answer, this.wrongGuesses);
             return true;
         } else if (removePunctuation(this.answer.toUpperCase()).split(" ").includes(removePunctuation(guess.toUpperCase()))) {
             //check if the word is one of the words for the hangman game,
@@ -207,6 +207,7 @@ function endGame(colour, answer, wrong_guesses) {
     document.querySelector(".keyboard").innerHTML = "";
     var score = 0;
     if (colour.toLowerCase() != "red") {
+        console.log(answer);
         score = Math.floor(100 * answer.length / (wrong_guesses+1));
     }
 
