@@ -4,21 +4,23 @@ text{
         pointer-events:none;
     }
 #chart{
-        #position:absolute;
+        position:absolute;
         width:0px;
         height:0px;
         top:0;
         left:0;
-        transform: translate(50%, 15%);
+        transform: translate(-50%, -50%);
     }
 
 .container {
   font-family: arial;
   font-size: 24px;
   margin: 25px;
-  width: 100%;
+  width: 80%;
   height: 90%;
   /* Center child horizontally*/
   display: flex;
   justify-content: center;
 }
+
+
