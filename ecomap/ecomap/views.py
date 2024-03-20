@@ -1,6 +1,6 @@
 import os
 
-from django.http import Http404
+from django.http import Http404, QueryDict
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect
@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.http import JsonResponse
 from django.contrib.auth import update_session_auth_hash
@@ -18,16 +18,17 @@ from django.conf import settings
 from django.utils.safestring import SafeString
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 
 import json
 
 from .games import Games
 from .registerForm import RegisterForm
-#from .login import loginAuth
+##from .login import loginAuth
 from .models import User as EcomapUser
 from .models import Word, QrCode
 from .score import handleScore
-from .utils import checkAdmin, getUserType, getStreak, getLastPlayed, generateQrCode, validQrCode
+from .utils import checkAdmin, getUserType, getStreak, getLastPlayed, deleteEcomapUser, generateQrCode, validQrCode
 from .UserClass import UserClass
 from .achievements import createAchievement
 
@@ -120,17 +121,17 @@ def profile(request):
             user = UserClass(request.user)
     else:
         user = UserClass(request.user)
-
+    print(getLastPlayed(request.user))
     data = {
         'username': user.user.username,
         'score': user.user.score,
-        'streak': getStreak(request.user),
-        'last_played': getLastPlayed(request.user),
+        'streak': getStreak(user.user.username),
+        'last_played': getLastPlayed(user.user.username),
     }
     if self_view:
         data['first_name'] = user.user.first_name
         data['last_name'] = user.user.last_name
-        data['user_type'] = getUserType(request.user)
+        data['user_type'] = getUserType(user.user.username)
 
     data = json.dumps(data)
     return render(request, "ecomap/profile.html", {'data': SafeString(data)})
@@ -141,15 +142,17 @@ def achievements(request):
     user = UserClass(request.user)
     for ach in user.achievements:
         name, desc, level = user.getAchievement(ach.achievement_id.achievement_id)
-        if level == 0:
+        print(name, desc, level)
+        if int(level) == 0:
             image = "none.png"
-        if level == 1:
+        elif int(level) == 1:
             image = "bronze.png"
-        if level == 2:
+        elif int(level) == 2:
             image = "silver.png"
         else:
             image = "gold.png"
         achievements[name] = [desc, image]
+        print(achievements)
     achievements = json.dumps(achievements)
     return render(request, "ecomap/achievements.html", {'data': SafeString(achievements)})
 
@@ -168,7 +171,15 @@ def map(request):
 @csrf_exempt
 def registerUser(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        query = QueryDict('', mutable=True)
+        data = {
+            'username': request.POST['username'],
+            'first_name': request.POST['first_name'],
+            'last_name': request.POST['last_name'],
+            'password': make_password(request.POST['password']),
+        }
+        query.update(data)
+        form = RegisterForm(query)
         if form.is_valid():
             form.save()
             print("user is:")
@@ -191,9 +202,12 @@ def loginUser(request):
         username = request.POST.get('InputtedUsername')
         password = request.POST.get('InputtedPassword')
 
-        # get user object by username
+        # get user object by username else return to login pagae
         User = get_user_model()
-        user = User.objects.get(username=username)
+        try:
+            user = User.objects.get(username=username)
+        except ObjectDoesNotExist:
+            return redirect('/login/')
         if not user:
             return redirect('/login/')
 
@@ -215,10 +229,12 @@ def userlogout(request):
     logout(request)
     return redirect("/login",request)
 
+@login_required
 def gameWheel(request):
     return render(request,"ecomap/wheel.html")
 
 # matching redirectory request
+@login_required
 def matching(request):
     games = Games()
     words = []
@@ -248,26 +264,21 @@ def submitScore(request):
     #returns code 400 if not POST request
     return HttpResponse(400)
 
-def checkPassword(request):
+def deleteSelfAccount(request):
     # checks password sent from delete account button, returns true if it is correct
     if(request.method=="POST"):
         data = request.POST
         password = data.get("password","")
-        print("Validate User:", validateUser(request.user, password))
 
         if validateUser(request.user, password):
+            deleteEcomapUser(request.user)
             return HttpResponse(200)
-        return HttpResponse(400)
-
-    #returns code 400 if not POST request
     return HttpResponse(400)
 
 def validateUser(username, password):
     # validates a user, returns true if correct and false if incorrect
     ecomapuser = EcomapUser.objects.get(username=username)
     if check_password(password, ecomapuser.password):
-        return True
-    if password == ecomapuser.password:
         return True
     return False
 
@@ -291,16 +302,16 @@ def getUserStreaks(request):
 @login_required(login_url='/login')
 def editUsers(request):
     #checks if user has permission (aka being admin or game maker) to view page
-    userType = getUserType(request.user)    
+    userType = getUserType(request.user)
     if(userType == "user" ):
         return redirect("/homepage",request)
     return render(request,"ecomap/editUsers.html")
 
 @login_required(login_url='/login')
 def getUserData(request):
-    
+
     if(request.method=="GET" and getUserType(request.user) == "admin"):
-            
+
         my_data = EcomapUser.objects.all().values("username", "first_name","last_name","userType")
         return JsonResponse(list(my_data), safe=False)
     return HttpResponse(400)
@@ -309,7 +320,15 @@ def getUserData(request):
 def adminMakeUser(request):
 
     if (request.method == "POST" and getUserType(request.user) == "admin"):
-        form = RegisterForm(request.POST)
+        query = QueryDict('', mutable=True)
+        data = {
+            'username': request.POST['username'],
+            'first_name': request.POST['first_name'],
+            'last_name': request.POST['last_name'],
+            'password': make_password(request.POST['password']),
+        }
+        query.update(data)
+        form = RegisterForm(query)
         if form.is_valid():
             form.save()
             user = User.objects.create_user(form.cleaned_data["username"], password=form.cleaned_data["password"])
@@ -328,39 +347,31 @@ def adminEditUser(request):
         ecomapUser = EcomapUser.objects.get(username=request.POST["username"])
         #if password in request is empty then admin does not want to change password
         if(request.POST["password"]!=""):
-            
 
-            ecomapUser.password=request.POST["password"]
+
+            ecomapUser.password=make_password(request.POST["password"])
 
             user=User.objects.get(username=request.POST["username"])
 
-            user.set_password(request.POST["password"])
+            user.set_password(make_password(request.POST["password"]))
 
             user.save()
-            
+
             if(request.user.username == request.POST["username"]):
                 #stills logs out user if they change own password
                 update_session_auth_hash(request, request.user)
 
-            
-            
+
+
         ecomapUser.first_name=request.POST["first_name"]
         ecomapUser.last_name=request.POST["last_name"]
         ecomapUser.userType=request.POST["userType"]
         ecomapUser.save()
 
-        
+
         return render(request,"ecomap/editUsers.html")
 
     return HttpResponse(400)
-
-@login_required(login_url='/login')
-def gameMakerPage(request):
-    userType = getUserType(request.user)
-    if not(userType == "admin" or userType=="gameMaker"):
-        redirect("/")
-    if(request.method=="GET"):
-        return render(request,"ecomap/gameMaker.html")
 
 @login_required(login_url='/login')
 def gameMakerPage(request):
@@ -380,7 +391,6 @@ def getWords(request):
        
         words = Word.objects.all().values("term","definition")
 
-        return JsonResponse(list(words), safe=False)
        
     return HttpResponse(400)
 
@@ -392,12 +402,18 @@ def addWord(request):
             redirect("/")
         wordToAdd = request.POST["word"]
         definition=request.POST["definition"]
-        
+
         words = Word.objects.all()
         if Word.objects.filter(term = wordToAdd).exists():
             return HttpResponse(200)
 
        
+
+
+        for word in words:
+            #checks if word is already in file (so dont add word 2 times)
+            if(word.term==wordToAdd):
+                return HttpResponse(400)
         Word.objects.create(term=wordToAdd, definition=definition)
 
         return HttpResponse(200)
@@ -408,23 +424,23 @@ def removeWord(request):
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
 
-        
+
         wordToRemove = request.POST["word"]
-       
+
         words = Word.objects.filter(term=wordToRemove).first()
         print(words)
         if(words is None):
 
             return HttpResponse(200)
-        
-        
+
+
         print(words.term)
         words.delete()
 
 
         return HttpResponse(400)
 
-@login_required(login_url='/login')  
+@login_required(login_url='/login')
 def deleteUser(request):
     userType = getUserType(request.user)
     print(request.POST)
@@ -435,9 +451,8 @@ def deleteUser(request):
         print(request.POST["username"])
         if (request.user.username == request.POST["username"]):
             logout=True
-        
-        EcomapUser.objects.filter(username=request.POST["username"]).delete()
-        User.objects.filter(username=request.POST["username"]).delete()
+
+        deleteEcomapUser(request.POST["username"])
         return HttpResponse(200)
     return HttpResponse(400)
 

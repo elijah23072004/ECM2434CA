@@ -47,6 +47,7 @@
         </div>
         <script>
             const data = JSON.parse("{{data|escapejs}}");
+            console.log(data);
             var name, description, image
             for ([name, [description, image]] of Object.entries(data)) {
                 console.log(`images/achievements/${image}`);

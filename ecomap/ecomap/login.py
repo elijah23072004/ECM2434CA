@@ -14,7 +14,7 @@
 
 from django.shortcuts import render
 from .models import User
-from .utils import loginAuth
+#from .utils import loginAuth
 
 def login(request):
     if request.method == 'POST':
