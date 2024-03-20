@@ -7,19 +7,20 @@
     {% include 'ecomap/include/include.html'%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login or Register</title>
+    <title>Wheel</title>
     <link rel="stylesheet" href="{%static 'css/wheel.css' %}">
     
 </head>
 
 <body>
     {% include 'ecomap/include/navbar.html' %}
-<div class="container">
-<div id="chart"></div>
-    <div id="question"><h1></h1></div>
-    
+    <div class="container">
+        <div id="chart"></div>
+        <div id="question">
+            <h1></h1>
+        </div>
+    </div>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="{% static 'js/wheel.js' %}"></script>
-</div>
 </body>
 

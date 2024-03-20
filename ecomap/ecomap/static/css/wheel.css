@@ -21,10 +21,14 @@ text{
   text-align: center;
   overflow: hidden;
 }
-@media (max-width: 500px) { 
+@media (max-width: 800px) {
   .container {
-    margin: 1px; /* Reduced margin for mobile screens */
-    height: calc(100vh - 10px); /* Adjust the calculation for the smaller margin */
+    position: absolute;
+    width: 120%;
+    top: 0px;
+    left: -15vw;
+    margin: 0 auto; /* Reduced margin for mobile screens */
+    height: 100%;
   }
 
   #chart {
