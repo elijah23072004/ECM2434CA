@@ -18,15 +18,16 @@ from django.conf import settings
 from django.utils.safestring import SafeString
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import get_user_model
+
 import json
 
 from .games import Games
 from .registerForm import RegisterForm
-from .login import loginAuth
+#from .login import loginAuth
 from .models import User as EcomapUser
-from .models import Word
+from .models import Word, QrCode
 from .score import handleScore
-from .utils import checkAdmin, getUserType, getStreak, getLastPlayed
+from .utils import checkAdmin, getUserType, getStreak, getLastPlayed, generateQrCode, validQrCode
 from .UserClass import UserClass
 from .achievements import createAchievement
 
@@ -376,7 +377,7 @@ def getWords(request):
         if not(userType == "admin" or userType=="gameMaker"):
             redirect("/")
         #reads ecowords file and splits into an array where each line is its own element
-        f = open(os.path.join(settings.BASE_DIR,"./ecomap/eco_words.txt"), "r")
+       
         words = Word.objects.all().values("term","definition")
 
         return JsonResponse(list(words), safe=False)
@@ -393,12 +394,10 @@ def addWord(request):
         definition=request.POST["definition"]
         
         words = Word.objects.all()
-        
+        if Word.objects.filter(term = wordToAdd).exists():
+            return HttpResponse(200)
 
-        for word in words:
-            #checks if word is already in file (so dont add word 2 times)
-            if(word.term==wordToAdd):
-                return HttpResponse(400)
+       
         Word.objects.create(term=wordToAdd, definition=definition)
 
         return HttpResponse(200)
@@ -441,3 +440,89 @@ def deleteUser(request):
         User.objects.filter(username=request.POST["username"]).delete()
         return HttpResponse(200)
     return HttpResponse(400)
+
+@login_required(login_url='/login')  
+def getQrCodes(request):
+    userType = getUserType(request.user)
+    if request.method=="GET":
+        if not(userType == "admin" or userType=="gameMaker"):
+            redirect("/")
+        #reads ecowords file and splits into an array where each line is its own element
+        
+        codes = QrCode.objects.all().values("code")
+        print(codes)
+        return JsonResponse(list(codes), safe=False)
+       
+    return HttpResponse(400)
+
+@login_required(login_url='/login')  
+def addQrCode(request):
+    userType = getUserType(request.user)
+    if request.method=="POST":
+        if not(userType == "admin" or userType=="gameMaker"):
+            redirect("/")
+        qrCode = request.POST["qrCode"]        
+        if(not validQrCode(qrCode)):
+            return HttpResponse(400)
+        if QrCode.objects.filter(code = qrCode).exists():
+            return HttpResponse(400)
+        QrCode.objects.create(code = qrCode)
+        return HttpResponse(200)
+    
+
+@login_required(login_url='/login')  
+def removeQrCode(request):
+    userType = getUserType(request.user)
+    if request.method=="POST":
+        qrCode = request.POST["qrCode"]    
+        code = QrCode.objects.filter(code=qrCode).first()
+        print(code)
+        if(code is None):
+            return HttpResponse(200)
+        
+        
+        print(code.code)
+        code.delete()
+        
+        return HttpResponse(400)
+    
+@login_required(login_url='/login')  
+def checkQrCode(request):
+    if request.method=="POST":
+        qrCode = request.POST["qrCode"]    
+        
+        if QrCode.objects.filter(code = qrCode).exists():
+            return JsonResponse({"ValidCode":True}, safe=False)
+        return JsonResponse({"ValidCode":False}, safe=False)
+
+@login_required(login_url='/login')     
+def editQrCode(request):
+    userType = getUserType(request.user)
+    if not(userType == "admin" or userType=="gameMaker"):
+        redirect("/")
+    if(request.method=="GET"):
+        return render(request,"ecomap/editQrCode.html")
+
+@login_required(login_url='/login')  
+def getQrCodeImage(request):
+    userType = getUserType(request.user)
+    if request.method=="POST":
+        if not(userType == "admin" or userType=="gameMaker"):
+            redirect("/")
+
+        #print(request.POST)
+        #print(request.POST["json"])
+        jsonText = request.POST["json"]
+        print(jsonText)
+        print(len(jsonText))
+        data= data = json.loads(request.POST["json"])
+        qrCode = data["qrCode"]
+        print(qrCode)
+
+   
+        qrCodeImage = generateQrCode(qrCode)
+        response = HttpResponse(content_type="image/png")
+        image_data = qrCodeImage.getvalue()
+        #image_data.save(response, "PNG")
+        return HttpResponse(image_data, content_type="image/png")
+

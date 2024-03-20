@@ -35,4 +35,10 @@ urlpatterns = [
     path("achievements/", views.achievements,name="achievements"), # Achievements URL
     path("profile/", views.profile,name="profile"), # Profile URL
     path("checkPassword/", views.checkPassword,name="checkPassword"), # Profile URL
-]
+    path("addQrCode/", views.addQrCode, name="addQrCode"), #add Qr Code to database
+    path("removeQrCode/", views.removeQrCode, name="removeQrCode"), #remove Qr Code from database
+    path("checkQrCode/",views.checkQrCode, name="checkQrCode"), #check if Qr Code is in database
+    path("editQrCodes/", views.editQrCode, name="editQrCode"), #edit Qr Codes for qr code editor page
+    path("getQrCodes/", views.getQrCodes, name="getQrCodes"), #get qr codes for qr code editor page
+    path("getQrCodeImage/", views.getQrCodeImage, name="getQrCodeImage"), #get qr code image file 
+]   

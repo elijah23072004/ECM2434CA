@@ -1,6 +1,11 @@
 from .models import User as EcomapUser
 from django.contrib.auth.models import User
 import datetime
+import qrcode
+#from PIL import Image
+#import base64
+#from io import BytesIO
+import io
 
 def initialiseAdminUser(username,first_name, last_name, password):
     admin = EcomapUser.objects.create(username=username, password=password, userType="admin",first_name=first_name, last_name=last_name)
@@ -55,3 +60,20 @@ def getLastPlayed(username):
         return
 
     return last_played.strftime('%d/%m/%Y')
+
+def generateQrCode(code):
+    qr_img = qrcode.make(code)
+    output = io.BytesIO()
+    #qr_img.save(output, format='PNG')
+    qr_img.save(output)
+    #output.seek(0)
+    #output_s = output.read()
+    #b64 = base64.b64encode(output_s)
+    return output
+
+def validQrCode(code):
+    if(len(code)>10 or len(code)<5):
+        return False
+    if(not code.isalnum()):
+        return False
+    return True

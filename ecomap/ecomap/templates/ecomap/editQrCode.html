@@ -74,7 +74,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 500px;
             color: white;
             text-align: center;
             }
@@ -134,7 +134,7 @@
                 padding: 20px;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 300px;
+                width: 400px;
                 color: white;
                 text-align: center;
             }
@@ -171,25 +171,29 @@
         <div id="content">
             <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
             <br>
-            <select name="words" id="wordSelector" label="View playable words ">
-                <option value=""  selected disabled>Select your word</option>
+            <select name="words" id="qrCodeSelector" label="View playable qr codes ">
+                <option value=""  selected disabled>Select your qr code</option>
             </select>
-
-            <button onclick="RemoveWord()" class="button"> Remove word </button>
-            <input type="text" id="word" name="word" placeholder=" Type new word "></input>
-            <textarea id="definition" name="definition" placeholder="definition" cols="40"></textarea>
-            <button onclick="AddWord()" class="button"> Add word </button>
-            <br>
+            
+            <button onclick="RemoveQrCode()" class="button"> Remove Qr Code </button>
+            <input type="text" id="qrCode" name="qrCode" placeholder="Type new Qr Code"></input>
             <p id="responseText" hidden></p>
-
-            <a href="/editQrCodes/" class="SmallButton">Edit qr codes</a>
-            <a href="/userhomePage/" class="SmallButton">Go to user homepage </a>
+            <button onclick="AddQrCode()" class="button"> Add Qr Code </button>
+            <div id="image-container">
+                <img id="qrCodeImage">
+            </div>
+            <br>
            
+            
+            <a href="/gameMaker/" class="SmallButton">Edit Valid Games</a>
+            <a href="/userhomePage/" class="SmallButton">Go to user homepage </a>
+
+
         </div>
     </div> 
     <script>
         //table=document.getElementById("WordTableHead")
-        selector=document.getElementById("wordSelector")
+        selector=document.getElementById("qrCodeSelector")
         function getCookie(name) {
                     var cookieValue = null;
                     if (document.cookie && document.cookie != '') {
@@ -209,89 +213,110 @@
         var csrftoken = getCookie('csrftoken');
 
         responseText=document.getElementById("responseText");
-        function AddWord()
+        function AddQrCode()
         {
             //creates post request which contains the word to be added and csrf token 
             //todo make text appear after submit denoting if it was successful
-            word = document.getElementById("word").value
-            definition=document.getElementById("definition").value
+            qrCode = document.getElementById("qrCode").value
             $.ajax({
             type: "POST",
-            url: '/addWord/',
+            url: '/addQrCode/',
             data: {
-                "word":word,
-                "definition":definition,
+                "qrCode":qrCode,
                 'csrfmiddlewaretoken': csrftoken ,
             },
             dataType: "json",
             success: function(data){
+                if(data != 200)
+                {
+                    responseText.innerHTML="qr code must be between 5 and 10 characters long and alphanumeric and must not already exist"
+                    responseText.hidden=false
+                    return
+                }
                 option = document.createElement("option")
-                option.value=word
-                option.innerHTML=word
+                option.value=qrCode
+                option.innerHTML=qrCode
                 selector.appendChild(option)
-                responseText.innerHTML="word added"
+                responseText.innerHTML="qr code added"
                 responseText.hidden=false
+                showImage(qrCode)
             },
             failure: function(){
-                console.log("Did not add word")
-                responseText.innerHTML="word not added unkown error"
+                console.log("Did not send qr code")
+                responseText.innerHTML="unkown error occured"
                 responseText.hidden=false
             }
             });
         }
-        function RemoveWord()
+        function RemoveQrCode()
         {
             
-            word = selector.options[selector.selectedIndex].value 
+            qrCode = selector.options[selector.selectedIndex].value 
 
             //creates post request which contains the word to be removed and csrf token 
             //todo make text appear after submit denoting if it was successful
             $.ajax({
             type: "POST",
-            url: '/removeWord/',
+            url: '/removeQrCode/',
             data: {
-                "word":word,
+                "qrCode":qrCode,
                 'csrfmiddlewaretoken': csrftoken ,
             },
             dataType: "json",
             success: function(data){
                 selector.remove(selector.selectedIndex)
-                responseText.innerHTML="word removed"
+                responseText.innerHTML="qr code removed"
                 responseText.hidden=false
             },
             failure: function(){
 
-                responseText.innerHTML="word not removed unkown error"
+                responseText.innerHTML="qr code not removed unkown error"
                 responseText.hidden=false
             }
             });
         }
-        function getWords()
+        function getQrCodes()
         {
-            fetch("/getWords/", {method: "GET"}).then((response) => response.json())
+            fetch("/getQrCodes/", {method: "GET"}).then((response) => response.json())
   .then((json) => dealWithData(json));
         }
         function dealWithData(data)
         {
-
-            words = data
-            words.forEach(word => {
+            print(data)
+            qrCodes = data
+            qrCodes.forEach(qrCode => {
                 option = document.createElement("option")
-                option.value=word.term
-                option.innerHTML=word.term
+                option.value=qrCode.code
+                option.innerHTML=qrCode.code
                 selector.appendChild(option)
             });
         }
-        function setTextAreaWidth()
-        {
-            document.getElementById("definition").cols=document.getElementById("content").offsetWidth*0.08
-        }
         function fillTable()
         {
-            getWords()
+            getQrCodes()
         }
-        setTextAreaWidth()
-            
+        const image = document.getElementById('qrCodeImage');
+        function showImage(code)
+        {
+            var payload = {
+                qrCode: code
+            };
+
+            var data = new FormData();
+            data.append( "json", JSON.stringify( payload ) );
+
+            fetch('/getQrCodeImage/', {method: "POST", 
+            credentials:'same-origin',
+            body:  data,
+            headers: { "X-CSRFToken": csrftoken },})
+            .then(response => response.blob())
+            .then(blob => {
+              const objectURL = URL.createObjectURL(blob);
+              image.src = objectURL;
+            });
+
+
+        } 
     </script>    
 </body>
 </html>
