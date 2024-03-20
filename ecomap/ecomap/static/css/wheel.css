@@ -1,26 +1,56 @@
 text{
-        font-family:Helvetica, Arial, sans-serif;
-        font-size:11px;
-        pointer-events:none;
-    }
+      font-family:Helvetica, Arial, sans-serif;
+      font-size:11px;
+      pointer-events:none;
+}
 #chart{
-        position:absolute;
-        width:0px;
-        height:0px;
-        top:0;
-        left:0;
-        transform: translate(-50%, -50%);
-    }
+  max-width: 100%;
+  margin: auto; /* Margin auto for horizontal centering if needed */
+  aspect-ratio: 1; /* Keep the wheel aspect ratio square */
+}
 
 .container {
   font-family: arial;
   font-size: 24px;
   margin: 25px;
-  width: 80%;
-  height: 90%;
+  width: 100%;
   /* Center child horizontally*/
   display: flex;
   justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
 }
+@media (max-width: 500px) { 
+  .container {
+    margin: 1px; /* Reduced margin for mobile screens */
+    height: calc(100vh - 10px); /* Adjust the calculation for the smaller margin */
+  }
+
+  #chart {
+    width: 100vw; /* Allow the wheel to be full width on mobile */
+  }
+}
+@media (max-width: 991px) {
+  .navbar-collapse {
+      display: flex !important; /* Use 'flex' if your navbar items are flex items */
+      flex-wrap: nowrap; /* Prevent navbar items from wrapping */
+      visibility: visible !important;
+  }
+  .navbar-nav {
+      flex-direction: row;
+      width: 100%; /* Take the full width of the navbar */
+      justify-content: space-around; /* Distribute space around items */
+  }
+  .nav-item {
+      flex: 1; /* Grow each nav item to take equal space */
+      text-align: center; /* Center text within each nav item */
+  }
+  .nav-link {
+      font-size: 0.5rem; /* Optionally reduce font size for space */
+      flex-grow: 1;
+  }
+}
+
 
 
