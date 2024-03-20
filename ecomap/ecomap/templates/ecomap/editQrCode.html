@@ -198,6 +198,7 @@
             //creates post request which contains the word to be added and csrf token 
             //todo make text appear after submit denoting if it was successful
             qrCode = document.getElementById("qrCode").value
+            //sends ajax post request to add qr code sending the qr code with it
             $.ajax({
             type: "POST",
             url: '/addQrCode/',
@@ -258,8 +259,13 @@
             fetch("/getQrCodes/", {method: "GET"}).then((response) => response.json())
   .then((json) => dealWithData(json));
         }
+<<<<<<< HEAD
         function dealWithData(data) {
             print(data)
+=======
+        function dealWithData(data)
+        {
+>>>>>>> 0fb422ee0d454f7b1fc43d70b3814a8212c71f80
             qrCodes = data
             qrCodes.forEach(qrCode => {
                 option = document.createElement("option")
@@ -278,6 +284,10 @@
             };
             var data = new FormData();
             data.append( "json", JSON.stringify( payload ) );
+<<<<<<< HEAD
+=======
+            //gets qr code image and puts image data in the image element 
+>>>>>>> 0fb422ee0d454f7b1fc43d70b3814a8212c71f80
             fetch('/getQrCodeImage/', {method: "POST", 
             credentials:'same-origin',
             body:  data,

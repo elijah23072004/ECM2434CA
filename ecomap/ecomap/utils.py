@@ -78,16 +78,15 @@ def deleteEcomapUser(username):
 
 
 def generateQrCode(code):
+    #generates qr code with the value code passed to the function
     qr_img = qrcode.make(code)
     output = io.BytesIO()
-    #qr_img.save(output, format='PNG')
+    #converts the qr code to an array of bytes then returns it 
     qr_img.save(output)
-    #output.seek(0)
-    #output_s = output.read()
-    #b64 = base64.b64encode(output_s)
     return output
 
 def validQrCode(code):
+    #makes sure the qr code has a length between 5 and 10 and all the characters are alphanumeric 
     if(len(code)>10 or len(code)<5):
         return False
     if(not code.isalnum()):
