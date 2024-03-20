@@ -173,4 +173,9 @@
         font-size: 0.5rem; /* Optionally reduce font size for space */
         flex-grow: 1;
     }
+    .hangman-container{
+        aspect-ratio: 1;
+        height: 100%;
+        width: 100%;
+    }
 }
