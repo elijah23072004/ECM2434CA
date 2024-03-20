@@ -38,24 +38,24 @@ function sendScore(score)
     });
 }
 
-function checkPassword(password)
+function deleteSelfAccount(password)
 {
     var csrftoken = getCookie('csrftoken');
     //sends POST request to sendScore with csrfttoken and score
     $.ajax({
         type: "POST",
-        url: '/checkPassword/',
+        url: '/deleteSelfAccount/',
         data: {
             "password": password,
             'csrfmiddlewaretoken': csrftoken,
         },
         dataType: "json",
         success: function(data){
-            console.log("T");
+            window.location.href = "/login/";
             return true;
         },
         failure: function(){
-            console.log("F");
+            window.location.href = "/profile/";
             return false;
         }
     });

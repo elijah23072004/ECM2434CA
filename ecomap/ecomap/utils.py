@@ -1,6 +1,7 @@
-from .models import User as EcomapUser
+from .models import User as EcomapUser, UserAchievement
 from django.contrib.auth.models import User
 import datetime
+from .UserClass import UserClass
 
 def initialiseAdminUser(username,first_name, last_name, password):
     admin = EcomapUser.objects.create(username=username, password=password, userType="admin",first_name=first_name, last_name=last_name)
@@ -45,9 +46,12 @@ def getStreak(username):
 
 def getLastPlayed(username):
     currentUser=EcomapUser.objects.get(username=username)
+    print(currentUser.score)
     #checks if a user is in the request if they are not it is erronous so return -1
     if(currentUser is None):
         return
+    if currentUser.score == 0:
+        return "N/A"
 
     last_played = currentUser.last_played
     # if the user hasn't played any games, set the streak to 0 and date to the current date
@@ -55,3 +59,14 @@ def getLastPlayed(username):
         return
 
     return last_played.strftime('%d/%m/%Y')
+
+def deleteEcomapUser(username):
+    # delete django user object
+    User.objects.filter(username=username).delete()
+
+    user = UserClass(username)
+    achievements = user.getAchievements()
+    for achievement in achievements:
+        achievement.delete()
+
+    user.user.delete()

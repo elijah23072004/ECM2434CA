@@ -17,10 +17,14 @@ for ([name, value] of Object.entries(data)) {
     document.getElementById(`${name}`).innerHTML = value;
 }
 
+       // <div class="button change-password"><a onclick="changePassword()">Change Password</a></div>
 if (document.getElementById('first_name')) {
     document.querySelector(".button-container").innerHTML += `
         <div class="button achievements"><a onclick="achievements()">Achievements</a></div>
+
         <div class="button delete-account"><a onclick="deleteAccount()">Delete Account</a></div>`
+    document.querySelector(".change-profile-pic").innerHTML = `<label for="profile-pic">Change</label>
+                    <input type="file" id="profile-pic" accept="image/*">`
 }
 
 function achievements() {
@@ -28,14 +32,32 @@ function achievements() {
 }
 
 function deleteAccount() {
+    document.querySelector(".search-bar-container").innerHTML = "";
     document.querySelector(".main").innerHTML = `<div class="delete-account-container">
             <a href="/profile"  class="close">X</a>
             <h3 id="warning">Warning: Accounts cannot be restored!</h3></br>
             <p id="reenter-password">Enter your password again to confirm you wish to delete your account</p>
-            <input type="text" class="input-bar confirm-password" placeholder="Enter your password">
+            <input type="password" class="input-bar confirm-password" placeholder="Enter your password">
     </div>`
     document.querySelector(".confirm-password").onkeydown = deleteUser;
 }
+
+function changePassword() {
+    document.querySelector(".search-bar-container").innerHTML = "";
+    document.querySelector(".main").innerHTML = `<div class="change-password-container">
+            <a href="/profile"  class="close">X</a>
+            <h3 id="warning">Change Password</h3></br>
+            <p>Please enter your old password</p>
+            <input type="password" class="input-bar confirm-password old-password" placeholder="Enter your password">
+            <p>Please enter your new password</p>
+            <input type="password" class="input-bar confirm-password new-password" placeholder="Enter your password">
+            <div class="button change-password"><a onclick="changePwd()">Confirm</a></div>
+    </div>`
+}
+
+
+
+
 
 document.querySelector(".search-bar").onkeydown = function searchUser(e) {
     if (e.keyCode == 13) {
@@ -47,14 +69,36 @@ document.querySelector(".search-bar").onkeydown = function searchUser(e) {
 function deleteUser(e) {
     if (e.keyCode == 13) {
         var password = document.querySelector(".confirm-password").value;
-        console.log(password);
-        if (checkPassword(password)) {
-            // send request to delete account and log out of the account
-            console.log("Correct");
-        } else {
-            //window.location.href = "/profile";
-            console.log("Incorrect");
-        }
-        console.log(checkPassword(password));
+        d = deleteSelfAccount(password);
     }
 }
+
+function changePwd() {
+    var old_password = document.querySelector(".old-password").value;
+    var new_password = document.querySelector(".new-password").value;
+    //d = deleteSelfAccount(password);
+    console.log(old_password);
+    console.log(new_password);
+}
+
+document.getElementById('profile-pic').addEventListener('change', function(event) {
+    var image = event.target.files[0];
+
+    if (image) {
+        console.log('A file has been selected:', image);
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        ctx.drawImage(image, 0, 0);
+
+        var dataURL = canvas.toDataURL('images/profile_pictures');
+        var downloadLink = document.createElement('a');
+        downloadLink.href = dataURL;
+        downloadLink.download = data['username'] + '_pfp.png';
+        downloadLink.click();
+    } else {
+        console.log('No file selected.');
+    }
+});

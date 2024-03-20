@@ -8,6 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <style>
+        .main {
+            max-width: 90vw;
+            display: flex;
+            margin: 0 auto;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
@@ -17,7 +22,8 @@
             height: 100vh;
         }
         .search-bar-container {
-            max-width: 800px;
+            width: 800px;
+            max-width: 90vw;
             margin: 10px auto;
         }
         .input-bar {
@@ -29,41 +35,66 @@
         }
         .container {
             max-width: 800px;
-            margin: 20px auto;
+            margin: 0 auto;
+            font-size: 1.5vw + 1vh;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             border: 2px solid #CCCCCC;
             z-index: 1;
+        }
+
+        .profile {
+            width: 100%;
             display: flex;
         }
+
         .profile-pic-container {
-            margin-right: 20px;
             flex: 1;
+            margin-right: 20px;
         }
-        .profile-pic-container img {
+        .profile-pic-img-container {
+            display: flex;
+            justify-content: center;
+        }
+        .profile-pic-img-container img {
             width: 150px;
             height: 150px;
+            max-width: 20vw;
+            max-height: 20vw;
             border-radius: 50%;
             margin-bottom: 10px;
+            background-color: purple;
         }
         .change-profile-pic {
-            margin-top: 10px;
+            font-weight: bold;
         }
         .change-profile-pic input[type="file"] {
             display: none;
         }
         .change-profile-pic label {
+            max-width: 20vw;
+            max-height: 20vw;
             background-color: #2e8b57;
             color: #fff;
-            padding: 10px 20px;
+            margin: auto;
+            padding: 10px 10px;
             border-radius: 5px;
             cursor: pointer;
             display: block;
             width: 100px;
             text-align: center;
         }
+        .change-profile-pic label:hover {
+            background-color: #3EBD76;
+        }
+        @media (max-width: 800px) {
+            .change-profile-pic label {
+                font-size: 3vw;
+            }
+        }
+
         .user-info {
             flex: 3;
         }
@@ -105,21 +136,51 @@
         .info-section p {
             color: #555;
         }
-        .button-container {
+        .button-outer-container {
             display: flex;
             justify-content: center;
+            margin: auto;
+        }
+
+        .button-container {
+            justify-content: center;
+            padding: 10px;
+            margin: auto;
+        }
+
+        @media (max-width: 800px) {
+            .button-container {
+                width: 800px;
+            }
         }
 
         .button {
-            width: 20%;
-            height: 12%;
+            font-weight: bold;
+            background-color: #2e8b57;
+            color: #fff;
+            padding: 10px 20px;
             margin: 10px;
             border-radius: 5px;
-            color: white;
-            display: flex;
-            font-weight: bold;
-            justify-content: center;
+            cursor: pointer;
+            display: block;
+            width: 50vw;
+            text-align: center;
         }
+        @media (max-width: 800px) {
+            .button {
+                display: flex;
+                font-size: 3vw;
+                position: relative;
+                text-align: center;
+                justify-content: center;
+                margin: auto;
+                max-width: 800px;
+                width: 80vw;
+                height: 5vh;
+                margin-top: 10px;
+            }
+        }
+
         .button:hover {
             cursor: pointer;
         }
@@ -128,37 +189,87 @@
             background-color: red;
         }
         .delete-account:hover {
-            background-color: #EF3C54;
+            background-color: #FF6767;
         }
         .achievements {
-            background-color: #444444;
+            background-color: #2e8b57;
         }
         .achievements:hover {
-            background-color: #666666;
+            background-color: #3EBD76;
+        }
+        .change-password {
+            background-color: #2e8b57;
+        }
+        .change-password:hover {
+            background-color: #3EBD76;
         }
 
         .delete-account-container {
-            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            margin-top: 20vh;
+            background-color: white;
+            width: 60vw;
+            height: 40vh;
+            border-radius: 10px;
+            border: 2px solid #CCCCCC;
+        }
+
+        @media (max-width: 800px) {
+            .delete-account-container {
+                width: 100%;
+            }
+        }
+
+        .change-password-container {
             justify-content: center;
             margin: 0 auto;
             background-color: white;
             width: 60vw;
-            height: 30vh;
+            height: 60vh;
             border-radius: 10px;
             border: 2px solid #CCCCCC;
         }
 
         .close {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 18px;
+            font-size: 36px;
+            margin-left: 95%;
             font-weight: bold;
             color: red;
         }
+
+        @media (max-width: 800px) {
+            .close {
+                margin-left: 90%;
+            }
+        }
+
         .close:hover {
             cursor: pointer;
             color: #EF3C54;
+        }
+        #warning {
+            display: flex;
+            margin: 5px auto;
+            justify-content: center;
+        }
+
+        #reenter-password {
+            display: flex;
+            justify-content: center;
+        }
+
+        .confirm-password {
+            display: flex;
+            margin: auto;
+            width: 90%;
+        }
+
+        .change-password-container p {
+            display: flex;
+            margin-left: 5%;
+            margin-top: 15px;
+            margin-bottom: 0px;
         }
 
     </style>
@@ -166,41 +277,53 @@
 <body>
     {% include 'ecomap/include/navbar.html'%}
     <script src="{%static 'js/sendscore.js' %}"></script>
+    <div class="search-bar-container">
+        <input type="text" class="input-bar search-bar" placeholder="Search for a user">
+    </div>
     <div class="main">
-        <div class="search-bar-container">
-            <input type="text" class="input-bar search-bar" placeholder="Search for a user">
-        </div>
         <div class="container">
-            <div class="profile-pic-container">
-                <img src="{% static 'path/to/your/default_profile_pic.jpg' %}" alt="Profile Picture">
-                <div class="change-profile-pic">
-                    <label for="profile-pic">Change</label>
-                    <input type="file" id="profile-pic" accept="image/*">
+            <div class="profile">
+                <div class="profile-pic-container">
+                    <div class="profile-pic-img-container">
+                        <img src="{% static 'images/profile_pictures/pfp.png' %}" alt="Profile Picture" class="profile-picture">
+                    </div>
+                    <div class="change-profile-pic"></div>
+                </div>
+                <div class="user-info">
+                    <div class="header">
+                        <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
+                        <h1>User Profile</h1>
+                    </div>
+                    <div class="profile-info">
+                        <label>Username:</label>
+                        <p id="username">{{ user.username }}</p>
+                    </div>
+                    <div class="private-info">
+
+                    </div>
+                    <div class="info-section">
+                        <h2>Game Statistics</h2>
+                        <div class="profile-info">
+                            <label>Score:</label>
+                            <p id="score">{{ user.score }}</p>
+                        </div>
+                        <div class="profile-info">
+                            <label>Streak:</label>
+                            <p id="streak">{{ user.streak }}</p>
+                        </div>
+                        <div class="profile-info">
+                            <label>Last Played:</label>
+                            <p id="last_played">{{ user.last_played }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="user-info">
-                <div class="header">
-                    <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
-                    <h1>User Profile</h1>
-                </div>
-                <div class="profile-info">
-                    <label>Username:</label>
-                    <p id="username">{{ user.username }}</p>
-                </div>
-                <div class="private-info">
-
-                </div>
-                <div class="info-section">
-                    <h2>Game Statistics</h2>
-                    <div class="profile-info">
-                        <label>Score:</label>
-                        <p id="score">{{ user.score }}</p>
-                    </div>
-                    <div class="profile-info">
-                        <label>Streak:</label>
-                        <p id="streak">{{ user.streak }}</p>
-                    </div>
-                    <div class="profile-info">
-                        <label>Last Played:</label>
-                        <p id="last_played">{{ user.last_played }}</p>
-
+            <div class="button-outer-container">
+                <div class="button-container"></div>
+            </div>
+        </div>
+    </div>
+    <script>const data = JSON.parse("{{data|escapejs}}");</script>
+    <script src="{%static 'js/profile.js' %}" data="{{data}}"></script>
+</body>
+</html>

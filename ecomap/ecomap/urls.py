@@ -34,5 +34,5 @@ urlpatterns = [
     path("deleteUser/" ,views.deleteUser, name="deleteUser"), #delete User
     path("achievements/", views.achievements,name="achievements"), # Achievements URL
     path("profile/", views.profile,name="profile"), # Profile URL
-    path("checkPassword/", views.checkPassword,name="checkPassword"), # Profile URL
+    path("deleteSelfAccount/", views.deleteSelfAccount,name="deleteSelfAccount"), # Profile URL
 ]
