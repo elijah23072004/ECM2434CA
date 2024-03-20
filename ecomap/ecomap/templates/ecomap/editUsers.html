@@ -10,7 +10,6 @@
                 height: 100%;
                 margin: 0;
             }
-        
             #main {
                 display: flex;
                 justify-content: center;
@@ -37,7 +36,6 @@
                 position: relative;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }
-
             .button:hover {
                 background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
                 box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
@@ -56,7 +54,6 @@
                 text-decoration: none;
                 display: inline-block;
                 font-size: 24px;
-          
                 cursor: pointer;
                 transition: background-color 0.3s ease;
                 border-radius: 5px;
@@ -64,15 +61,14 @@
                 position: relative;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }            
-
             .container {
-            background-color: rgba(4, 49, 0, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            color: white;
-            text-align: center;
+                background-color: rgba(4, 49, 0, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 300px;
+                color: white;
+                text-align: center;
             }
             input[type="text"],
             input[type="password"],
@@ -86,27 +82,26 @@
                 box-sizing: border-box;
             }
             input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: none;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background: linear-gradient(to bottom, #4CAF50, #004e04);
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-            transform: translateY(0);
+                width: 100%;
+                padding: 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: none;
+                border-radius: 4px;
+                box-sizing: border-box;
+                background: linear-gradient(to bottom, #4CAF50, #004e04);
+                color: white;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+                transform: translateY(0);
             }
             input[type="submit"]:hover {
-            background-color: #45a049;
+                background-color: #45a049;
             }
-            input[type="checkbox"] 
-            {
+            input[type="checkbox"] {
                 width:100%;
                 padding: 10px;
                 margin: 8px 0 10px 10px;
@@ -115,7 +110,7 @@
                 border-radius: 4px;
                 box-sizing: border-box;
             }
-            select{
+            select {
                 width: 50%;
                 padding: 10px;
                 margin: 8px 0;
@@ -124,8 +119,7 @@
                 border-radius: 4px;
                 box-sizing: border-box;
             }
-            #content
-            {
+            #content {
                 background-color: rgba(4, 49, 0, 0.9);
                 padding: 20px;
                 border-radius: 10px;
@@ -136,8 +130,7 @@
             }
         </style>        
     </head>
-    <body>
-        
+    <body> 
         <!-- button and navbar inclusion -->
         {% include 'ecomap/include/adminNavbar.html'%}
         <div id="main">
@@ -161,32 +154,23 @@
                     }
                     return cookieValue;
                 }
-
             var csrftoken = getCookie('csrftoken');
             responseText = document.getElementById("responseText")
-
-                function addToMenu(values)
-                {
+                function addToMenu(values) {
                     option = document.createElement("option")
                     option.value=values.username
                     option.innerHTML=values.username
-
                     selectionMenu.appendChild(option)
                 }
-                function setMenu(data)
-                {
+                function setMenu(data) {
                     data.forEach(addToMenu)
                 }
-                function dealWithData(data)
-                {
+                function dealWithData(data) {
                     console.log(data)
                     userData=data
                     buildSelection()
                 }
-                function buildSelection()
-                {
-               
-
+                function buildSelection() {
                     document.getElementById("content").remove()
                     mainDiv = document.getElementById("main")
                     contentDiv = document.createElement("div")
@@ -209,7 +193,6 @@
                     contentDiv.appendChild(select)
                     button = document.createElement("button")
 
-
                     button.setAttribute("class", "button")
                     button.innerHTML="Edit User"
                     button.setAttribute("onclick", "editUser()")
@@ -220,8 +203,6 @@
                     button.innerHTML="Delete User"
                     button.setAttribute("onclick", "deleteUser()")
                     contentDiv.appendChild(button)
-
-                    
 
                     button = document.createElement("button")
                     button.setAttribute("onclick", "makeUser()")
@@ -235,17 +216,12 @@
                     contentDiv.appendChild(paragraph)
                     responseText = paragraph
                     mainDiv.appendChild(contentDiv)
-                    
 
                     selectionMenu = select
 
                     setMenu(userData)
-
-  
-               
                 }
-                function deleteUser()
-                {
+                function deleteUser() {
                     $.ajax({
                     type: "POST",
                     url: '/deleteUser/',
@@ -265,15 +241,11 @@
                     }
                     });
                 }
-                function getUsers()
-                {
+                function getUsers() {
                     fetch("/getUsers/", {method: "GET"}).then((response) => response.json())
                     .then((json) => dealWithData(json));
                 }
-                
-                function generateUserElemenets()
-                {
-                    
+                function generateUserElemenets() {          
                     editDiv = document.createElement("div")
                     editDiv.id="content"
                     
@@ -322,7 +294,6 @@
                     label.for="last_name"
                     label.innerHTML="last name:"
                     form.appendChild(label)
-
 
                     last_name = document.createElement("input")
                     last_name.type="text"
@@ -373,9 +344,6 @@
                     //passwordCheckBoxDiv.appendChild(passwordCheckBox)
                     //passwordCheckBoxDiv.append(document.createElement("br"))
                     //form.appendChild(passwordCheckBoxDiv)
-                    
-               
-                    
 
                     label = document.createElement("label")
                     label.for="password"
@@ -387,14 +355,12 @@
                     password.name="password"
                     form.appendChild(password)
                     
-
                     label = document.createElement("label")
                     
                     label.for="password warning"
                     label.innerHTML="Leave blank to not change password"
                     form.appendChild(label)
                     
-
                     submit = document.createElement("input")
                     submit.type="submit"
                     submit.value="Save Changes" 
@@ -421,21 +387,17 @@
                     
                     return editDiv
                 }
-                function getUserData(username)
-                {
+                function getUserData(username) {
                     for(let i=0; i<userData.length;i++)
                     {
                         if(userData[i].username == username)
                             return userData[i]
-                        
                     }
                 }
-                function makeUser()
-                {
+                function makeUser() {
                     document.getElementById("content").remove()
                     editDiv = generateUserElemenets()
                     document.getElementById("main").appendChild(editDiv)
-
 
                     form  = document.getElementById("userForm")
                     form.action="/adminMakeUser/"
@@ -443,8 +405,7 @@
                     document.getElementById("password").setAttribute("required", true)
                     document.getElementById("submit").value="Create User"
                 }
-                function editUser()
-                {
+                function editUser() {
                     user = selectionMenu.options[selectionMenu.selectedIndex].text; 
                     user = getUserData(user)
                     console.log(user)
@@ -457,8 +418,7 @@
                     
                     populateForm(user)
                 }
-                function populateForm(user)
-                {
+                function populateForm(user) {
                     username = document.getElementById("username")
                     username.value=user.username
                     username.setAttribute("readonly", true)
@@ -471,7 +431,6 @@
                 }
                 getUsers()
             </script>
-
         </div>
     </body>
 </html>

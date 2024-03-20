@@ -25,9 +25,15 @@ SECRET_KEY = 'django-insecure-z%#hff%&vxa9rel%g0=v66ml%ayf)l6$9435e@bfnop)0znr22
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '34.163.104.222',
+    '127.0.0.1',
+]
 
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = [
+    'http://34.163.104.222',
+    'http://127.0.0.1:8000',
+]
 
 
 # Application definition
@@ -40,7 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'qr_code',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +124,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'ecomap')
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

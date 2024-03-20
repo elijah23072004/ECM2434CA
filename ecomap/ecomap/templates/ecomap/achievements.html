@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -11,28 +10,43 @@
                 height: 100%;
                 margin: 0;
             }
-
             #main {
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                justify-content: space-between;
                 align-items: center;
                 background-image: url("https://img.freepik.com/free-vector/cartoon-forest-environment-background_1308-104408.jpg");
                 background-size: cover;
                 height: 100%;
             }
+            .title {
+                text-align: center;
+                font-size: 36px;
+                margin-top: 20vh; /* Adjusted to be halfway between top and middle */
+                color: white;
+                background-color: #00920fa5;
+                padding: 15px 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                letter-spacing: 1px;
+            }
             .achievements-container {
-                height: 40%;
-                width: 80%;
-                background-color: #444444;
+                height: 30%;
+                width: 50%;
+                background-color: #1f4723d3;
                 border-radius: 30px;
                 padding: 20px;
-                justify-content: center;
+                margin-bottom: 35vh; /* Adjusted to be halfway between middle and bottom */
+                display: flex; /* Set the display to flex */
+                justify-content: space-around; /* Adjust the space between achievements */
+                align-items: center; /* Align achievements vertically */
             }
             .achievement {
                 height: 60%;
-                width: 15%;
+                width: 45%; /* Adjusted width to accommodate both achievements */
                 justify-content: center;
                 color: #CCCCCC;
+                text-align: center; /* Center the content */
             }
             .achievement-image {
                 height: 50%;
@@ -43,6 +57,7 @@
         <!-- button and navbar inclusion -->
         {% include 'ecomap/include/navbar.html'%}
         <div id="main">
+            <div class="title">Achievements</div>
             <div class="achievements-container"></div>
         </div>
         <script>
