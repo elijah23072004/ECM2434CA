@@ -3,13 +3,15 @@ from django.contrib.auth.models import User
 import datetime
 from .UserClass import UserClass
 import qrcode
+from django.contrib.auth.hashers import make_password
+
 #from PIL import Image
 #import base64
 #from io import BytesIO
 import io
 
 def initialiseAdminUser(username,first_name, last_name, password):
-    admin = EcomapUser.objects.create(username=username, password=password, userType="admin",first_name=first_name, last_name=last_name)
+    admin = EcomapUser.objects.create(username=username, password= make_password(password), userType="admin",first_name=first_name, last_name=last_name)
     user = User.objects.create_user(username, password=password)
     user.save()
 

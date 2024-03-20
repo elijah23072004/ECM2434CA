@@ -97,6 +97,7 @@ def wordle(request):
 
 @login_required(login_url='/login')
 def hangman(request):
+
     games = Games()
     word = games.getRandomWord()
     definition = games.getDefinition(word)
@@ -441,7 +442,7 @@ def deleteUser(request):
 
         print(request.POST["username"])
         if (request.user.username == request.POST["username"]):
-            logout=True
+            logout=True 
 
         deleteEcomapUser(request.POST["username"])
         return HttpResponse(200)
