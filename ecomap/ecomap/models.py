@@ -31,3 +31,7 @@ class UserAchievement(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE, to_field="username")                      # the user's id
     achievement_id = models.ForeignKey(Achievement, on_delete=models.CASCADE, to_field="achievement_id")         # the achievement id
     value = models.IntegerField()                           # the value the user has for this achievement (will determine their level)
+
+class QrCode(models.Model):
+    code = models.CharField(max_length=10, unique=True)
+
