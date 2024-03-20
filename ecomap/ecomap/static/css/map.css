@@ -1,7 +1,7 @@
 #map-container {
     display: flex;
     justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
+    
     height: 100%; /* Take full height of the body */
 }
 body {
@@ -9,13 +9,13 @@ body {
     margin: 0;
 }
 html, body {
-    height: 90%;
-    width: 100vw;
-}
-#map{
     height: 100%;
     width: 100vw;
 }
+#map{
+    height: 95%;
+    width: 100vw;
+}   
 @media (max-width: 991px) {
     .navbar-collapse {
         display: flex !important; /* Use 'flex' if your navbar items are flex items */
