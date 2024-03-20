@@ -139,6 +139,7 @@
             <script>
                 var selectionMenu = document.getElementById("userMenu")
                 var userData;
+                //gets data from cookie (used for getting csrf token from cookie)
                 function getCookie(name) {
                     var cookieValue = null;
                     if (document.cookie && document.cookie != '') {
@@ -157,31 +158,36 @@
             var csrftoken = getCookie('csrftoken');
             responseText = document.getElementById("responseText")
                 function addToMenu(values) {
+                    //creates new option for selector that has the value passed to it
                     option = document.createElement("option")
                     option.value=values.username
                     option.innerHTML=values.username
                     selectionMenu.appendChild(option)
                 }
                 function setMenu(data) {
+                    //adds each value in data to the selector
                     data.forEach(addToMenu)
                 }
                 function dealWithData(data) {
-                    console.log(data)
                     userData=data
                     buildSelection()
                 }
                 function buildSelection() {
+                    //deletes all child elements from content div
                     document.getElementById("content").remove()
                     mainDiv = document.getElementById("main")
                     contentDiv = document.createElement("div")
                     contentDiv.id ="content"
 
+                    //creates img element that shows the ecomap logo
                     img = document.createElement("img")
                     img.setAttribute("src", "{% static 'images/logo/logo.png' %}")
                     img.setAttribute("alt", "The Logo")
                     img.style="width: 100px; margin-bottom: 20px;"
                     contentDiv.appendChild(img)
                     contentDiv.appendChild(document.createElement("br"))
+
+                    //creates label and selection menu to show all users
                     label = document.createElement("label")
                     label.innerHTML="Choose a user to edit:"
                     contentDiv.appendChild(label)
@@ -192,24 +198,28 @@
                     select.name="users"
                     contentDiv.appendChild(select)
                     button = document.createElement("button")
-
+                    
+                    //creates a button for edit user
                     button.setAttribute("class", "button")
                     button.innerHTML="Edit User"
                     button.setAttribute("onclick", "editUser()")
                     contentDiv.appendChild(button)
 
+                    //creates a button for delete user
                     button = document.createElement("button")
                     button.setAttribute("class", "button")
                     button.innerHTML="Delete User"
                     button.setAttribute("onclick", "deleteUser()")
                     contentDiv.appendChild(button)
 
+                    //creates a button for make user
                     button = document.createElement("button")
                     button.setAttribute("onclick", "makeUser()")
                     button.setAttribute("class", "button")
                     button.innerHTML="Create New User"
                     contentDiv.appendChild(button)
                     
+                    //creates a paragrph element for response text
                     paragraph = document.createElement("p")
                     paragraph.id = "responseText"
                     paragraph.hidden=true
@@ -222,6 +232,7 @@
                     setMenu(userData)
                 }
                 function deleteUser() {
+                    //sends a post request to deleteuser to delete the user selected
                     $.ajax({
                     type: "POST",
                     url: '/deleteUser/',
@@ -231,6 +242,7 @@
                     },
                     dataType: "json",
                     success: function(data){
+                        //remvoes user from the selection options
                         selectionMenu.remove(selectionMenu.selectedIndex)
                         responseText.innerHTML="User Deleted"
                         responseText.hidden=false
@@ -249,6 +261,7 @@
                     editDiv = document.createElement("div")
                     editDiv.id="content"
                     
+                    //creates img elemnt containing the logo
                     img = document.createElement("img")
                     img.setAttribute("src", "{% static 'images/logo/logo.png' %}")
                     img.setAttribute("alt", "The Logo")
@@ -256,17 +269,19 @@
                     editDiv.appendChild(img)
                     editDiv.appendChild(document.createElement("br"))
                     
+                    //creates a form element for creating a user
                     form = document.createElement("form")
-
                     form.id="userForm"
                     form.method="post"
                     
+                    //adds csrfToken to form (for backend to know admin made request)
                     var csrfToken = document.createElement('input');
                     csrfToken.type = 'hidden';
                     csrfToken.name = 'csrfmiddlewaretoken';
                     csrfToken.value = '{{ csrf_token }}';
                     form.appendChild(csrfToken)
 
+                    //creates input element and label for username
                     label = document.createElement("label")
                     label.for="username"
                     label.innerHTML="username"
@@ -278,11 +293,11 @@
                     username.setAttribute("required", true)
                     form.appendChild(username)
                     
+                    //creates input element and label for firstname
                     label = document.createElement("label")
                     label.for="first_name"
                     label.innerHTML="first name:"
                     form.appendChild(label)
-
                     first_name = document.createElement("input")
                     first_name.type="text"
                     first_name.name="first_name"
@@ -290,11 +305,11 @@
                     first_name.setAttribute("required", true)
                     form.appendChild(first_name)
                     
+                    //creates input element and label for lastname
                     label = document.createElement("label")
                     label.for="last_name"
                     label.innerHTML="last name:"
                     form.appendChild(label)
-
                     last_name = document.createElement("input")
                     last_name.type="text"
                     last_name.id="last_name"
@@ -302,6 +317,7 @@
                     last_name.setAttribute("required", true)
                     form.appendChild(last_name)
                     
+                    //creates drop down element and label for user type
                     label = document.createElement("label")
                     label.for="userType"
                     label.innerHTML="user type:"
@@ -311,6 +327,7 @@
                     userType = document.createElement("select")
                     userType.name="userType"
                     userType.id="userType"
+                    //creates options for selection element
                     option = document.createElement("option")
                     option.value="user"
                     option.innerHTML="user"
@@ -328,23 +345,7 @@
                     form.appendChild(userType)
                     form.appendChild(document.createElement("br"))
                     
-                    //passwordCheckBoxDiv = document.createElement("div")
-                    //passwordCheckBoxDiv.id="checkbox"
-                    //label = document.createElement("label")
-                    //label.for="changePassword"
-                    //label.innerHTML="change user's password?:"
-                    //label.id="changePasswordLabel"
-    
-                    //passwordCheckBoxDiv.appendChild(label)
-                    //passwordCheckBox = document.createElement("input")
-                    //passwordCheckBox.type="checkbox"
-                    //passwordCheckBox.name="changePassword"
-                    //passwordCheckBox.id="changePassword"
-                    //passwordCheckBox.checked=false
-                    //passwordCheckBoxDiv.appendChild(passwordCheckBox)
-                    //passwordCheckBoxDiv.append(document.createElement("br"))
-                    //form.appendChild(passwordCheckBoxDiv)
-
+                    //creats input element and label for password
                     label = document.createElement("label")
                     label.for="password"
                     label.innerHTML="password:"
@@ -373,7 +374,6 @@
                     goBack = document.createElement("button")
                     goBack.id="goback"
                     goBack.innerHTML="Go back"
-                    //goBack.onclick="rebuildSelection()"
                     goBack.setAttribute("onclick", "buildSelection()")
                     goBack.setAttribute("class", "SmallButton")
                     
@@ -388,6 +388,7 @@
                     return editDiv
                 }
                 function getUserData(username) {
+                    //gets all stored data for a specified username
                     for(let i=0; i<userData.length;i++)
                     {
                         if(userData[i].username == username)
@@ -395,20 +396,21 @@
                     }
                 }
                 function makeUser() {
+                    //creates the correct elements for a user to be created (making the form elements so the user can be made)
                     document.getElementById("content").remove()
                     editDiv = generateUserElemenets()
                     document.getElementById("main").appendChild(editDiv)
 
                     form  = document.getElementById("userForm")
                     form.action="/adminMakeUser/"
-                    //document.getElementById("checkbox").remove()
                     document.getElementById("password").setAttribute("required", true)
                     document.getElementById("submit").value="Create User"
                 }
                 function editUser() {
+                    //creates the correct elements for a user to be edited (making the form elements so the user can be edited)
+                    //and auto fills the input elements for the user's stored data
                     user = selectionMenu.options[selectionMenu.selectedIndex].text; 
                     user = getUserData(user)
-                    console.log(user)
 
                     document.getElementById("content").remove()
                     editDiv = generateUserElemenets()
@@ -419,6 +421,7 @@
                     populateForm(user)
                 }
                 function populateForm(user) {
+                    //populates the input elements with the user's data so the admin can see which values to change
                     username = document.getElementById("username")
                     username.value=user.username
                     username.setAttribute("readonly", true)

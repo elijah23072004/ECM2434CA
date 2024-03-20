@@ -7,8 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner / Reader
-    </title>
+    <title>QR Code Scanner / Reader </title>
     <style>
         .qr-container {
             max-width: 100%; 
@@ -49,7 +48,7 @@
     <script type="text/javascript">
     function getCookie(name) {
         var cookieValue = null;
-        
+        //finds cookie valud in text (used for getting csrftoken from cookie)
         if (document.cookie && document.cookie != '') {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
@@ -66,7 +65,7 @@
     var csrftoken = getCookie('csrftoken');
     function handleQrCode(decodeText, decodeResult)
     {
-        alert("You Qr Code is : " + decodeText, decodeResult);
+        //send ajax post request to checkValidQRCode with qr code as the data
         $.ajax({
             type: "POST",
             url: '/checkValidQrCode/',
@@ -76,6 +75,7 @@
             },
             dataType: "json",
             success: function(data){
+                //if data is 200 then it is a valid qr code otherwise invalid qr code
                 if(data != 200)
                 {
                     alert("Invalid QR Code!")
@@ -102,10 +102,11 @@
     }
 
     domReady(function () {
+        //creates qr code reader with height of 700 is page is bigger than 700
         let width = window.innerWidth > 700 ? 700 : window.innerWidth - 10;
         let height = window.innerHeight * 0.8; // Take up 80% of the viewport height
         let config = {
-            fps: 10,
+            fps: 10, //check qr code 10 times per second
             qrbox: { width: width, height: height }
         };
     

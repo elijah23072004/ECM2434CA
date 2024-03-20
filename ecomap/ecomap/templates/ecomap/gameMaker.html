@@ -174,7 +174,7 @@
         </div>
     </div> 
     <script>
-        //table=document.getElementById("WordTableHead")
+
         selector=document.getElementById("wordSelector")
         function getCookie(name) {
                     var cookieValue = null;
@@ -193,12 +193,11 @@
                 }
 
         var csrftoken = getCookie('csrftoken');
-
+        
         responseText=document.getElementById("responseText");
         function AddWord()
         {
-            //creates post request which contains the word to be added and csrf token 
-            //todo make text appear after submit denoting if it was successful
+            //sends POST request to addword to make a new word
             word = document.getElementById("word").value
             definition=document.getElementById("definition").value
             $.ajax({
@@ -211,6 +210,7 @@
             },
             dataType: "json",
             success: function(data) {
+                //tells user that word is added and adds new selection option for the added word
                 option = document.createElement("option")
                 option.value=word
                 option.innerHTML=word
@@ -228,8 +228,7 @@
         function RemoveWord()
         {
             word = selector.options[selector.selectedIndex].value 
-            //creates post request which contains the word to be removed and csrf token 
-            //todo make text appear after submit denoting if it was successful
+            //sends POST request to removeWord to remove a word
             $.ajax({
             type: "POST",
             url: '/removeWord/',
@@ -239,6 +238,7 @@
             },
             dataType: "json",
             success: function(data){
+                //tells user that word was removed and removes option from selector
                 selector.remove(selector.selectedIndex)
                 responseText.innerHTML="word removed"
                 responseText.hidden=false
@@ -253,7 +253,9 @@
             fetch("/getWords/", {method: "GET"}).then((response) => response.json())
   .then((json) => dealWithData(json));
         }
+
         function dealWithData(data) {
+            //iterates over all words and creates an option in the selector for the word
             words = data
             words.forEach(word => {
                 option = document.createElement("option")
