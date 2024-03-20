@@ -4,8 +4,8 @@
     -->
     
 {% load static %}
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,6 +78,10 @@
         .switch a:hover {
             text-decoration: underline;
         }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -97,6 +101,13 @@
         <!-- Submit button to submit the form -->
         <input type="submit" value="Login">
         
+        <!-- Error message for wrong username or password -->
+        <div class="error-message">
+            {% if error_message %}
+                {{ error_message }}
+            {% endif %}
+        </div>
+        
         <!-- Link to switch to registration page -->
         <div class="switch">
             <span>Don't have an account?</span>
@@ -107,3 +118,4 @@
 </div>
 </body>
 </html>
+    
