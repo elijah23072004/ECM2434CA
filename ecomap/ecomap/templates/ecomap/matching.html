@@ -10,7 +10,7 @@
   <title>Memory Match</title>
   <!-- css styles -->
   <style>
-    body {
+    .main {
       margin: 0;
       padding: 0;
       display: flex;
@@ -112,6 +112,7 @@
   </style>
 </head>
 <body>
+  <div id="main">
 {% include 'ecomap/include/navbar.html'%}
 <script src="{%static 'js/sendscore.js' %}"></script>
 
@@ -277,6 +278,6 @@
     location.reload(); // reload the page to start again
   }
 </script>
-
+</div>
 </body>
 </html>
