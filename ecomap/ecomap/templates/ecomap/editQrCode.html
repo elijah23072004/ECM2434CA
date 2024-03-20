@@ -1,20 +1,16 @@
 <!DOCTYPE html>{% load static %}
-
 <html lang="en">
 <head>
     {% include 'ecomap/include/include.html'%}
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Games</title>
     <!-- css styles -->
     <style>
-        	
             body, html {
                 height: 100%;
                 margin: 0;
             }
-        
             #main {
                 display: flex;
                 justify-content: center;
@@ -41,7 +37,6 @@
                 position: relative;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }
-
             .button:hover {
                 background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
                 box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
@@ -60,7 +55,6 @@
                 text-decoration: none;
                 display: inline-block;
                 font-size: 24px;
-          
                 cursor: pointer;
                 transition: background-color 0.3s ease;
                 border-radius: 5px;
@@ -68,7 +62,6 @@
                 position: relative;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }            
-
             .container {
             background-color: rgba(4, 49, 0, 0.9);
             padding: 20px;
@@ -138,7 +131,6 @@
                 color: white;
                 text-align: center;
             }
-
             table {
             width: 80%;
             border-collapse: collapse;
@@ -147,7 +139,6 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
-
             th, td {
                 border: 1px solid #ddd;
                 padding: 8px;
@@ -155,17 +146,12 @@
                 width: 50%;
                 color: white;
             }
-
             th {
                 background-color: #00920fa5;
             }
-
-
-
     </style>
 </head>
 <body onload="fillTable()">
-        
     <!-- button and navbar inclusion -->
     <div id="main">
         <div id="content">
@@ -183,12 +169,8 @@
                 <img id="qrCodeImage">
             </div>
             <br>
-           
-            
             <a href="/gameMaker/" class="SmallButton">Edit Valid Games</a>
             <a href="/userhomePage/" class="SmallButton">Go to user homepage </a>
-
-
         </div>
     </div> 
     <script>
@@ -209,9 +191,7 @@
                     }
                     return cookieValue;
                 }
-
         var csrftoken = getCookie('csrftoken');
-
         responseText=document.getElementById("responseText");
         function AddQrCode()
         {
@@ -251,9 +231,7 @@
         }
         function RemoveQrCode()
         {
-            
             qrCode = selector.options[selector.selectedIndex].value 
-
             //creates post request which contains the word to be removed and csrf token 
             //todo make text appear after submit denoting if it was successful
             $.ajax({
@@ -281,8 +259,13 @@
             fetch("/getQrCodes/", {method: "GET"}).then((response) => response.json())
   .then((json) => dealWithData(json));
         }
+<<<<<<< HEAD
+        function dealWithData(data) {
+            print(data)
+=======
         function dealWithData(data)
         {
+>>>>>>> 0fb422ee0d454f7b1fc43d70b3814a8212c71f80
             qrCodes = data
             qrCodes.forEach(qrCode => {
                 option = document.createElement("option")
@@ -291,20 +274,20 @@
                 selector.appendChild(option)
             });
         }
-        function fillTable()
-        {
+        function fillTable() {
             getQrCodes()
         }
         const image = document.getElementById('qrCodeImage');
-        function showImage(code)
-        {
+        function showImage(code) {
             var payload = {
                 qrCode: code
             };
-
             var data = new FormData();
             data.append( "json", JSON.stringify( payload ) );
+<<<<<<< HEAD
+=======
             //gets qr code image and puts image data in the image element 
+>>>>>>> 0fb422ee0d454f7b1fc43d70b3814a8212c71f80
             fetch('/getQrCodeImage/', {method: "POST", 
             credentials:'same-origin',
             body:  data,
@@ -314,8 +297,6 @@
               const objectURL = URL.createObjectURL(blob);
               image.src = objectURL;
             });
-
-
         } 
     </script>    
 </body>

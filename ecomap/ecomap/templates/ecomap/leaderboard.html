@@ -113,6 +113,13 @@
         var streakData;
         function addToTable(values)
         {
+            // Skip users with a score of 0
+            if (values.score === 0) {
+                return;
+            }
+            if (values.streak === 0) {
+                return;
+            }
             row = document.createElement("tr")
             userVal = document.createElement("th")
             scoreVal= document.createElement("th")
@@ -169,7 +176,7 @@
             // clear existing table rows
             tableBody.innerHTML = "";
 
-            // new rows based on selected category - data not yet implemented through database
+            // new rows based on selected category
             if (selectedValue === "allTime") {
                 setHeader("Score");
                 setTable(userData)

@@ -1,20 +1,16 @@
 <!DOCTYPE html>{% load static %}
-
 <html lang="en">
 <head>
     {% include 'ecomap/include/include.html'%}
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Games</title>
     <!-- css styles -->
     <style>
-        	
             body, html {
                 height: 100%;
                 margin: 0;
             }
-        
             #main {
                 display: flex;
                 justify-content: center;
@@ -41,7 +37,6 @@
                 position: relative;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }
-
             .button:hover {
                 background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
                 box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
@@ -50,7 +45,7 @@
                 background: linear-gradient(to bottom, #45a049 0%, #00c735 100%);
                 box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
             }
-            .SmallButton{
+            .SmallButton {
                 background: linear-gradient(to bottom, #4CAF50 0%, #106800 100%);
                 border: none;
                 color: white;
@@ -68,7 +63,6 @@
                 position: relative;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }            
-
             .container {
             background-color: rgba(4, 49, 0, 0.9);
             padding: 20px;
@@ -90,27 +84,26 @@
                 box-sizing: border-box;
             }
             input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: none;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background: linear-gradient(to bottom, #4CAF50, #004e04);
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-            transform: translateY(0);
+                width: 100%;
+                padding: 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: none;
+                border-radius: 4px;
+                box-sizing: border-box;
+                background: linear-gradient(to bottom, #4CAF50, #004e04);
+                color: white;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+                transform: translateY(0);
             }
             input[type="submit"]:hover {
-            background-color: #45a049;
+                background-color: #45a049;
             }
-            input[type="checkbox"] 
-            {
+            input[type="checkbox"] {
                 width:75%;
                 padding: 10px;
                 margin: 8px 0 10px 10px;
@@ -119,7 +112,7 @@
                 border-radius: 4px;
                 box-sizing: border-box;
             }
-            select{
+            select {
                 width: 50%;
                 padding: 10px;
                 margin: 8px 0;
@@ -128,8 +121,7 @@
                 border-radius: 4px;
                 box-sizing: border-box;
             }
-            #content
-            {
+            #content {
                 background-color: rgba(4, 49, 0, 0.9);
                 padding: 20px;
                 border-radius: 10px;
@@ -138,16 +130,14 @@
                 color: white;
                 text-align: center;
             }
-
             table {
-            width: 80%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #003b19;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                width: 80%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                background-color: #003b19;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
-
             th, td {
                 border: 1px solid #ddd;
                 padding: 8px;
@@ -155,13 +145,9 @@
                 width: 50%;
                 color: white;
             }
-
             th {
                 background-color: #00920fa5;
             }
-
-
-
     </style>
 </head>
 <body onload="fillTable()">
@@ -224,7 +210,7 @@
                 'csrfmiddlewaretoken': csrftoken ,
             },
             dataType: "json",
-            success: function(data){
+            success: function(data) {
                 option = document.createElement("option")
                 option.value=word
                 option.innerHTML=word
@@ -232,7 +218,7 @@
                 responseText.innerHTML="word added"
                 responseText.hidden=false
             },
-            failure: function(){
+            failure: function() {
                 console.log("Did not add word")
                 responseText.innerHTML="word not added unkown error"
                 responseText.hidden=false
@@ -241,9 +227,7 @@
         }
         function RemoveWord()
         {
-            
             word = selector.options[selector.selectedIndex].value 
-
             //creates post request which contains the word to be removed and csrf token 
             //todo make text appear after submit denoting if it was successful
             $.ajax({
@@ -260,20 +244,16 @@
                 responseText.hidden=false
             },
             failure: function(){
-
                 responseText.innerHTML="word not removed unkown error"
                 responseText.hidden=false
             }
             });
         }
-        function getWords()
-        {
+        function getWords() {
             fetch("/getWords/", {method: "GET"}).then((response) => response.json())
   .then((json) => dealWithData(json));
         }
-        function dealWithData(data)
-        {
-
+        function dealWithData(data) {
             words = data
             words.forEach(word => {
                 option = document.createElement("option")
@@ -282,16 +262,13 @@
                 selector.appendChild(option)
             });
         }
-        function setTextAreaWidth()
-        {
+        function setTextAreaWidth() {
             document.getElementById("definition").cols=document.getElementById("content").offsetWidth*0.08
         }
-        function fillTable()
-        {
+        function fillTable() {
             getWords()
         }
-        setTextAreaWidth()
-            
+        setTextAreaWidth()     
     </script>    
 </body>
 </html>
