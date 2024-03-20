@@ -91,13 +91,15 @@
             background-color: #005d05;
         }
 
+
     </style>
 </head>
 <body>
-    <h3 id="ResponseText"></h3>
+
 
 <!-- fields for user-->
 <div class="container" class="form">
+    <h3 id="ResponseText"></h3>
     <img src="{% static 'images/logo/logo.png' %}" alt="The Logo" style="width: 100px; margin-bottom: 20px;">
     <form id="registrationForm" action="/registerUser/" method="post">
 
@@ -154,7 +156,7 @@
             }
             else if (response=="false")
             {
-                responseText.innerText="Invalid parameters user not created";
+                responseText.innerText="Username is taken";
             }
             else
             {
