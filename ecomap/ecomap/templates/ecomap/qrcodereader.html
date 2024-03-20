@@ -21,6 +21,54 @@
             src="{%static 'js/html5-qrcode.min.js' %}">
     </script>    
     <script type="text/javascript">
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+    function handleQrCode(decodeText, decodeResult)
+    {
+
+        alert("You Qr code is : " + decodeText, decodeResult);
+        
+        $.ajax({
+            type: "POST",
+            url: '/checkValidQrCode/',
+            data: {
+                "qrCode":decodeText,
+                'csrfmiddlewaretoken': csrftoken ,
+            },
+            dataType: "json",
+            success: function(data){
+                if(data != 200)
+                {
+                    alert("invalid qr code")
+                    
+                    return
+                }
+                window.location.href="/wheel";
+
+            },
+            failure: function(){
+                console.log("unkown error occured")
+            }
+            });
+        
+       
+    }
+
+
     function domReady(fn) {
         if (
             document.readyState === "complete" ||
@@ -33,16 +81,12 @@
 }
 domReady(function () {
  
-    // If found a qr code
-    function onScanSuccess(decodeText, decodeResult) {
-        alert("You Qr code is : " + decodeText, decodeResult);
-        window.location.href="/wheel";
-    }
+
     let config = {fps:10, qrbox: {width:700,height:700}}
 
     let htmlscanner = new Html5QrcodeScanner(
         "reader",config);
-    htmlscanner.render(onScanSuccess);
+    htmlscanner.render(handleQrCode);
 });
 
     let reader = document.getElementById("reader");

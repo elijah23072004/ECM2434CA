@@ -541,3 +541,9 @@ def getQrCodeImage(request):
         #image_data.save(response, "PNG")
         return HttpResponse(image_data, content_type="image/png")
 
+def checkValidQrCode(request):
+    if request.method=="POST":
+        qrCode = request.POST["qrCode"]
+        if QrCode.objects.filter(code = qrCode).exists():
+            return HttpResponse(200)
+        return HttpResponse(400)

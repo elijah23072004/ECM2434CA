@@ -41,4 +41,5 @@ urlpatterns = [
     path("editQrCodes/", views.editQrCode, name="editQrCode"), #edit Qr Codes for qr code editor page
     path("getQrCodes/", views.getQrCodes, name="getQrCodes"), #get qr codes for qr code editor page
     path("getQrCodeImage/", views.getQrCodeImage, name="getQrCodeImage"), #get qr code image file 
+    path("checkValidQrCode/", views.checkValidQrCode, name="checkQrCode"), #check if qr code if valid
 ]   
