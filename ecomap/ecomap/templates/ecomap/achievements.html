@@ -64,13 +64,33 @@
             const data = JSON.parse("{{data|escapejs}}");
             console.log(data);
             var name, description, image
-            for ([name, [description, image]] of Object.entries(data)) {
+            for ([name, [description, level]] of Object.entries(data)) {
                 console.log(`images/achievements/${image}`);
-                document.querySelector(".achievements-container").innerHTML += `<div class="achievement">
-                    <img class="achievement-image" src="{%static 'images/achievements/silver.png' %}">
-                    <h2>${name}</h2>
-                    <p>${description}</h2>
-                </div>`
+                if (level == 0) {
+                    document.querySelector(".achievements-container").innerHTML += `<div class="achievement">
+                        <img class="achievement-image" src="{%static 'images/achievements/none.png' %}">
+                        <h2>${name}</h2>
+                        <p>${description}</h2>
+                    </div>`
+                } else if (level == 1) {
+                    document.querySelector(".achievements-container").innerHTML += `<div class="achievement">
+                        <img class="achievement-image" src="{%static 'images/achievements/bronze.png' %}">
+                        <h2>${name}</h2>
+                        <p>${description}</h2>
+                    </div>`
+                } else if (level == 2) {
+                    document.querySelector(".achievements-container").innerHTML += `<div class="achievement">
+                        <img class="achievement-image" src="{%static 'images/achievements/silver.png' %}">
+                        <h2>${name}</h2>
+                        <p>${description}</h2>
+                    </div>`
+                } else {
+                    document.querySelector(".achievements-container").innerHTML += `<div class="achievement">
+                        <img class="achievement-image" src="{%static 'images/achievements/gold.png' %}">
+                        <h2>${name}</h2>
+                        <p>${description}</h2>
+                    </div>`
+                }
             }
         </script>
     </body>

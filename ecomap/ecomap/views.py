@@ -141,17 +141,8 @@ def achievements(request):
     achievements = {}
     user = UserClass(request.user)
     for ach in user.achievements:
-        name, desc, level = user.getAchievement(ach.achievement_id.achievement_id)
-        print(name, desc, level)
-        if int(level) == 0:
-            image = "none.png"
-        elif int(level) == 1:
-            image = "bronze.png"
-        elif int(level) == 2:
-            image = "silver.png"
-        else:
-            image = "gold.png"
-        achievements[name] = [desc, image]
+        name, desc, level, progress = user.getAchievement(ach.achievement_id.achievement_id)
+        achievements[name] = [progress, level]
         print(achievements)
     achievements = json.dumps(achievements)
     return render(request, "ecomap/achievements.html", {'data': SafeString(achievements)})
@@ -229,12 +220,11 @@ def userlogout(request):
     logout(request)
     return redirect("/login",request)
 
-@login_required
 def gameWheel(request):
     return render(request,"ecomap/wheel.html")
 
 # matching redirectory request
-@login_required
+login_required(login_url='/login')
 def matching(request):
     games = Games()
     words = []

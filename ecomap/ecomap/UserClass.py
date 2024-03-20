@@ -35,14 +35,13 @@ class UserClass:
             a.value = self.user.score
         elif name == "Streak":
             self.checkHighestStreak()
-        print(a.value)
         if a.value >= achievement.level_3:
-            return name, desc, 3
+            return name, desc, 3, f"{str(a.value)}/{str(achievement.level_3)}"
         elif a.value >= achievement.level_2:
-            return name, desc, 3
+            return name, desc, 2, f"{str(a.value)}/{str(achievement.level_3)}"
         elif a.value >= achievement.level_1:
-            return name, desc, 3
-        return name, desc, 0
+            return name, desc, 1, f"{str(a.value)}/{str(achievement.level_2)}"
+        return name, desc, 0, f"{str(a.value)}/{str(achievement.level_1)}"
 
     def checkHighestStreak(self):
         # check if the users highest streak has been updated, if so set the value accordingly

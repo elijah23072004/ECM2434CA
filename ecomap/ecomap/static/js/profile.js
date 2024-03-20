@@ -23,8 +23,6 @@ if (document.getElementById('first_name')) {
         <div class="button achievements"><a onclick="achievements()">Achievements</a></div>
 
         <div class="button delete-account"><a onclick="deleteAccount()">Delete Account</a></div>`
-    document.querySelector(".change-profile-pic").innerHTML = `<label for="profile-pic">Change</label>
-                    <input type="file" id="profile-pic" accept="image/*">`
 }
 
 function achievements() {
@@ -80,25 +78,3 @@ function changePwd() {
     console.log(old_password);
     console.log(new_password);
 }
-
-document.getElementById('profile-pic').addEventListener('change', function(event) {
-    var image = event.target.files[0];
-
-    if (image) {
-        console.log('A file has been selected:', image);
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
-        canvas.width = image.width;
-        canvas.height = image.height;
-
-        ctx.drawImage(image, 0, 0);
-
-        var dataURL = canvas.toDataURL('images/profile_pictures');
-        var downloadLink = document.createElement('a');
-        downloadLink.href = dataURL;
-        downloadLink.download = data['username'] + '_pfp.png';
-        downloadLink.click();
-    } else {
-        console.log('No file selected.');
-    }
-});
