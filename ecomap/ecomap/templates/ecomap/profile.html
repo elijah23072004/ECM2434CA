@@ -144,29 +144,36 @@
         }
 
         .button-container {
+            display: flex;
             justify-content: center;
             padding: 10px;
             margin: auto;
         }
 
        .button {
-                border: none;
-                color: white;
-                padding: 15px 15px 15px 15px;
-                margin: 5px 5px 10px 10px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 24px;
-                margin-top: 24px;
-                cursor: pointer;
-                
-                border-radius: 5px;
-                z-index: 1;
-                position: relative;
-                width: 10vw;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: none;
+            color: white;
+            padding: 15px 15px 15px 15px;
+            margin: 5px 5px 10px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin-top: 24px;
+            cursor: pointer;
+
+            border-radius: 5px;
+            z-index: 1;
+            position: relative;
+            width: 20vw;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
+
+       @media (max-width: 800px) {
+            .button {
+                width: 40vw;
+            }
+       }
 
         .button:hover {
             cursor: pointer;
