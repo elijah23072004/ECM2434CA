@@ -78,9 +78,26 @@
         .dropdown-container select:focus {
             box-shadow: 0 0 0 3px rgba(0, 100, 0, 0.3);
         }
-
-
-
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                display: flex !important; /* Use 'flex' if your navbar items are flex items */
+                flex-wrap: nowrap; /* Prevent navbar items from wrapping */
+                visibility: visible !important;
+            }
+            .navbar-nav {
+                flex-direction: row;
+                width: 100%; /* Take the full width of the navbar */
+                justify-content: space-around; /* Distribute space around items */
+            }
+            .nav-item {
+                flex: 1; /* Grow each nav item to take equal space */
+                text-align: center; /* Center text within each nav item */
+            }
+            .nav-link {
+                font-size: 0.5rem; /* Optionally reduce font size for space */
+                flex-grow: 1;
+            }
+        }
     </style>
 </head>
 <body onload="begin()">
